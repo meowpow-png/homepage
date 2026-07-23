@@ -1,6 +1,6 @@
 import QuestionsContent, { metadata } from '../../content/questions.mdx'
 
-import { Question } from './components/Question/Question'
+import { Question } from './Question'
 
 import styles from './Questions.module.css'
 
