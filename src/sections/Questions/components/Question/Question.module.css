@@ -49,8 +49,7 @@
 }
 
 .answer {
-  padding: var(--space-heading-to-copy) var(--space-name-to-summary)
-    var(--space-name-to-summary) 48px;
+  padding: 20px 24px 24px 36px;
   background: var(--color-surface);
   color: var(--color-text-secondary);
   font-size: 15px;
@@ -68,9 +67,5 @@
 @media (max-width: 640px) {
   .prompt {
     font-size: 18px;
-  }
-
-  .answer {
-    padding-left: var(--space-page-inline);
   }
 }
