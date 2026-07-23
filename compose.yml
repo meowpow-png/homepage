@@ -1,0 +1,13 @@
+name: homepage
+
+services:
+  codex:
+    image: ghcr.io/meowpow-png/mipe-runtime-codex-web:latest
+    volumes:
+      - codex-home:/home/dev/.codex
+      - .:/workspace:Z
+    stdin_open: true
+    tty: true
+
+volumes:
+  codex-home:
