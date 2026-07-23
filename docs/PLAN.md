@@ -43,13 +43,14 @@ _None_.
 - [x] Implement app shell
 - [x] Implement navigation
 - [x] Implement footer
-- [ ] Verify layout
+- [x] Verify layout
 
 ### Decisions
 
 - Page structure: header → main → footer
 - Navigation anchors: `#about`, `#projects`, `#blog`, `#questions`
 - Footer: visual structure and SVG icons in Stage 3; real GitHub URL, LinkedIn URL, and email address supplied during Stage 4
+- Navigation: maintain visual dimensions with at least `44px × 44px` touch targets
 
 ## Stage 4 — Sections
 
@@ -77,6 +78,9 @@ _None_.
 - [ ] Verify responsiveness
 
 ### Decisions
+
+- Navigation: active state follows the current hash or visible section
+- Accessibility: add a skip-to-content link and explicit keyboard focus styles
 
 ## Stage 6 — Release
 
