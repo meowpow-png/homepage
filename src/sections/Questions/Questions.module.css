@@ -1,0 +1,19 @@
+.questions {
+  padding-top: var(--space-page-top);
+}
+
+.heading {
+  margin: 0 0 var(--space-heading-to-copy);
+  color: var(--color-accent);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.questions p {
+  margin: 0;
+}
+
+.questions p + p {
+  margin-top: var(--space-paragraph);
+}

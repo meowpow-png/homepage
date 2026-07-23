@@ -4,11 +4,11 @@ const navigationItems = [
   { href: '/', id: 'about', label: 'About' },
   { href: '/projects', id: 'projects', label: 'Projects' },
   { href: '/blog', id: 'blog', label: 'Blog' },
-  { href: '/#questions', id: 'questions', label: 'Questions' },
+  { href: '/questions', id: 'questions', label: 'Questions' },
 ]
 
 type NavigationProps = {
-  currentPage: 'about' | 'projects' | 'blog'
+  currentPage: 'about' | 'projects' | 'blog' | 'questions'
 }
 
 export function Navigation({ currentPage }: NavigationProps) {
