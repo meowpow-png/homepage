@@ -61,7 +61,7 @@
 - Content measure: `68–74ch`
 - Divider: full main-content width; `1px` solid `--color-border`
 - Footer layout: divider above; icon group left; attribution right
-- Footer attribution max-width: `340px`
+- Footer attribution max-width: `350px`
 
 ## Components
 

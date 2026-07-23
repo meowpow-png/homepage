@@ -54,7 +54,7 @@
   grid-template-columns: max-content minmax(0, 1fr);
   align-items: start;
   column-gap: var(--space-footer-attribution-gap);
-  max-width: 340px;
+  max-width: 350px;
   margin: 0;
   color: var(--color-text-secondary);
   font-size: 14px;
