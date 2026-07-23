@@ -42,12 +42,12 @@
 
 @media (max-width: 640px) {
   .shell {
-    padding-inline: 24px;
+    padding-inline: var(--space-page-inline-mobile);
   }
 }
 
 @media (max-width: 400px) {
   .shell {
-    padding-inline: 20px;
+    padding-inline: var(--space-page-inline-compact);
   }
 }

@@ -28,6 +28,8 @@
 
 - `--space-page-top`: `64px`
 - `--space-page-inline`: `32px`
+- `--space-page-inline-mobile`: `24px`
+- `--space-page-inline-compact`: `20px`
 - `--space-header-to-hero`: `88px`
 - `--space-eyebrow-to-name`: `20px`
 - `--space-name-to-summary`: `24px`
@@ -38,6 +40,11 @@
 - `--space-section-to-footer`: `36px`
 - `--space-navigation-links`: `48px`
 - `--space-social-links`: `18px`
+- `--space-footer-stack`: `24px`
+- `--space-footer-attribution-gap`: `8px`
+- `--space-question-item`: `12px`
+- `--space-question-prompt-gap`: `16px`
+- `--space-question-answer-indent`: `36px`
 
 ## Layout
 
