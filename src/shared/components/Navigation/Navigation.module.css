@@ -57,11 +57,11 @@
   transform-origin: left;
 }
 
-.link[aria-current='location'] {
+.link[aria-current='page'] {
   color: var(--color-accent);
 }
 
-.link[aria-current='location']::after {
+.link[aria-current='page']::after {
   transform: scaleX(1);
 }
 
