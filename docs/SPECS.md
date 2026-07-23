@@ -88,6 +88,11 @@
   - Default color: `--color-icon`
   - Hit-area minimum: `44px × 44px`
   - Icon group gap: `32px`
+- Question disclosure
+  - Prompt: `20px` / `1.5`
+  - Prompt quote: accent `“`; `32px` / `0.8`
+  - Disclosure control: accent `+` when closed; `−` when open; aligned at the prompt end
+  - Answer: `15px` / `1.65` / `--color-text-secondary` on `--color-surface`
 
 ## Icons
 
@@ -100,9 +105,10 @@
 
 ## Borders, Radius & Shadows
 
-- Divider and active navigation indicator only
+- Divider, active navigation indicator, and question disclosures
 - Border width: `1px`
 - Border color: `--color-border`
+- Question disclosures: top border on each item; bottom border on the final item
 - Border radius: `0px`
 - Shadows: none
 - Background effects: none
