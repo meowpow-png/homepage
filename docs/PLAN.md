@@ -29,9 +29,11 @@
 - [x] Implement design tokens
 - [x] Implement global styles
 - [x] Implement typography
-- [ ] Verify foundation
+- [x] Verify foundation
 
 ### Decisions
+
+_None_.
 
 ## Stage 3 — Layout
 
