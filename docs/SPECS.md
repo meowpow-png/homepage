@@ -37,7 +37,7 @@
 - `--space-paragraph`: `22px`
 - `--space-section-to-footer`: `36px`
 - `--space-navigation-links`: `48px`
-- `--space-social-links`: `32px`
+- `--space-social-links`: `18px`
 
 ## Layout
 

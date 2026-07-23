@@ -1,3 +1,5 @@
+import FooterContent from '../../../content/footer.mdx'
+
 import styles from './Footer.module.css'
 
 const socialIcons = [
@@ -21,12 +23,12 @@ export function Footer() {
           </a>
         ))}
       </div>
-      <p className={styles.attribution}>
+      <div className={styles.attribution}>
         <span className={styles.prompt} aria-hidden="true">
           &gt;
-        </span>{' '}
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      </p>
+        </span>
+        <FooterContent />
+      </div>
     </div>
   )
 }

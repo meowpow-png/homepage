@@ -91,7 +91,13 @@ title: Questions
 - `prompt`: question text
 - Component body: answer content
 
+## Footer
+
+- File: `src/content/footer.mdx`
+- Model: singleton content fragment
+- Body: attribution text
+
 ## Non-Content Pages
 
 - Not Found: React-only
-- App shell, navigation, footer, and routing: React-only
+- App shell, navigation, and routing: React-only

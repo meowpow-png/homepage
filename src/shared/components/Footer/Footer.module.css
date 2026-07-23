@@ -50,11 +50,19 @@
 }
 
 .attribution {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: start;
+  column-gap: 8px;
   max-width: 350px;
   margin: 0;
   color: var(--color-text-secondary);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.65;
+}
+
+.attribution p {
+  margin: 0;
 }
 
 .prompt {
@@ -74,6 +82,6 @@
 
 @media (max-width: 400px) {
   .socialIcons {
-    gap: 24px;
+    gap: 10px;
   }
 }
