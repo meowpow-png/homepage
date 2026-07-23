@@ -1,0 +1,37 @@
+.shell {
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+  padding-inline: var(--space-page-inline);
+}
+
+.header {
+  width: 100%;
+  max-width: 724px;
+  margin-inline: auto;
+  padding-top: var(--space-page-top);
+}
+
+.main {
+  width: 100%;
+  max-width: 688px;
+  margin-inline: auto;
+}
+
+.footer {
+  width: 100%;
+  max-width: 688px;
+  margin-inline: auto;
+}
+
+@media (max-width: 640px) {
+  .shell {
+    padding-inline: 24px;
+  }
+}
+
+@media (max-width: 400px) {
+  .shell {
+    padding-inline: 20px;
+  }
+}

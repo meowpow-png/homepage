@@ -39,8 +39,8 @@ _None_.
 ### Goals
 
 - [x] Discuss page layout
-- [ ] Decide responsive behavior
-- [ ] Implement app shell
+- [x] Decide responsive behavior
+- [x] Implement app shell
 - [ ] Implement navigation
 - [ ] Implement footer
 - [ ] Verify layout
