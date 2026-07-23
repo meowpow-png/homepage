@@ -6,7 +6,6 @@
 - `--color-surface`: `#1A1B1F`
 - `--color-text-primary`: `#F5F5F5`
 - `--color-text-secondary`: `#AAAAB0`
-- `--color-text-muted`: `#777980`
 - `--color-accent`: `#FF6F3D`
 - `--color-border`: `rgba(255, 255, 255, 0.12)`
 - `--color-icon`: `#8A8C92`

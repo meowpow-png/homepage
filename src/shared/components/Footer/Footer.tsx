@@ -1,21 +1,22 @@
-import githubIcon from '../../assets/icons/github.svg'
-import linkedinIcon from '../../assets/icons/linkedin.svg'
-import mailIcon from '../../assets/icons/mail.svg'
-
 import styles from './Footer.module.css'
 
 const socialIcons = [
-  { alt: 'GitHub', src: githubIcon },
-  { alt: 'LinkedIn', src: linkedinIcon },
-  { alt: 'Email', src: mailIcon },
-]
+  { icon: 'github', label: 'GitHub' },
+  { icon: 'linkedin', label: 'LinkedIn' },
+  { icon: 'mail', label: 'Email' },
+] as const
 
 export function Footer() {
   return (
     <div className={styles.footer}>
       <div className={styles.socialIcons}>
-        {socialIcons.map(({ alt, src }) => (
-          <img key={alt} className={styles.icon} src={src} alt={alt} />
+        {socialIcons.map(({ icon, label }) => (
+          <span
+            key={label}
+            className={`${styles.icon} ${styles[icon]}`}
+            role="img"
+            aria-label={label}
+          />
         ))}
       </div>
       <p className={styles.attribution}>

@@ -68,7 +68,7 @@
 @media (max-width: 640px) {
   .navigation {
     flex-direction: column;
-    gap: var(--space-3);
+    gap: 24px;
   }
 
   .links {
