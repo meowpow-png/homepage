@@ -84,7 +84,7 @@ shared
 
 App
     ↓
-sections
+sections, shared
 
 main
     ↓
@@ -95,4 +95,4 @@ App
 
 - Sections must not depend on other sections
 - Shared modules must not depend on section modules
-- `App` composes sections but contains no application logic
+- `App` composes sections and shared infrastructure but contains no application logic
