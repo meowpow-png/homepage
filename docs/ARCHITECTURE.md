@@ -20,6 +20,8 @@ The architecture emphasizes clear boundaries, explicit data flow, and minimal co
 src/
     sections/
     shared/
+        assets/
+            icons/
     App.tsx
     main.tsx
 ```
@@ -28,6 +30,7 @@ src/
 |-------------|-----------------------------------|
 | `sections/` | Self-contained website sections   |
 | `shared/`   | Reusable components and utilities |
+| `shared/assets/icons/` | Reusable SVG icon assets |
 
 ## Sections
 
@@ -47,6 +50,8 @@ A typical section contains:
 ## Shared Modules
 
 Shared modules contain reusable code used across multiple sections.
+
+Reusable SVG icons are stored in `src/shared/assets/icons/`.
 
 **Rules**
 
