@@ -21,7 +21,7 @@
 }
 
 .summary {
-  max-width: 560px;
+  max-width: 400px;
   margin: var(--space-name-to-summary) 0 0;
   color: var(--color-text-secondary);
 }

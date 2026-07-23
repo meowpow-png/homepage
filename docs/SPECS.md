@@ -50,11 +50,11 @@
 - Header layout: horizontal flex; brand left; navigation right
 - Header navigation gap: `48px`
 - Hero layout: single column; left-aligned
-- Summary max-width: `560px`
+- Summary max-width: `400px`
 - Content measure: `68–74ch`
 - Divider: full main-content width; `1px` solid `--color-border`
 - Footer layout: divider above; icon group left; attribution right
-- Footer attribution max-width: `350px`
+- Footer attribution max-width: `340px`
 
 ## Components
 
