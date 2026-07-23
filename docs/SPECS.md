@@ -27,22 +27,18 @@
 
 ## Spacing
 
-- `--space-1`: `8px`
-- `--space-2`: `16px`
-- `--space-3`: `24px`
-- `--space-4`: `32px`
-- `--space-5`: `48px`
-- `--space-6`: `64px`
-- `--space-7`: `80px`
-- Page top padding: `64px`
-- Header-to-hero gap: `88px`
-- Eyebrow-to-name gap: `20px`
-- Name-to-summary gap: `24px`
-- Summary-to-divider gap: `48px`
-- Divider-to-section-heading gap: `36px`
-- Heading-to-copy gap: `20px`
-- Paragraph gap: `22px`
-- Section-to-footer gap: `36px`
+- `--space-page-top`: `64px`
+- `--space-page-inline`: `32px`
+- `--space-header-to-hero`: `88px`
+- `--space-eyebrow-to-name`: `20px`
+- `--space-name-to-summary`: `24px`
+- `--space-summary-to-divider`: `48px`
+- `--space-divider-to-section-heading`: `36px`
+- `--space-heading-to-copy`: `20px`
+- `--space-paragraph`: `22px`
+- `--space-section-to-footer`: `36px`
+- `--space-navigation-links`: `48px`
+- `--space-social-links`: `32px`
 
 ## Layout
 

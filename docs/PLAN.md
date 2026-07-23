@@ -24,9 +24,9 @@
 
 ### Goals
 
-- [ ] Implement design tokens
 - [x] Scaffold project structure
 - [x] Configure tooling
+- [x] Implement design tokens
 - [ ] Implement global styles
 - [ ] Implement typography
 - [ ] Verify foundation
