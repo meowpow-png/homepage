@@ -11,12 +11,14 @@ export function Footer() {
     <div className={styles.footer}>
       <div className={styles.socialIcons}>
         {socialIcons.map(({ icon, label }) => (
-          <span
+          <a
             key={label}
-            className={`${styles.icon} ${styles[icon]}`}
-            role="img"
+            className={styles.socialLink}
+            href="#"
             aria-label={label}
-          />
+          >
+            <span className={`${styles.icon} ${styles[icon]}`} aria-hidden="true" />
+          </a>
         ))}
       </div>
       <p className={styles.attribution}>
