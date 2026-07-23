@@ -65,7 +65,7 @@
   - Dot-to-label gap: `14px`
 - Primary navigation
   - Links: `About`, `Projects`, `Blog`, `Questions`
-  - Destinations: `/`, `/projects`, `/blog`, `/questions`
+  - Destinations: `/about`, `/projects`, `/blog`, `/questions`
   - Default color: `--color-text-primary`
   - Active color: `--color-accent`
   - Active state: current route

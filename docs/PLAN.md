@@ -53,11 +53,13 @@ _None_.
 - [x] Implement Projects page
 - [x] Implement Blog page
 - [x] Implement Questions page
+- [x] Implement client-side SPA routing
 - [ ] Verify content and spacing
 
 ### Decisions
 
 - Social link destinations: pending
+- Routing: `/` redirects to `/about`; unmatched paths render Not Found without reloading the document
 
 ## Stage 5 — Polish
 

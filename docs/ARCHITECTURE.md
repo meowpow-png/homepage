@@ -66,13 +66,16 @@ Shared styles belong in `shared/`.
 ## Routing
 
 Routing is configured centrally and composes sections into navigable pages.
+Internal navigation is client-side and must not reload the document.
 
-| Route        | Page      |
-|--------------|-----------|
-| `/`          | About     |
-| `/projects`  | Projects  |
-| `/blog`      | Blog      |
-| `/questions` | Questions |
+| Route          | Page                 |
+|----------------|----------------------|
+| `/`            | Redirect to `/about` |
+| `/about`       | About                |
+| `/projects`    | Projects             |
+| `/blog`        | Blog                 |
+| `/questions`   | Questions            |
+| Unmatched path | Not Found            |
 
 ## Imports
 
