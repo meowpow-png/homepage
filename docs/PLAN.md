@@ -48,7 +48,7 @@ _None_.
 ### Decisions
 
 - Page structure: header → main → footer
-- Navigation anchors: `#about`, `#projects`, `#blog`, `#questions`
+- Navigation: About uses `/`, Projects uses `/projects`, Blog uses `/#blog`, and Questions uses `/#questions`
 - Footer: visual structure and SVG icons in Stage 3; real GitHub URL, LinkedIn URL, and email address supplied during Stage 4
 - Navigation: maintain visual dimensions with at least `44px × 44px` touch targets
 
@@ -58,7 +58,7 @@ _None_.
 
 - [x] Discuss section structure
 - [x] Implement About
-- [ ] Implement Projects
+- [x] Implement Projects
 - [ ] Implement Blog
 - [ ] Implement Common Questions
 - [ ] Verify content and spacing
@@ -68,7 +68,7 @@ _None_.
 - Footer social links: use at least `44px × 44px` touch targets when real destinations are added
 - Sections: `About`, `Projects`, `Blog`, and `Questions`; each is self-contained and exports its root component through `index.ts`
 - Styling: colocated CSS Module per section; no hooks, types, shared abstractions, cards, or accordions unless needed
-- Anchors: section root IDs are `about`, `projects`, `blog`, and `questions`; About owns the hero
+- Routes and anchors: About owns `#about` on `/`; Projects is its own page at `/projects`; Blog and Questions use `#blog` and `#questions` on `/`
 - Order: About → Projects → Blog → Questions
 - Content: real section headings with lorem ipsum placeholder copy
 

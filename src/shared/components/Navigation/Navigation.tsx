@@ -1,26 +1,30 @@
 import styles from './Navigation.module.css'
 
 const navigationItems = [
-  { href: '#about', label: 'About' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#blog', label: 'Blog' },
-  { href: '#questions', label: 'Questions' },
+  { href: '/', id: 'about', label: 'About' },
+  { href: '/projects', id: 'projects', label: 'Projects' },
+  { href: '/#blog', id: 'blog', label: 'Blog' },
+  { href: '/#questions', id: 'questions', label: 'Questions' },
 ]
 
-export function Navigation() {
+type NavigationProps = {
+  currentPage: 'about' | 'projects'
+}
+
+export function Navigation({ currentPage }: NavigationProps) {
   return (
     <nav className={styles.navigation} aria-label="Primary navigation">
-      <a className={styles.brand} href="#about">
+      <a className={styles.brand} href="/">
         <span className={styles.brandDot} aria-hidden="true" />
         marin.dev
       </a>
       <ul className={styles.links}>
-        {navigationItems.map(({ href, label }) => (
+        {navigationItems.map(({ href, id, label }) => (
           <li key={href}>
             <a
               className={styles.link}
               href={href}
-              aria-current={href === '#about' ? 'location' : undefined}
+              aria-current={id === currentPage ? 'page' : undefined}
             >
               {label}
             </a>
