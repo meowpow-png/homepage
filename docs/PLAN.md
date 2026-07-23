@@ -56,7 +56,7 @@ _None_.
 
 ### Goals
 
-- [ ] Discuss section structure
+- [x] Discuss section structure
 - [ ] Implement About
 - [ ] Implement Projects
 - [ ] Implement Blog
@@ -66,6 +66,11 @@ _None_.
 ### Decisions
 
 - Footer social links: use at least `44px × 44px` touch targets when real destinations are added
+- Sections: `About`, `Projects`, `Blog`, and `Questions`; each is self-contained and exports its root component through `index.ts`
+- Styling: colocated CSS Module per section; no hooks, types, shared abstractions, cards, or accordions unless needed
+- Anchors: section root IDs are `about`, `projects`, `blog`, and `questions`; About owns the hero
+- Order: About → Projects → Blog → Questions
+- Content: real section headings with lorem ipsum placeholder copy
 
 ## Stage 5 — Polish
 
