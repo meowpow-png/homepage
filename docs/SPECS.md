@@ -73,7 +73,7 @@
 - Hero
   - Eyebrow: `Hi, I’m`
   - Name: primary display text
-  - Terminal dot: `--color-accent`; baseline-aligned
+  - Terminal dot: `--color-accent`; baseline-aligned; blink cycle `1.2s`
   - Summary: secondary text
 - Content section
   - Accent heading
