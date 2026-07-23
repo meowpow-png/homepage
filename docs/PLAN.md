@@ -57,7 +57,7 @@ _None_.
 ### Goals
 
 - [x] Discuss section structure
-- [ ] Implement About
+- [x] Implement About
 - [ ] Implement Projects
 - [ ] Implement Blog
 - [ ] Implement Common Questions
