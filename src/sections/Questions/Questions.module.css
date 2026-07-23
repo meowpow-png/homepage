@@ -10,10 +10,11 @@
   line-height: 1.35;
 }
 
-.questions p {
+.content > p {
   margin: 0;
+  color: var(--color-text-secondary);
 }
 
-.questions p + p {
-  margin-top: var(--space-paragraph);
+.content > p + * {
+  margin-top: var(--space-page-inline);
 }

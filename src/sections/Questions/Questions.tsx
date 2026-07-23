@@ -1,19 +1,24 @@
+import QuestionsContent, { metadata } from '../../content/questions.mdx'
+
+import { Question } from './components/Question/Question'
+
 import styles from './Questions.module.css'
+
+type QuestionsMetadata = {
+  title: string
+}
+
+const questionsMetadata = metadata as QuestionsMetadata
 
 export function Questions() {
   return (
-    <section className={styles.questions} aria-labelledby="questions-heading">
+    <section className={styles.questions}>
       <h1 className={styles.heading} id="questions-heading">
-        Questions
+        {questionsMetadata.title}
       </h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt
-        ut labore et dolore magna aliqua.
-      </p>
-      <p>
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
-      </p>
+      <div className={styles.content}>
+        <QuestionsContent components={{ Question }} />
+      </div>
     </section>
   )
 }

@@ -81,14 +81,15 @@ Post body.
 title: Questions
 ---
 
-## Question
-
-Answer.
+<Question prompt="Question">
+  Answer.
+</Question>
 ```
 
 - `title`: page heading
-- Level-two headings: questions
-- Body beneath each heading: answer content
+- `Question`: disclosure component supplied by the Questions section
+- `prompt`: question text
+- Component body: answer content
 
 ## Non-Content Pages
 
