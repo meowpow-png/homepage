@@ -3,12 +3,12 @@ import styles from './Navigation.module.css'
 const navigationItems = [
   { href: '/', id: 'about', label: 'About' },
   { href: '/projects', id: 'projects', label: 'Projects' },
-  { href: '/#blog', id: 'blog', label: 'Blog' },
+  { href: '/blog', id: 'blog', label: 'Blog' },
   { href: '/#questions', id: 'questions', label: 'Questions' },
 ]
 
 type NavigationProps = {
-  currentPage: 'about' | 'projects'
+  currentPage: 'about' | 'projects' | 'blog'
 }
 
 export function Navigation({ currentPage }: NavigationProps) {
