@@ -41,7 +41,7 @@ _None_.
 - [x] Discuss page layout
 - [x] Decide responsive behavior
 - [x] Implement app shell
-- [ ] Implement navigation
+- [x] Implement navigation
 - [ ] Implement footer
 - [ ] Verify layout
 
