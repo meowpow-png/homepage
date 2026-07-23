@@ -1,0 +1,11 @@
+node_modules/
+dist/
+
+# Local editor state
+.idea/
+.obsidian/
+
+# Local environment files
+.env
+.env.*
+!.env.example
