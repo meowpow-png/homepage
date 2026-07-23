@@ -64,7 +64,7 @@ _None_.
 
 ### Goals
 
-- [ ] Define MDX content model
+- [x] Define MDX content model
 - [ ] Add MDX support
 - [ ] Migrate authored content
 - [ ] Add detail routes
