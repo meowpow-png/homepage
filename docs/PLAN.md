@@ -28,7 +28,7 @@
 - [x] Configure tooling
 - [x] Implement design tokens
 - [x] Implement global styles
-- [ ] Implement typography
+- [x] Implement typography
 - [ ] Verify foundation
 
 ### Decisions
