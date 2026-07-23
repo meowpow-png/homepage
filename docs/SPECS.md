@@ -10,11 +10,12 @@
 - `--color-accent`: `#FF6F3D`
 - `--color-border`: `rgba(255, 255, 255, 0.12)`
 - `--color-icon`: `#8A8C92`
-- `--font-family-mono`: `"JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace`
+- `--font-family-mono`: `"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace`
 
 ## Typography
 
-- Font family: `var(--font-family-mono)`
+- Font family: `IBM Plex Mono`
+- Font package: `@fontsource/ibm-plex-mono`
 - Body: `16px` / `1.75` / `400` / `--color-text-primary`
 - Body secondary: `16px` / `1.75` / `400` / `--color-text-secondary`
 - Header navigation: `18px` / `1.4` / `400`
