@@ -12,12 +12,7 @@
 
 ### Decisions
 
-- Application: single-page composition with anchor navigation; no router
-- Styling: CSS Modules plus shared global styles for reset, design tokens, and typography
 - Content: lorem ipsum placeholders; `docs/CONTENT.md` remains reference-only
-- Typography: bundled IBM Plex Mono via `@fontsource/ibm-plex-mono`
-- SVG assets: `src/shared/assets/icons/`
-- Build order: foundation → layout → About → Projects → Blog → Common Questions → polish and release
 
 ## Stage 2 — Foundation
 
@@ -47,30 +42,22 @@ _None_.
 
 ### Decisions
 
-- Page structure: header → main → footer
-- Navigation: About uses `/`, Projects uses `/projects`, Blog uses `/blog`, and Questions uses `/questions`
-- Footer: visual structure and SVG icons in Stage 3; real GitHub URL, LinkedIn URL, and email address supplied during Stage 4
-- Navigation: maintain visual dimensions with at least `44px × 44px` touch targets
+_None_.
 
 ## Stage 4 — Sections
 
 ### Goals
 
 - [x] Discuss section structure
-- [x] Implement About
-- [x] Implement Projects
-- [x] Implement Blog
-- [x] Implement Common Questions
+- [x] Implement About page
+- [x] Implement Projects page
+- [x] Implement Blog page
+- [x] Implement Questions page
 - [ ] Verify content and spacing
 
 ### Decisions
 
-- Footer social links: use at least `44px × 44px` touch targets when real destinations are added
-- Sections: `About`, `Projects`, `Blog`, and `Questions`; each is self-contained and exports its root component through `index.ts`
-- Styling: colocated CSS Module per section; no hooks, types, shared abstractions, cards, or accordions unless needed
-- Routes and anchors: About owns `#about` on `/`; Projects, Blog, and Questions are pages at `/projects`, `/blog`, and `/questions`
-- Order: About → Projects → Blog → Questions
-- Content: real section headings with lorem ipsum placeholder copy
+- Social link destinations: pending
 
 ## Stage 5 — Polish
 
@@ -84,8 +71,7 @@ _None_.
 
 ### Decisions
 
-- Navigation: active state follows the current hash or visible section
-- Accessibility: add a skip-to-content link and explicit keyboard focus styles
+_None_.
 
 ## Stage 6 — Release
 
@@ -98,3 +84,5 @@ _None_.
 - [ ] Perform final review
 
 ### Decisions
+
+_None_.

@@ -65,8 +65,10 @@
   - Dot-to-label gap: `14px`
 - Primary navigation
   - Links: `About`, `Projects`, `Blog`, `Questions`
+  - Destinations: `/`, `/projects`, `/blog`, `/questions`
   - Default color: `--color-text-primary`
   - Active color: `--color-accent`
+  - Active state: current route
   - Active indicator: `2px` bottom border; `--color-accent`; `16px` below label
   - Hit-area minimum: `44px × 44px`
 - Hero
@@ -125,3 +127,8 @@
   - Hero name: `52px`
   - Navigation link size: `16px`
   - Social icon group gap: `24px`
+
+## Accessibility
+
+- Skip link target: `#main-content`
+- Keyboard focus: visible focus treatment

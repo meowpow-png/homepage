@@ -26,11 +26,11 @@ src/
     main.tsx
 ```
 
-| Module      | Responsibility                    |
-|-------------|-----------------------------------|
-| `sections/` | Self-contained website sections   |
-| `shared/`   | Reusable components and utilities |
-| `shared/assets/icons/` | Reusable SVG icon assets |
+| Module                 | Responsibility                    |
+|------------------------|-----------------------------------|
+| `sections/`            | Self-contained website sections   |
+| `shared/`              | Reusable components and utilities |
+| `shared/assets/icons/` | Reusable SVG icon assets          |
 
 ## Sections
 
@@ -66,6 +66,13 @@ Shared styles belong in `shared/`.
 ## Routing
 
 Routing is configured centrally and composes sections into navigable pages.
+
+| Route        | Page      |
+|--------------|-----------|
+| `/`          | About     |
+| `/projects`  | Projects  |
+| `/blog`      | Blog      |
+| `/questions` | Questions |
 
 ## Imports
 
