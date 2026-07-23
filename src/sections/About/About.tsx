@@ -1,4 +1,13 @@
+import AboutContent, { metadata } from '../../content/about.mdx'
+
 import styles from './About.module.css'
+
+type AboutMetadata = {
+  name: string
+  summary: string
+}
+
+const aboutMetadata = metadata as AboutMetadata
 
 export function About() {
   return (
@@ -6,29 +15,17 @@ export function About() {
       <div className={styles.hero}>
         <p className={styles.eyebrow}>Hi, I’m</p>
         <h1 className={styles.name} id="about-heading">
-          Lorem<span className={styles.nameDot}>.</span>
+          {aboutMetadata.name}
+          <span className={styles.nameDot}>.</span>
         </h1>
-        <p className={styles.summary}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
+        <p className={styles.summary}>{aboutMetadata.summary}</p>
       </div>
 
       <div className={styles.divider} />
 
       <div className={styles.content}>
         <h2 className={styles.heading}>About</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua.
-        </p>
-        <p>
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat.
-        </p>
-        <p>
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-          nulla pariatur.
-        </p>
+        <AboutContent />
       </div>
     </section>
   )
