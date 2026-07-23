@@ -18,6 +18,7 @@ The architecture emphasizes clear boundaries, explicit data flow, and minimal co
 
 ```text
 src/
+    content/
     sections/
     shared/
         assets/
@@ -28,6 +29,7 @@ src/
 
 | Module                 | Responsibility                    |
 |------------------------|-----------------------------------|
+| `content/`             | Authored MDX content              |
 | `sections/`            | Self-contained website sections   |
 | `shared/`              | Reusable components and utilities |
 | `shared/assets/icons/` | Reusable SVG icon assets          |
@@ -56,6 +58,11 @@ Reusable SVG icons are stored in `src/shared/assets/icons/`.
 **Rules**
 
 - Shared modules must not depend on section modules
+
+## Content
+
+Authored MDX content lives in `src/content/`. Sections render content; MDX may use shared modules
+but must not depend on section modules.
 
 ## Styling
 
@@ -90,6 +97,10 @@ Imports are grouped by purpose:
 ```text
 sections
     ↓
+shared, content
+
+content
+    ↓
 shared
 
 App
@@ -105,4 +116,5 @@ App
 
 - Sections must not depend on other sections
 - Shared modules must not depend on section modules
+- Content must not depend on section modules
 - `App` composes sections and shared infrastructure but contains no application logic

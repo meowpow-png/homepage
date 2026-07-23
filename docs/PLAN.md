@@ -12,7 +12,7 @@
 
 ### Decisions
 
-- Content: lorem ipsum placeholders; `docs/CONTENT.md` remains reference-only
+_None_.
 
 ## Stage 2 — Foundation
 
@@ -54,14 +54,28 @@ _None_.
 - [x] Implement Blog page
 - [x] Implement Questions page
 - [x] Implement client-side SPA routing
-- [ ] Verify content and spacing
 
 ### Decisions
 
 - Social link destinations: pending
 - Routing: `/` redirects to `/about`; unmatched paths render Not Found without reloading the document
 
-## Stage 5 — Polish
+## Stage 5 — Content
+
+### Goals
+
+- [ ] Define MDX content model
+- [ ] Add MDX support
+- [ ] Migrate authored content
+- [ ] Add detail routes
+- [ ] Verify content and authoring
+
+### Decisions
+
+- Authored content: MDX; React owns layout and routing
+- Content: About, Projects, Blog, Questions
+
+## Stage 6 — Polish
 
 ### Goals
 
@@ -75,7 +89,7 @@ _None_.
 
 _None_.
 
-## Stage 6 — Release
+## Stage 7 — Release
 
 ### Goals
 
