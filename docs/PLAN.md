@@ -42,7 +42,7 @@ _None_.
 - [x] Decide responsive behavior
 - [x] Implement app shell
 - [x] Implement navigation
-- [ ] Implement footer
+- [x] Implement footer
 - [ ] Verify layout
 
 ### Decisions
@@ -63,6 +63,8 @@ _None_.
 - [ ] Verify content and spacing
 
 ### Decisions
+
+- Footer social links: use at least `44px × 44px` touch targets when real destinations are added
 
 ## Stage 5 — Polish
 

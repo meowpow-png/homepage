@@ -68,6 +68,7 @@
   - Default color: `--color-text-primary`
   - Active color: `--color-accent`
   - Active indicator: `2px` bottom border; `--color-accent`; `16px` below label
+  - Hit-area minimum: `44px × 44px`
 - Hero
   - Eyebrow: `Hi, I’m`
   - Name: primary display text
@@ -84,7 +85,7 @@
   - GitHub, LinkedIn, email
   - Icon size: `30px`
   - Default color: `--color-icon`
-  - Hit-area minimum: `40px × 40px`
+  - Hit-area minimum: `44px × 44px`
   - Icon group gap: `32px`
 
 ## Icons
