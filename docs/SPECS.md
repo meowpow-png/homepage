@@ -64,7 +64,7 @@
   - Label: `marin.dev`
   - Dot-to-label gap: `14px`
 - Primary navigation
-  - Links: `About`, `Projects`, `Common Questions`
+  - Links: `About`, `Projects`, `Blog`, `Questions`
   - Default color: `--color-text-primary`
   - Active color: `--color-accent`
   - Active indicator: `2px` bottom border; `--color-accent`; `16px` below label

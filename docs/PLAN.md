@@ -17,8 +17,7 @@
 - Content: lorem ipsum placeholders; `docs/CONTENT.md` remains reference-only
 - Typography: bundled IBM Plex Mono via `@fontsource/ibm-plex-mono`
 - SVG assets: `src/shared/assets/icons/`
-- Build order: foundation → layout → About → Projects → Common Questions → polish and release
-- Footer links: real GitHub URL, LinkedIn URL, and email address to be provided before footer implementation
+- Build order: foundation → layout → About → Projects → Blog → Common Questions → polish and release
 
 ## Stage 2 — Foundation
 
@@ -39,7 +38,7 @@ _None_.
 
 ### Goals
 
-- [ ] Discuss page layout
+- [x] Discuss page layout
 - [ ] Decide responsive behavior
 - [ ] Implement app shell
 - [ ] Implement navigation
@@ -48,6 +47,10 @@ _None_.
 
 ### Decisions
 
+- Page structure: header → main → footer
+- Navigation anchors: `#about`, `#projects`, `#blog`, `#questions`
+- Footer: visual structure and SVG icons in Stage 3; real GitHub URL, LinkedIn URL, and email address supplied during Stage 4
+
 ## Stage 4 — Sections
 
 ### Goals
@@ -55,6 +58,7 @@ _None_.
 - [ ] Discuss section structure
 - [ ] Implement About
 - [ ] Implement Projects
+- [ ] Implement Blog
 - [ ] Implement Common Questions
 - [ ] Verify content and spacing
 
