@@ -4,7 +4,7 @@
 
 - `--color-canvas`: `#151619`
 - `--color-surface`: `#1A1B1F`
-- `--color-text-primary`: `#F5F5F5`
+- `--color-text-primary`: `#E8E8EA`
 - `--color-text-secondary`: `#AAAAB0`
 - `--color-accent`: `#FF6F3D`
 - `--color-border`: `rgba(255, 255, 255, 0.12)`
