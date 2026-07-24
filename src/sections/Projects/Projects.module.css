@@ -114,7 +114,6 @@
   display: grid;
   min-block-size: 360px;
   grid-template-rows: 1fr auto;
-  row-gap: 32px;
   padding: 24px;
 }
 
@@ -138,7 +137,7 @@
 }
 
 .projectDescription {
-  margin: 50px 0 0;
+  margin: 50px 0;
   color: var(--color-text-secondary);
   font-size: 16px;
   line-height: 1.8;
