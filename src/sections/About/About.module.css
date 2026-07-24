@@ -34,12 +34,15 @@
 
 .content {
   padding-top: var(--space-divider-to-section-heading);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-page-intro);
+  line-height: var(--line-height-page-intro);
 }
 
 .heading {
   margin: 0 0 var(--space-heading-to-copy);
   color: var(--color-accent);
-  font-size: 24px;
+  font-size: var(--font-size-page-title);
   font-weight: 600;
   line-height: 1.35;
 }
@@ -81,6 +84,15 @@
 
   .name {
     font-size: 64px;
+  }
+
+  .heading {
+    font-size: var(--font-size-page-title-mobile);
+  }
+
+  .content {
+    font-size: var(--font-size-page-intro-mobile);
+    line-height: var(--line-height-page-intro-mobile);
   }
 }
 

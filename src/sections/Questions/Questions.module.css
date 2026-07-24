@@ -5,7 +5,7 @@
 .heading {
   margin: 0 0 var(--space-heading-to-copy);
   color: var(--color-accent);
-  font-size: 24px;
+  font-size: var(--font-size-page-title);
   font-weight: 600;
   line-height: 1.35;
 }
@@ -13,8 +13,21 @@
 .content > p {
   margin: 0;
   color: var(--color-text-secondary);
+  font-size: var(--font-size-page-intro);
+  line-height: var(--line-height-page-intro);
 }
 
 .content > p + * {
   margin-top: var(--space-page-inline);
+}
+
+@media (max-width: 640px) {
+  .heading {
+    font-size: var(--font-size-page-title-mobile);
+  }
+
+  .content > p {
+    font-size: var(--font-size-page-intro-mobile);
+    line-height: var(--line-height-page-intro-mobile);
+  }
 }
