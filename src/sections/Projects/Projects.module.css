@@ -1,8 +1,5 @@
 .projects {
-  width: min(956px, calc(100vw - (var(--space-page-inline) * 2)));
-  margin-left: 50%;
   padding-top: var(--space-page-top);
-  transform: translateX(-50%);
 }
 
 .heading {
@@ -29,6 +26,8 @@
   grid-template-columns: 270px minmax(0, 1fr);
   gap: 60px;
   position: relative;
+  width: calc(100% + 270px);
+  margin-left: -270px;
   margin-top: 76px;
 }
 
@@ -235,6 +234,8 @@
   .projectLayout {
     grid-template-columns: 1fr;
     gap: 40px;
+    width: auto;
+    margin-left: 0;
     margin-top: 48px;
   }
 
