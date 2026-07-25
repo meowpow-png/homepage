@@ -1,21 +1,21 @@
 import AnUnscheduledDesignReviewContent, {
   metadata as anUnscheduledDesignReviewMetadata,
-} from './an-unscheduled-design-review.mdx'
+} from './telekom-assignment-ui-design.mdx'
 import IHiredSomeRobotsContent, {
   metadata as iHiredSomeRobotsMetadata
-} from './i-hired-some-robots.mdx'
+} from './telekom-assignment-ai-agents.mdx'
 import OptionalMeansOptionalContent, {
   metadata as optionalMeansOptionalMetadata,
-} from './optional-was-never-an-option.mdx'
+} from './telekom-assignment-bonus-tasks.mdx'
 import TheAssignmentEscalatesContent, {
   metadata as theAssignmentEscalatesMetadata,
-} from './the-assignment-escalates.mdx'
+} from './telekom-assignment-architecture.mdx'
 import ThePlatformFightsBackContent, {
   metadata as thePlatformFightsBackMetadata,
-} from './the-platform-fights-back.mdx'
+} from './telekom-assignment-soap-integration-bugs.mdx'
 import SoapChroniclesContent, {
   metadata as soapChroniclesMetadata
-} from './the-soap-chronicles.mdx'
+} from './telekom-assignment-overview.mdx'
 
 export type BlogPostMetadata = {
   filename: string
