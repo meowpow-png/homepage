@@ -1,0 +1,47 @@
+---
+title: Optional Was Never an Option
+slug: optional-was-never-an-option
+filename: optional-was-never-an-option.mdx
+publishedAt: 2026-07-22
+---
+
+The assignment listed the following optional bonus tasks:
+
+- Local database
+- Synchronization scheduler
+- Production readiness
+- Logging
+- Security
+- Configuration profiles
+- React frontend
+
+The first was a local database. That sounded reasonable enough, except a cache
+without synchronization is just a bug waiting to happen, so I built a configurable
+nightly sync job. The assignment wanted the number of synchronized devices to be configurable,
+but the SOAP platform couldn't list devices—only fetch one if you already knew its ID. After a bit
+of detective work, I discovered the mock server had seeded devices named `CPE_001` through `CPE_012`,
+turned that into a configurable ID pattern, and left a polite note in the documentation
+explaining that this was my best interpretation of the requirement.
+
+Another bonus task was "production readiness." I interpreted that somewhat broadly.
+
+It started with writing JWT authentication from scratch, then grew into encrypted credentials,
+structured logging, and eventually a full observability stack with Grafana, Loki, and Alloy.
+Looking back, deploying dashboards to monitor a mock SOAP server running in Docker was
+probably excessive. But by then, it was too late to stop.
+
+The React frontend was also optional, so I built that too, containerized it, and served it behind nginx.
+
+Somewhere along the way I also hardened an XML pretty-printer against XXE attacks and taught
+the logger to redact Wi-Fi passwords before they reached disk. Neither problem was ever likely
+to occur in a take-home assignment talking to a mock SOAP service.
+
+But by that point I had stopped asking whether something was necessary and started asking
+whether it could pose a potential risk when running inside an enterprise production stack.
+
+There was also a fully functional REST endpoint for changing the administrator password,
+which I completely forgot to mention in the README. I still regret that one. Imagine
+shipping this to production and expecting everyone to keep using `admin:admin` because
+nobody knows the password can actually be changed.
+
+So yes... optional.

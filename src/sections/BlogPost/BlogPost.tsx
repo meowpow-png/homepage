@@ -1,18 +1,12 @@
-import type { MouseEvent } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-import SoapChroniclesContent, { metadata } from '../../content/blog/the-soap-chronicles.mdx'
+import type { BlogPost } from '../../content/blog/posts'
+import { Link, useRouter } from '../../shared/components/routing'
 
 import styles from './BlogPost.module.css'
 
-type BlogPostMetadata = {
-  publishedAt: string
-  title: string
-}
-
-const postMetadata = metadata as BlogPostMetadata
-
 type BlogPostProps = {
-  onNavigate: (path: string) => void
+  post: BlogPost
 }
 
 function formatPublishedAt(publishedAt: string) {
@@ -24,41 +18,39 @@ function formatPublishedAt(publishedAt: string) {
   }).format(new Date(`${publishedAt}T00:00:00Z`))
 }
 
-function isModifiedClick(event: MouseEvent<HTMLAnchorElement>) {
-  return event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
-}
+export function BlogPost({ post }: BlogPostProps) {
+  const { Content, metadata } = post
+  const { navigate } = useRouter()
 
-export function BlogPost({ onNavigate }: BlogPostProps) {
-  function handleBackNavigation(event: MouseEvent<HTMLAnchorElement>) {
-    if (event.defaultPrevented || isModifiedClick(event)) {
-      return
+  function PostLink({ href, ...props }: ComponentPropsWithoutRef<'a'>) {
+    if (!href) {
+      return <a {...props} />
     }
 
-    event.preventDefault()
-    onNavigate(event.currentTarget.pathname)
+    return <Link {...props} href={href} navigate={navigate} />
   }
 
   return (
     <article className={styles.post} aria-labelledby="post-heading">
       <header>
         <h1 className={styles.heading} id="post-heading">
-          {postMetadata.title}
+          {metadata.title}
         </h1>
         <p className={styles.metadata}>
-          <time dateTime={postMetadata.publishedAt}>{formatPublishedAt(postMetadata.publishedAt)}</time>
+          <time dateTime={metadata.publishedAt}>{formatPublishedAt(metadata.publishedAt)}</time>
         </p>
       </header>
       <div className={`${styles.content} mdx-content`}>
-        <SoapChroniclesContent />
+        <Content components={{ a: PostLink }} />
       </div>
       <footer className={styles.postFooter}>
-        <a className={styles.backLink} href="/blog" onClick={handleBackNavigation}>
+        <Link className={styles.backLink} href="/blog" navigate={navigate}>
             <svg className={styles.backArrow} viewBox="0 0 24 24" aria-hidden="true">
               <path d="M19 12H5" />
               <path d="m12 19-7-7 7-7" />
             </svg>
             Back to Blog
-        </a>
+        </Link>
       </footer>
     </article>
   )

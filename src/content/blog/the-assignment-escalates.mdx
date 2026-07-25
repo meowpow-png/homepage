@@ -1,0 +1,81 @@
+---
+title: The Assignment Escalates
+slug: the-assignment-escalates
+filename: the-assignment-escalates.mdx
+publishedAt: 2026-07-21
+---
+
+import { Mermaid } from '@/shared/components/Mermaid'
+
+I had a working solution after the first commit. Two endpoints, REST in, SOAP out, done.
+Of course, I had to tear it apart the next day.
+
+Not because it was broken, but because I'd already stopped optimizing for finishing
+the assignment and started optimizing for building a project I would actually enjoy
+working on. Hexagonal architecture was the natural starting point. It made
+testing easier and kept the business logic isolated from SOAP.
+
+<Mermaid>
+{`
+flowchart TB
+    subgraph Infrastructure["Infrastructure"]
+        direction TB
+        Inbound["Inbound Adapters<br/>(REST)"]
+        Outbound["Outbound Adapters<br/>(SOAP, Persistence)"]
+    end
+
+        subgraph Application["Application"]
+            direction TB
+            Ports["Inbound Ports"]
+            Services["Application Services"]
+            Domain["Domain Model"]
+            OutPorts["Outbound Ports"]
+        end
+
+        Inbound --> Ports --> Services
+        Services --> Domain
+        Services --> OutPorts
+        Outbound -.implements.-> OutPorts
+`}
+</Mermaid>
+
+Dependencies only ever point inward — infrastructure depends on application and domain,
+never the reverse. Once that was in place, I added architecture tests to enforce the dependency rules,
+because a clean architecture only stays clean if someone complains when you accidentally break it.
+Significant decisions became ADRs, because three months from now I want to remember why I made them.
+
+Each decision followed naturally from the previous one.
+The repository only started looking unreasonable when I revisited the roadmap.
+
+I'd planned an entire fourth layer of testing on top of unit, integration, and architecture tests:
+resilience tests, run with Gatling against the fully containerized stack.
+
+The idea was to place an nginx reverse proxy in front of the SOAP dependency and switch traffic
+between the normal Mockoon server and a WireMock instance configured to inject timeouts and server errors.
+This way retry and backoff logic could be proven against an unreliable platform instead of a well-behaved one.
+
+<Mermaid>
+{`
+flowchart LR
+    G[Gatling]
+    B[Spring Boot]
+    N[Nginx Reverse Proxy]
+    M[Mockoon SOAP Platform]
+    W[WireMock Fault Simulator]
+
+    G -->|HTTP| B
+    B -->|SOAP| N
+    N -->|Normal scenarios| M
+    N -->|Resilience scenarios| W
+`}
+</Mermaid>
+
+There was implementation documentation describing this rig end to end. There was even a plan to
+instrument the synchronization scheduler with Micrometer before I eventually scaled it back to plain Actuator.
+
+Eventually I committed a change titled **"Reduce project scope."**
+
+Not because the project had become too ambitious, but because I had somehow convinced myself
+to design something even more ambitious before talking myself out of it.
+
+In hindsight, that commit probably says more about the project than anything else in the repository.

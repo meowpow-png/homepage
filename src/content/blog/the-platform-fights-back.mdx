@@ -1,0 +1,184 @@
+---
+title: The Platform Fights Back
+slug: the-platform-fights-back
+filename: the-platform-fights-back.mdx
+publishedAt: 2026-07-25
+---
+
+The assignment was clear: the WSDL is the contract. Don't modify it.
+Don't modify the mock server. If the platform misbehaves, the fix belongs entirely on your side.
+
+That sounds reasonable until the platform starts fighting back.
+
+The first problem was deceptively simple. Every request either returned a `404`
+or a mysterious `NotFound` for a CPE ID that absolutely existed. After exhausting the
+obvious possibilities, I stopped debugging the application and started debugging the network.
+
+Instead of pointing the SOAP client at the mock server, I temporarily
+pointed it at an HTTP echo container just to inspect the raw request.
+
+```java
+@Bean
+SoapClient soapClient() {
+    return new SoapClient("http://localhost:8080");
+}
+```
+
+became
+
+```java
+@Bean
+SoapClient soapClient() {
+    return new SoapClient("http://localhost:5678"); // http-echo
+}
+```
+
+Once I could see the raw HTTP exchange, two completely unrelated problems emerged.
+
+The first was Apache CXF quietly attempting an HTTP/2 upgrade that the mock server couldn't understand.
+
+```java
+requestContext.put(HTTP_VERSION_PROPERTY, "1.1");
+```
+
+The second was even stranger. The mock server converts incoming XML into
+JSON before matching response templates. During that conversion it silently
+discarded XML namespace prefixes, while its own templates still expected them.
+
+Incoming request:
+
+```xml
+<soapenv:Body>
+    <ser:getCPEById>
+        <ser:cpeid>123</ser:cpeid>
+    </ser:getCPEById>
+</soapenv:Body>
+```
+
+Internal representation:
+
+```json
+{
+  "Body": {
+    "getCPEById": {
+      "cpeid": "123"
+    }
+  }
+}
+```
+
+Template matcher:
+
+```json
+"matchesJsonPath": "$.soapenv:Body.ser:getCPEById.ser:cpeid"
+```
+
+Those paths could never match.
+
+Neither issue had anything to do with the other. Both produced exactly the same symptom.
+
+---
+
+Once GET worked, PUT immediately failed.
+
+This time the parser was honest:
+
+```text
+Illegal processing instruction target ("xml")
+```
+
+Every log showed perfectly valid XML.
+
+The actual response, however, looked like this:
+
+```text
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope>...
+```
+
+Those invisible bytes before the XML declaration violate the
+XML specification. Most tools never show them, but a strict parser does.
+
+The solution wasn't fixing the XML.
+
+It was intercepting the raw stream before parsing.
+
+```java
+final class XmlNormalizingInterceptor extends AbstractPhaseInterceptor<Message> {
+
+    @Override
+    public void handleMessage(Message message) {
+        // strip leading whitespace before the XML declaration.
+    }
+}
+```
+
+The entire class exists solely to delete characters no human can see.
+
+---
+
+Then came SOAP faults.
+
+The mock server correctly returns a fault.
+
+```xml
+<soap:Fault>
+    <faultcode>tns:NotFound</faultcode>
+    <faultstring>CPE not found</faultstring>
+</soap:Fault>
+```
+
+The problem is that the WSDL never declares it.
+
+No `wsdl:fault` means Apache CXF cannot deserialize the fault,
+so instead of receiving something like:
+
+```java
+catch (NotFoundFault e) {
+    ...
+}
+```
+
+everything arrives wrapped inside:
+
+```java
+catch (WebServiceException e) {
+    ...
+}
+```
+
+The only useful piece of information that survives is the fault code embedded in the exception message.
+
+So the decoder ended up doing something I never expected to write.
+
+```java
+for (var code : SoapFaultCode.values()) {
+    if (message.contains(code.value())) {
+        return Optional.of(code);
+    }
+}
+```
+
+I was scanning an exception message for a recognizable substring because the
+service contract wasn't allowed to describe its own errors.
+
+---
+
+Finally, there was one issue that wasn't really a bug.
+The OpenAPI specification describes the Wi-Fi password as optional.
+
+The example `400` response strongly suggests it's mandatory for `WPA2_PSK`.
+
+So I ended up reading about WEP, WPA2-PSK, WPA3-SAE, Enterprise authentication,
+and which encryption modes actually require a shared password before implementing
+validation based on how Wi-Fi works rather than what the specification said.
+
+---
+
+By the end, every issue had its own dated note:
+observations, experiments, conclusions, and references.
+
+**If you're reading this**: I assume at least one of those bugs was intentional.
+If so, well played. 🎩
