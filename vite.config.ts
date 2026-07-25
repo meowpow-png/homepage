@@ -1,6 +1,8 @@
 import { resolve } from 'node:path'
 
 import mdx from '@mdx-js/rollup'
+import rehypePrettyCode from 'rehype-pretty-code'
+
 import { defineConfig, normalizePath, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import remarkFrontmatter from 'remark-frontmatter'
@@ -41,7 +43,18 @@ export default defineConfig({
   plugins: [
     injectBlogPostFileSize(),
     mdx({
-      remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'metadata' }]],
+      remarkPlugins: [
+        remarkFrontmatter,
+        [remarkMdxFrontmatter, { name: 'metadata' }],
+      ],
+      rehypePlugins: [
+        [
+          rehypePrettyCode,
+          {
+            theme: 'catppuccin-mocha',
+          },
+        ],
+      ],
     }),
     react(),
   ],
