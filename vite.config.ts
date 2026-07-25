@@ -1,10 +1,10 @@
 import { resolve } from 'node:path'
+import { fileURLToPath, URL } from 'node:url'
+import { defineConfig, normalizePath, type Plugin } from 'vite'
 
+import react from '@vitejs/plugin-react'
 import mdx from '@mdx-js/rollup'
 import rehypePrettyCode from 'rehype-pretty-code'
-
-import { defineConfig, normalizePath, type Plugin } from 'vite'
-import react from '@vitejs/plugin-react'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 
@@ -58,4 +58,9 @@ export default defineConfig({
     }),
     react(),
   ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
 })
