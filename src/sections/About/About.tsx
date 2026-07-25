@@ -23,7 +23,7 @@ export function About() {
 
       <div className={styles.divider} />
 
-      <div className={styles.content}>
+      <div className={`${styles.content} mdx-content`}>
         <h2 className={styles.heading}>About</h2>
         <AboutContent />
       </div>

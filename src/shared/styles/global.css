@@ -34,3 +34,20 @@ svg {
 #root {
   min-height: 100vh;
 }
+
+.mdx-content blockquote {
+  margin: 24px 0;
+  padding: 20px 24px 24px var(--space-question-answer-indent);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.mdx-content blockquote > :first-child {
+  margin-top: 0;
+}
+
+.mdx-content blockquote > :last-child {
+  margin-bottom: 0;
+}

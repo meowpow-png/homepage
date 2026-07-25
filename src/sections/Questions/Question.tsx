@@ -16,7 +16,7 @@ export function Question({ children, prompt }: QuestionProps) {
         </span>
         <span>{prompt}</span>
       </summary>
-      <div className={styles.answer}>{children}</div>
+      <div className={`${styles.answer} mdx-content`}>{children}</div>
     </details>
   )
 }

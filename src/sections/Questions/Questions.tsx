@@ -16,7 +16,7 @@ export function Questions() {
       <h1 className={styles.heading} id="questions-heading">
         {questionsMetadata.title}
       </h1>
-      <div className={styles.content}>
+      <div className={`${styles.content} mdx-content`}>
         <QuestionsContent components={{ Question }} />
       </div>
     </section>

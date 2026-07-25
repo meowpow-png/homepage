@@ -23,7 +23,7 @@ export function Footer() {
           </a>
         ))}
       </div>
-      <div className={styles.attribution}>
+      <div className={`${styles.attribution} mdx-content`}>
         <span className={styles.prompt} aria-hidden="true">
           &gt;
         </span>
