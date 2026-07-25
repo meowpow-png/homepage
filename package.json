@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.3.0",
+    "mermaid": "^11.16.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "rehype-pretty-code": "^0.14.4",
