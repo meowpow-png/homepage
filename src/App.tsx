@@ -5,15 +5,20 @@ import { Footer } from './shared/components/Footer/Footer'
 import { Navigation } from './shared/components/Navigation/Navigation'
 import { About } from './sections/About'
 import { Blog } from './sections/Blog'
+import { BlogPost } from './sections/BlogPost'
 import { NotFound } from './sections/NotFound'
 import { Projects } from './sections/Projects'
 import { Questions } from './sections/Questions'
 
 const routes = {
-  '/about': { currentPage: 'about', page: About },
-  '/projects': { currentPage: 'projects', page: Projects },
-  '/blog': { currentPage: 'blog', page: Blog },
-  '/questions': { currentPage: 'questions', page: Questions },
+  '/about': { currentPage: 'about', render: () => <About /> },
+  '/projects': { currentPage: 'projects', render: () => <Projects /> },
+  '/blog': { currentPage: 'blog', render: (navigate: (path: string) => void) => <Blog onNavigate={navigate} /> },
+  '/blog/the-soap-chronicles': {
+    currentPage: 'blog',
+    render: (navigate: (path: string) => void) => <BlogPost onNavigate={navigate} />,
+  },
+  '/questions': { currentPage: 'questions', render: () => <Questions /> },
 } as const
 
 function getPathname(pathname: string) {
@@ -48,14 +53,13 @@ export function App() {
   }
 
   const route = routes[pathname as keyof typeof routes]
-  const Page = route?.page ?? NotFound
 
   return (
     <AppShell
       header={<Navigation currentPage={route?.currentPage} onNavigate={navigate} />}
       footer={<Footer />}
     >
-      <Page />
+      {route ? route.render(navigate) : <NotFound />}
     </AppShell>
   )
 }
