@@ -1,0 +1,85 @@
+---
+title: The SOAP Chronicles
+slug: the-soap-chronicles
+filename: the-soap-chronicles.mdx
+publishedAt: 2026-07-24
+---
+
+# The SOAP Chronicles
+
+> The story of how "wrap a SOAP call in REST" became a two-week fight with my own ambition.
+
+When Hrvatski Telekom posted a take-home assignment, the task seemed quite straightforward:
+
+> Build a REST wrapper around an existing SOAP platform.
+
+Two endpoints:
+
+- `GET` Wi-Fi configuration
+- `PUT` Wi-Fi configuration
+
+Receive REST, call SOAP, return REST.
+
+They even provided the WSDL, an OpenAPI specification, and a Mockoon server, so I wouldn't
+have to think about the SOAP implementation itself. There were also a few optional bonus
+tasks—local caching, synchronization, production readiness, maybe even a React frontend.
+
+Two weeks later, those two endpoints had grown into a small platform: hexagonal
+Spring Boot application with Postgres cache, JWT auth, password encryption, Grafana
+dashboards, React frontend, and a prototype for running isolated, containerized CLI agents.
+
+This series tells the story of how that happened.
+
+## The Platform Fights Back
+
+The integration itself turned out to be the hardest part. HTTP/2 negotiation, invisible XML whitespace,
+undeclared SOAP faults, and an API specification that couldn't decide whether passwords were required.
+
+→ Read more
+
+---
+
+## Optional Means Optional
+
+The assignment listed four optional bonus tasks.
+
+I interpreted that as a checklist.
+
+→ Read more
+
+---
+
+## The Assignment Escalates
+
+Somewhere along the way I convinced myself that a take-home assignment needed
+hexagonal architecture, Architecture Decision Records, architecture tests,
+and strict dependency boundaries.
+
+→ Read more
+
+---
+
+## I Hired Some Robots
+
+Eventually I stopped writing everything myself and started managing a small team of AI agents instead.
+
+This introduced an entirely new class of problems, including Docker permissions, autonomous code generation,
+and writing software just to keep another program from scanning the entire repository.
+
+→ Read more
+
+---
+
+## An Unscheduled Design Review
+
+By the time the frontend arrived, I had accepted that UI design was not my strongest skill.
+
+Fortunately, my wife decided she'd seen enough and took over
+
+→ Read more
+
+---
+
+Looking back, I still don't know whether building all of this improved my chances of getting the job.
+
+I do know it produced a much better story than "I wrapped two SOAP calls in REST."
