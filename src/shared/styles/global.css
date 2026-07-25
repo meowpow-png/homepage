@@ -95,3 +95,9 @@ svg {
 .mdx-content figure {
   margin: 24px 0;
 }
+
+.mermaid {
+  padding: 1.5rem;
+  margin: 2rem 0;
+  overflow-x: auto;
+}
