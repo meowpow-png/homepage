@@ -12,3 +12,7 @@ dist/
 
 # MCP
 .playwright-mcp/
+
+# AI
+.codex/
+.claude/
