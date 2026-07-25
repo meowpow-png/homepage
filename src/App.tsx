@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import { getBlogPost } from './content/blog/posts'
 import { AppShell } from './shared/components/AppShell/AppShell'
 import { Footer } from './shared/components/Footer/Footer'
 import { Navigation } from './shared/components/Navigation/Navigation'
@@ -9,15 +10,12 @@ import { BlogPost } from './sections/BlogPost'
 import { NotFound } from './sections/NotFound'
 import { Projects } from './sections/Projects'
 import { Questions } from './sections/Questions'
+import { RouterContext } from './shared/components/routing'
 
 const routes = {
   '/about': { currentPage: 'about', render: () => <About /> },
   '/projects': { currentPage: 'projects', render: () => <Projects /> },
-  '/blog': { currentPage: 'blog', render: (navigate: (path: string) => void) => <Blog onNavigate={navigate} /> },
-  '/blog/the-soap-chronicles': {
-    currentPage: 'blog',
-    render: (navigate: (path: string) => void) => <BlogPost onNavigate={navigate} />,
-  },
+  '/blog': { currentPage: 'blog', render: () => <Blog /> },
   '/questions': { currentPage: 'questions', render: () => <Questions /> },
 } as const
 
@@ -53,13 +51,19 @@ export function App() {
   }
 
   const route = routes[pathname as keyof typeof routes]
+  const blogPost = pathname.startsWith('/blog/')
+      ? getBlogPost(pathname.slice('/blog/'.length))
+      : undefined
+  const currentPage = route?.currentPage ?? (blogPost ? 'blog' : undefined)
 
   return (
-    <AppShell
-      header={<Navigation currentPage={route?.currentPage} onNavigate={navigate} />}
-      footer={<Footer />}
-    >
-      {route ? route.render(navigate) : <NotFound />}
-    </AppShell>
+      <RouterContext.Provider value={{ navigate }}>
+        <AppShell
+            header={<Navigation currentPage={currentPage} />}
+            footer={<Footer />}
+        >
+          {route ? route.render() : blogPost ? <BlogPost post={blogPost} /> : <NotFound />}
+        </AppShell>
+      </RouterContext.Provider>
   )
 }
