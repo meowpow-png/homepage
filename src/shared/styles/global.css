@@ -51,3 +51,9 @@ svg {
 .mdx-content blockquote > :last-child {
   margin-bottom: 0;
 }
+
+.mdx-content hr {
+  margin: 48px 0 48px;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
