@@ -12,11 +12,11 @@ By the time the React frontend rolled around, I was out of time and to be honest
 completely out of my depth on UI/UX design. So I did the sensible thing and
 asked my wife, who actually enjoys this kind of work, to design the screens.
 
-She delivered a full Figma file. The aesthetic was dark and monospaced, in the
-actual Deutsche Telekom brand magenta (`#f61488`). Everything was pixel-specced,
-down to `23 x 23 px` toggle buttons and `40.5 px` input heights. Badges were
-color-coded per Wi-Fi band and encryption type. She delivered full desktop and
-mobile compositions for the login screen, the dashboard, and a CPE detail panel.
+She delivered a full Figma file. The aesthetic was dark and monospaced,
+in the actual Deutsche Telekom brand magenta. Everything was pixel-specced,
+down to toggle buttons and  input heights. Badges were color-coded per Wi-Fi
+band and encryption type. She delivered full desktop and mobile compositions
+for the login screen, the dashboard, and a CPE detail panel.
 
 Here's the login screen that came out of it:
 
@@ -40,10 +40,10 @@ The frontend even pulls in Deutsche Telekom's real open-source component library
 `@telekom/scale-components`, so the thing would look like it actually belonged next to their
 other products instead of a generic admin template.
 
-Now, I could not just look at the mockups and build the screens like a normal person.
-I built a Codex task, `load-ui-specifications.md`, whose entire job is to connect to Figma over
-MCP, screenshot every named node in her file, and transcribe it into a `docs/DESIGN.md` so
-exhaustive it reads like a legal deposition.
+The frontend agent was already implementing screens directly from Figma screenshots, but that
+wasn't precise enough against her spec. So I built it a Codex task, `load-ui-specifications.md`,
+that connects to Figma over MCP, screenshots every named node in her file, and transcribes it
+into a `docs/DESIGN.md`.
 
 ```md
 - Sign-in button: 336 x 38.5 px, magenta (`#f61488`), square corners, white centered `Sign in`
@@ -61,6 +61,5 @@ which corners are square, per screen, per breakpoint. Only after that document
 existed did a second Codex agent get a task file telling it to implement
 each screen strictly from the spec.
 
-All in all, she did me a real favor because I was drowning,
-and I repaid the favor by turning her design into a set of magnificent
-specifications for my little robots to follow.
+She did me a real favor because I was drowning. I would have easily spent
+days second-guessing pixel values instead of finishing anything.

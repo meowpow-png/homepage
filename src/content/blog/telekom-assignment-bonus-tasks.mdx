@@ -27,21 +27,17 @@ Another bonus task was "production readiness." I interpreted that somewhat broad
 
 It started with writing JWT authentication from scratch, then grew into encrypted credentials,
 structured logging, and eventually a full observability stack with Grafana, Loki, and Alloy.
-Looking back, deploying dashboards to monitor a mock SOAP server running in Docker was
-probably excessive. But by then, it was too late to stop.
 
 The React frontend was also optional, so I built that too, containerized it, and served it behind nginx.
 
-Somewhere along the way I also hardened an XML pretty-printer against XXE attacks and taught
-the logger to redact Wi-Fi passwords before they reached disk. Neither problem was ever likely
+Somewhere along the way I also hardened an XML pretty-printer against XXE attacks and added
+log redaction so Wi-Fi passwords never reached disk. Neither problem was ever likely
 to occur in a take-home assignment talking to a mock SOAP service.
 
 But by that point I had stopped asking whether something was necessary and started asking
 whether it could pose a potential risk when running inside an enterprise production stack.
 
 There was also a fully functional REST endpoint for changing the administrator password,
-which I completely forgot to mention in the README. I still regret that one. Imagine
-shipping this to production and expecting everyone to keep using `admin:admin` because
-nobody knows the password can actually be changed.
-
-So yes... optional.
+which I completely forgot to mention in the README. I still regret that one: shipping this
+to production without documenting it would have left everyone on `admin:admin`, with no
+way to know the password could be changed.

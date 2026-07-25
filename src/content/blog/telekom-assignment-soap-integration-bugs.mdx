@@ -8,8 +8,6 @@ publishedAt: 2026-07-25
 The assignment was clear: the WSDL is the contract. Don't modify it.
 Don't modify the mock server. If the platform misbehaves, the fix belongs entirely on your side.
 
-That sounds reasonable until the platform starts fighting back.
-
 The first problem was deceptively simple. Every request either returned a `404`
 or a mysterious `NotFound` for a CPE ID that absolutely existed. After exhausting the
 obvious possibilities, I stopped debugging the application and started debugging the network.
@@ -73,15 +71,12 @@ Template matcher:
 "matchesJsonPath": "$.soapenv:Body.ser:getCPEById.ser:cpeid"
 ```
 
-Those paths could never match.
-
-Neither issue had anything to do with the other. Both produced exactly the same symptom.
+Those paths could never match. Neither issue had anything
+to do with the other. Both produced exactly the same symptom.
 
 ---
 
 Once GET worked, PUT immediately failed.
-
-This time the parser was honest:
 
 ```text
 Illegal processing instruction target ("xml")
@@ -101,9 +96,7 @@ The actual response, however, looked like this:
 Those invisible bytes before the XML declaration violate the
 XML specification. Most tools never show them, but a strict parser does.
 
-The solution wasn't fixing the XML.
-
-It was intercepting the raw stream before parsing.
+I intercepted the raw stream before parsing instead of trying to fix the XML itself.
 
 ```java
 final class XmlNormalizingInterceptor extends AbstractPhaseInterceptor<Message> {
@@ -115,11 +108,9 @@ final class XmlNormalizingInterceptor extends AbstractPhaseInterceptor<Message> 
 }
 ```
 
-The entire class exists solely to delete characters no human can see.
-
 ---
 
-Then came SOAP faults.
+The next issue was with SOAP faults.
 
 The mock server correctly returns a fault.
 
@@ -180,5 +171,6 @@ validation based on how Wi-Fi works rather than what the specification said.
 By the end, every issue had its own dated note:
 observations, experiments, conclusions, and references.
 
-**If you're reading this**: I assume at least one of those bugs was intentional.
-If so, well played. 🎩
+I also strongly suspect at least one of these issues was placed
+intentionally, to see whether it would be caught. Will give an update
+if I ever get a change to speak with the reviewer.
