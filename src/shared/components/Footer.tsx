@@ -12,17 +12,17 @@ interface SocialIcon {
 
 const socialIcons = [
     {
-        href: '#',
+        href: 'https://github.com/meowpow-png',
         icon: 'github',
         label: 'GitHub',
     },
     {
-        href: '#',
+        href: 'https://www.linkedin.com/in/marin-softi%C4%87-3a4920399/',
         icon: 'linkedin',
         label: 'LinkedIn',
     },
     {
-        href: '#',
+        href: 'mailto:marin.softic@proton.me',
         icon: 'mail',
         label: 'Email',
     },
