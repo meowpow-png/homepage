@@ -9,10 +9,10 @@
 
   --font-family-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --font-size-page-title: 30px;
-  --font-size-page-title-mobile: 24px;
-  --font-size-page-intro: 17px;
-  --font-size-page-intro-mobile: 16px;
+  --font-size-page-title: 1.875rem;
+  --font-size-page-title-mobile: 1.5rem;
+  --font-size-page-intro: 1.0625rem;
+  --font-size-page-intro-mobile: 1rem;
   --line-height-page-intro: 1.65;
   --line-height-page-intro-mobile: 1.75;
 

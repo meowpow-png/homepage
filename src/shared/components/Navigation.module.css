@@ -52,7 +52,7 @@
     align-items: center;
     gap: 14px;
     color: var(--color-text-primary);
-    font-size: 19px;
+    font-size: 1.1875rem;
     font-weight: 500;
     line-height: 1.4;
     text-decoration: none;
@@ -82,7 +82,7 @@
     margin: -11px -4px;
     padding: 11px 4px;
     color: var(--color-text-primary);
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1.4;
     text-decoration: none;
 }
@@ -140,6 +140,6 @@
 
 @media (max-width: 400px) {
     .link {
-        font-size: 15px;
+        font-size: 0.9375rem;
     }
 }

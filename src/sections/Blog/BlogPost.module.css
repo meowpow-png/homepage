@@ -13,7 +13,7 @@
 .metadata {
     margin: 16px 0 0;
     color: var(--color-text-secondary);
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .postFooter {
@@ -61,7 +61,7 @@
 .content h2 {
     margin: 44px 0 20px;
     color: var(--color-accent);
-    font-size: 22px;
+    font-size: 1.375rem;
     font-weight: 600;
     line-height: 1.35;
 }

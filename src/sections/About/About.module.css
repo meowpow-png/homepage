@@ -4,13 +4,13 @@
 
 .eyebrow {
     margin: 0;
-    font-size: 28px;
+    font-size: 1.75rem;
     line-height: 1.35;
 }
 
 .name {
     margin: var(--space-eyebrow-to-name) 0 0;
-    font-size: 96px;
+    font-size: 6rem;
     font-weight: 700;
     letter-spacing: -0.06em;
     line-height: 1;
@@ -79,11 +79,11 @@
     }
 
     .eyebrow {
-        font-size: 24px;
+        font-size: 1.5rem;
     }
 
     .name {
-        font-size: 64px;
+        font-size: 4rem;
     }
 
     .heading {
@@ -98,6 +98,6 @@
 
 @media (max-width: 400px) {
     .name {
-        font-size: 52px;
+        font-size: 3.25rem;
     }
 }

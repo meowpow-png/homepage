@@ -18,7 +18,7 @@
     padding-block: 16px;
     color: var(--color-text-primary);
     cursor: pointer;
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 1.5;
     list-style: none;
 }
@@ -44,7 +44,7 @@
 
 .quote {
     color: var(--color-accent);
-    font-size: 32px;
+    font-size: 2rem;
     line-height: 0.8;
 }
 
@@ -52,7 +52,7 @@
     padding: 20px 24px 24px var(--space-question-answer-indent);
     background: var(--color-surface);
     color: var(--color-text-secondary);
-    font-size: 15px;
+    font-size: 0.9375rem;
     line-height: 1.65;
 }
 
@@ -66,6 +66,6 @@
 
 @media (max-width: 640px) {
     .prompt {
-        font-size: 18px;
+        font-size: 1.125rem;
     }
 }
