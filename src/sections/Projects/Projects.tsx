@@ -1,20 +1,20 @@
 import type {JSX} from "react";
 
-import {metadata} from '@/content/projects.mdx'
-
+import ProjectsIntro, {metadata} from '@/content/projects.mdx'
 import {getMetadata} from '@/content/getMetadata'
+import {projects} from '@/content/projects/projects'
+
 import {ProjectEntry} from './ProjectEntry'
 import {ProjectTimeline} from './ProjectTimeline'
 import {useActiveProject} from './useActiveProject'
-import type {ProjectsMetadata} from './types'
+import type {ProjectsPageMetadata} from './types'
 
 import styles from './Projects.module.css'
 
-const projectsMetadata = getMetadata<ProjectsMetadata>(metadata)
-const projectIds = projectsMetadata.projects.map(({id}) => id)
+const pageMetadata = getMetadata<ProjectsPageMetadata>(metadata)
+const projectIds = projects.map(({metadata: project}) => project.id)
 
 export function Projects(): JSX.Element {
-    const {closing, intro, projects, title} = projectsMetadata
     const activeProjectId = useActiveProject(projectIds)
 
     return (
@@ -27,25 +27,25 @@ export function Projects(): JSX.Element {
                     className={styles.heading}
                     id="projects-heading"
                 >
-                    {title}
+                    Projects
                 </h1>
-                <div className={styles.introCopy}>
-                    {intro.map((text) => (
-                        <p key={text}>{text}</p>
-                    ))}
+                <div className={`${styles.introCopy} mdx-content`}>
+                    <ProjectsIntro/>
                 </div>
             </header>
             <div className={styles.projectLayout}>
                 <ProjectTimeline
                     activeProjectId={activeProjectId}
-                    projects={projects}
+                    projects={projects.map(({metadata: project}) => project)}
                 />
                 <div className={styles.projectList}>
-                    {projects.map((project) => (
+                    {projects.map(({Content, metadata: project}) => (
                         <ProjectEntry
                             key={project.id}
-                            project={project}
-                        />
+                            metadata={project}
+                        >
+                            <Content/>
+                        </ProjectEntry>
                     ))}
                     <div className={styles.moreProjects}>
                         <p
@@ -54,7 +54,7 @@ export function Projects(): JSX.Element {
                         >
                             ...
                         </p>
-                        <p>{closing}</p>
+                        <p>{pageMetadata.closing}</p>
                     </div>
                 </div>
             </div>

@@ -1,40 +1,42 @@
-import type {JSX} from 'react'
+import type {JSX, ReactNode} from 'react'
 
 import {Link} from '@/shared/routing'
 
-import type {Project} from './types'
+import type {ProjectMetadata} from '@/content/projects/projects'
 import styles from './Projects.module.css'
 
 interface ProjectEntryProps {
-    project: Project
+    children: ReactNode
+    metadata: ProjectMetadata
 }
 
 export function ProjectEntry({
-    project,
+    children,
+    metadata,
 }: ProjectEntryProps): JSX.Element {
     return (
         <article className={styles.project}>
             <div className={styles.projectBody}>
                 <h2
                     className={styles.projectTitle}
-                    id={project.id}
+                    id={metadata.id}
                 >
-                    {project.title}
+                    {metadata.title}
                 </h2>
                 <p className={styles.projectMeta}>
-                    {project.year}
+                    {metadata.year}
                     <span aria-hidden="true"> · </span>
-                    {project.status}
+                    {metadata.status}
                 </p>
-                <p className={styles.projectDescription}>
-                    {project.description}
-                </p>
+                <div className={`${styles.projectDescription} mdx-content`}>
+                    {children}
+                </div>
             </div>
             <ul
                 className={styles.projectLinks}
-                aria-label={`${project.title} links`}
+                aria-label={`${metadata.title} links`}
             >
-                {project.links.map((link) => (
+                {metadata.links.map((link) => (
                     <li key={link.label}>
                         <Link href={link.href}>
                             {link.label}

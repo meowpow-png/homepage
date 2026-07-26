@@ -1,11 +1,11 @@
 import type {JSX, MouseEvent} from 'react'
 
-import type {Project} from './types'
+import type {ProjectMetadata} from '@/content/projects/projects'
 import styles from './Projects.module.css'
 
 interface ProjectTimelineProps {
     activeProjectId: string
-    projects: Project[]
+    projects: ProjectMetadata[]
 }
 
 function shouldReduceMotion(): boolean {
