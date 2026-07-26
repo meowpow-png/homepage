@@ -17,7 +17,7 @@ function formatPublishedAt(publishedAt: string): string {
         month: 'short',
         timeZone: 'UTC',
         year: 'numeric',
-    }).format(new Date(`${publishedAt}T00:00:00Z`))
+    }).format(new Date(`${publishedAt}:00Z`))
 }
 
 function PostLink({

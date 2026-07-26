@@ -58,7 +58,7 @@ Project prose and screenshots.
 title: Post title
 slug: post-slug
 summary: Short post description
-publishedAt: 2026-07-23
+publishedAt: 2026-07-23T09:00
 tags:
   - Engineering
 ---
@@ -67,7 +67,7 @@ Post body.
 ```
 
 - `title`, `slug`, `summary`: post listing and detail route
-- `publishedAt`: publication date
+- `publishedAt`: publication date and time (`YYYY-MM-DDTHH:MM`) — the time component only affects reading order (`Read Next`), the byline still displays date only
 - `tags`: optional post labels
 - Body: article content
 
