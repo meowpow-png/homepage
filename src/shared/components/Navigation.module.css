@@ -161,6 +161,11 @@
         display: flex;
     }
 
+    .link {
+        display: block;
+        width: 100%;
+    }
+
     .link::after {
         display: none;
     }
