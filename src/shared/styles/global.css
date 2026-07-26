@@ -106,6 +106,10 @@ svg {
   .mdx-content pre {
     font-size: 0.8125rem;
   }
+
+  .mdx-content p {
+    hyphens: auto;
+  }
 }
 
 .mermaid {
