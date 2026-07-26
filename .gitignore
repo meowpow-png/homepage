@@ -1,8 +1,11 @@
 node_modules/
 dist/
 
-# Local editor state
-.idea/
+# IntelliJ IDEA
+.idea/*
+!.idea/codeStyles/
+
+# Obsidian value
 .obsidian/
 
 # Local environment files
