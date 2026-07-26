@@ -226,6 +226,10 @@
 }
 
 @media (max-width: 640px) {
+    .projects {
+        padding-top: var(--space-page-top-mobile);
+    }
+
     .heading {
         font-size: var(--font-size-page-title-mobile);
     }
