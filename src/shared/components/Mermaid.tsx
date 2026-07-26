@@ -1,5 +1,5 @@
 import mermaid from 'mermaid'
-import { useEffect, useId, useRef } from 'react'
+import {useEffect, useId, useRef} from 'react'
 
 mermaid.initialize({
     startOnLoad: false,
@@ -29,14 +29,14 @@ type Props = {
     children: string
 }
 
-export function Mermaid({ children }: Props) {
+export function Mermaid({children}: Props) {
     const id = useId()
     const ref = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         let mounted = true
 
-        mermaid.render(`mermaid-${id}`, children).then(({ svg }) => {
+        mermaid.render(`mermaid-${id}`, children).then(({svg}) => {
             if (mounted && ref.current) {
                 ref.current.innerHTML = svg
             }
@@ -47,5 +47,5 @@ export function Mermaid({ children }: Props) {
         }
     }, [children, id])
 
-    return <div ref={ref} className="mermaid" />
+    return <div ref={ref} className="mermaid"/>
 }

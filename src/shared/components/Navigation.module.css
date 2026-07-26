@@ -1,84 +1,84 @@
 .navigation {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-page-inline);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-page-inline);
 }
 
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--color-text-primary);
-  font-size: 19px;
-  font-weight: 500;
-  line-height: 1.4;
-  text-decoration: none;
-  white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--color-text-primary);
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 .brandDot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--color-accent);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-accent);
 }
 
 .links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: var(--space-navigation-links);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--space-navigation-links);
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .link {
-  position: relative;
-  display: inline-block;
-  margin: -11px -4px;
-  padding: 11px 4px;
-  color: var(--color-text-primary);
-  font-size: 18px;
-  line-height: 1.4;
-  text-decoration: none;
+    position: relative;
+    display: inline-block;
+    margin: -11px -4px;
+    padding: 11px 4px;
+    color: var(--color-text-primary);
+    font-size: 18px;
+    line-height: 1.4;
+    text-decoration: none;
 }
 
 .link::after {
-  position: absolute;
-  right: 4px;
-  bottom: -7px;
-  left: 4px;
-  height: 2px;
-  background: var(--color-accent);
-  content: '';
-  transform: scaleX(0);
-  transform-origin: left;
+    position: absolute;
+    right: 4px;
+    bottom: -7px;
+    left: 4px;
+    height: 2px;
+    background: var(--color-accent);
+    content: '';
+    transform: scaleX(0);
+    transform-origin: left;
 }
 
 .link[aria-current='page'] {
-  color: var(--color-accent);
+    color: var(--color-accent);
 }
 
 .link[aria-current='page']::after {
-  transform: scaleX(1);
+    transform: scaleX(1);
 }
 
 @media (max-width: 640px) {
-  .navigation {
-    flex-direction: column;
-    gap: 24px;
-  }
+    .navigation {
+        flex-direction: column;
+        gap: 24px;
+    }
 
-  .links {
-    justify-content: flex-start;
-    gap: 16px 24px;
-  }
+    .links {
+        justify-content: flex-start;
+        gap: 16px 24px;
+    }
 }
 
 @media (max-width: 400px) {
-  .link {
-    font-size: 16px;
-  }
+    .link {
+        font-size: 16px;
+    }
 }
