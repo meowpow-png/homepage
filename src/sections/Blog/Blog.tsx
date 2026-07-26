@@ -11,14 +11,6 @@ function getMetadata<T>(metadata: Record<string, unknown>): T {
     return metadata as T
 }
 
-function formatPublishedAt(publishedAt: string): string {
-    return new Intl.DateTimeFormat('en-US', {
-        day: 'numeric',
-        month: 'short',
-        timeZone: 'UTC',
-    }).format(new Date(`${publishedAt}T00:00:00Z`))
-}
-
 export function Blog(): JSX.Element {
     return (
         <section className={styles.blog} aria-labelledby="blog-heading">
@@ -64,7 +56,7 @@ export function Blog(): JSX.Element {
                                     dateTime={post.publishedAt}
                                     data-label="Modified"
                                 >
-                                    {formatPublishedAt(post.publishedAt)}
+                                    {post.publishedAt}
                                 </time>
 
                                 <span

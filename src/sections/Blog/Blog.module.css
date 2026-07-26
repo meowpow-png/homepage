@@ -41,14 +41,17 @@
 }
 
 .table {
+    display: grid;
+    grid-template-columns: max-content max-content minmax(0, 1fr);
+    column-gap: 52px;
     margin-top: 16px;
 }
 
 .tableRow,
 .post {
     display: grid;
-    grid-template-columns: 94px 64px minmax(0, 1fr);
-    column-gap: 52px;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
 }
 
 .tableHeader {
