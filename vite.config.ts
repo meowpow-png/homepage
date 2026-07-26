@@ -10,6 +10,11 @@ import mdx from '@mdx-js/rollup'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
+import { flavors } from '@catppuccin/palette'
+
+import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor'
+
+const CODE_THEME = `catppuccin-${CATPPUCCIN_FLAVOR}` as const
 
 function formatFileSize(bytes: number) {
   if (bytes < 1000) {
@@ -110,10 +115,43 @@ function injectBlogPostDates(): Plugin {
   }
 }
 
+function mermaidCatppuccinTheme(): Plugin {
+  const virtualModuleId = 'virtual:mermaid-theme'
+  const resolvedVirtualModuleId = `\0${virtualModuleId}`
+
+  return {
+    name: 'mermaid-catppuccin-theme',
+    resolveId(id) {
+      if (id === virtualModuleId) {
+        return resolvedVirtualModuleId
+      }
+    },
+    load(id) {
+      if (id !== resolvedVirtualModuleId) {
+        return
+      }
+      const { colors } = flavors[CATPPUCCIN_FLAVOR]
+
+      const mermaidTheme = {
+        base: colors.base.hex,
+        mantle: colors.mantle.hex,
+        surface0: colors.surface0.hex,
+        surface1: colors.surface1.hex,
+        surface2: colors.surface2.hex,
+        text: colors.text.hex,
+        subtext1: colors.subtext1.hex,
+        blue: colors.blue.hex,
+      }
+      return `export const mermaidTheme = ${JSON.stringify(mermaidTheme)}`
+    },
+  }
+}
+
 export default defineConfig({
   plugins: [
     injectBlogPostFileSize(),
     injectBlogPostDates(),
+    mermaidCatppuccinTheme(),
     mdx({
       remarkPlugins: [
         remarkFrontmatter,
@@ -123,7 +161,7 @@ export default defineConfig({
         [
           rehypePrettyCode,
           {
-            theme: 'catppuccin-mocha',
+            theme: CODE_THEME,
           },
         ],
       ],

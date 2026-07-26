@@ -1,25 +1,26 @@
 import mermaid from 'mermaid'
 import {useEffect, useId, useRef} from 'react'
+import {mermaidTheme} from 'virtual:mermaid-theme'
 
 mermaid.initialize({
     startOnLoad: false,
     theme: 'base',
     themeVariables: {
-        background: '#1e1e2e',
-        primaryColor: '#313244',
-        secondaryColor: '#45475a',
-        tertiaryColor: '#585b70',
+        background: mermaidTheme.base,
+        primaryColor: mermaidTheme.surface0,
+        secondaryColor: mermaidTheme.surface1,
+        tertiaryColor: mermaidTheme.surface2,
 
-        primaryTextColor: '#cdd6f4',
-        secondaryTextColor: '#bac2de',
+        primaryTextColor: mermaidTheme.text,
+        secondaryTextColor: mermaidTheme.subtext1,
 
-        primaryBorderColor: '#89b4fa',
-        lineColor: '#89b4fa',
+        primaryBorderColor: mermaidTheme.blue,
+        lineColor: mermaidTheme.blue,
 
-        clusterBkg: '#181825',
-        clusterBorder: '#89b4fa',
+        clusterBkg: mermaidTheme.mantle,
+        clusterBorder: mermaidTheme.blue,
 
-        edgeLabelBackground: '#1e1e2e',
+        edgeLabelBackground: mermaidTheme.base,
 
         fontFamily: 'JetBrains Mono, monospace',
     },
