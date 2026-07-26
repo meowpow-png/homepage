@@ -102,6 +102,12 @@ svg {
   margin: 24px 0;
 }
 
+@media (max-width: 640px) {
+  .mdx-content pre {
+    font-size: 0.8125rem;
+  }
+}
+
 .mermaid {
   padding: 1.5rem;
   margin: 2rem 0;
