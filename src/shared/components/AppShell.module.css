@@ -44,6 +44,10 @@
     .shell {
         padding-inline: var(--space-page-inline-mobile);
     }
+
+    .header {
+        padding-top: var(--space-page-top-mobile);
+    }
 }
 
 @media (max-width: 400px) {

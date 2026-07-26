@@ -75,7 +75,7 @@
 
 @media (max-width: 640px) {
     .about {
-        padding-top: var(--space-page-top);
+        padding-top: var(--space-page-top-mobile);
     }
 
     .eyebrow {
