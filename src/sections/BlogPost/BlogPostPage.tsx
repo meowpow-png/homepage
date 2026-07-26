@@ -18,7 +18,7 @@ function formatPublishedAt(publishedAt: string) {
   }).format(new Date(`${publishedAt}T00:00:00Z`))
 }
 
-export function BlogPost({ post }: BlogPostProps) {
+export function BlogPostPage({ post }: BlogPostProps) {
   const { Content, metadata } = post
   const { navigate } = useRouter()
 

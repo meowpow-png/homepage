@@ -1,1 +1,1 @@
-export { BlogPost } from './BlogPost'
+export { BlogPostPage } from './BlogPostPage'
