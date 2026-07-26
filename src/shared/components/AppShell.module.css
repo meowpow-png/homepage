@@ -2,6 +2,7 @@
     display: grid;
     min-height: 100vh;
     grid-template-rows: auto 1fr auto;
+    grid-template-columns: minmax(0, 1fr);
     padding-inline: var(--space-page-inline);
 }
 
