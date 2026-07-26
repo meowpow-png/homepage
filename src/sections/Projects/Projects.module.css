@@ -172,7 +172,7 @@
 @media (hover: hover) {
     .projectLinks a:hover {
         text-decoration: underline;
-        text-underline-offset: 3px;
+        text-underline-offset: var(--link-underline-offset);
     }
 }
 

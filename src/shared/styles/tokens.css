@@ -36,4 +36,6 @@
   --space-footer-attribution-gap: 8px;
   --space-question-prompt-gap: 16px;
   --space-question-answer-indent: 36px;
+
+  --link-underline-offset: 5px;
 }

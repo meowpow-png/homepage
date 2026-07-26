@@ -29,10 +29,10 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    border-bottom: 1px solid transparent;
     color: var(--color-accent);
     line-height: 1.2;
     text-decoration: none;
+    text-underline-offset: var(--link-underline-offset);
 }
 
 .backArrow,
@@ -50,7 +50,7 @@
 @media (hover: hover) {
     .backLink:hover,
     .nextLink:hover {
-        border-bottom-color: currentcolor;
+        text-decoration: underline;
     }
 }
 
