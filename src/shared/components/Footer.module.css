@@ -36,18 +36,18 @@
 }
 
 .github {
-  mask-image: url('../../assets/icons/github.svg');
-  -webkit-mask-image: url('../../assets/icons/github.svg');
+  mask-image: url('../assets/icons/github.svg');
+  -webkit-mask-image: url('../assets/icons/github.svg');
 }
 
 .linkedin {
-  mask-image: url('../../assets/icons/linkedin.svg');
-  -webkit-mask-image: url('../../assets/icons/linkedin.svg');
+  mask-image: url('../assets/icons/linkedin.svg');
+  -webkit-mask-image: url('../assets/icons/linkedin.svg');
 }
 
 .mail {
-  mask-image: url('../../assets/icons/mail.svg');
-  -webkit-mask-image: url('../../assets/icons/mail.svg');
+  mask-image: url('../assets/icons/mail.svg');
+  -webkit-mask-image: url('../assets/icons/mail.svg');
 }
 
 .attribution {

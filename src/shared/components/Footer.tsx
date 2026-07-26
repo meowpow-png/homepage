@@ -1,4 +1,4 @@
-import FooterContent from '../../../content/footer.mdx'
+import FooterContent from '../../content/footer.mdx'
 
 import styles from './Footer.module.css'
 
