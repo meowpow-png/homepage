@@ -160,6 +160,10 @@
     .links[data-open='true'] {
         display: flex;
     }
+
+    .link::after {
+        display: none;
+    }
 }
 
 @media (max-width: 400px) {
