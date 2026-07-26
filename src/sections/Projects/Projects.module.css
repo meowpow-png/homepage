@@ -393,16 +393,16 @@
 
     .project {
         min-block-size: 0;
-        padding: 0;
+        padding: 0 0 24px;
     }
 
     .project + .project {
         margin-top: 0;
-        padding: 48px 0 0;
+        padding: 48px 0 24px;
     }
 
     .moreProjects {
-        min-block-size: 40vh;
+        min-block-size: 15vh;
         margin-top: 0;
         padding-top: 40px;
     }
