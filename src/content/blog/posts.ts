@@ -57,3 +57,16 @@ export type BlogPost = (typeof blogPosts)[number]
 export function getBlogPost(slug: string) {
   return blogPosts.find((post) => post.metadata.slug === slug)
 }
+
+const postsByDate = [...blogPosts].sort(
+  (a, b) => a.metadata.publishedAt.localeCompare(b.metadata.publishedAt)
+)
+
+export function getNextPost(slug: string) {
+  const index = postsByDate.findIndex((post) => post.metadata.slug === slug)
+
+  if (index === -1) {
+    return undefined
+  }
+  return postsByDate[index + 1]
+}

@@ -1,6 +1,7 @@
 import type {ComponentPropsWithoutRef, JSX} from 'react'
 
 import type {BlogPost} from '@/content/blog/posts'
+import {getNextPost} from '@/content/blog/posts'
 import {Link} from '@/shared/routing'
 
 import styles from './BlogPost.module.css'
@@ -34,6 +35,7 @@ export function BlogPostPage({
     post,
 }: BlogPostPageProps): JSX.Element {
     const {Content, metadata} = post
+    const nextPost = getNextPost(metadata.slug)
 
     return (
         <article
@@ -71,6 +73,20 @@ export function BlogPostPage({
                     />
                     Back to Blog
                 </Link>
+
+                {nextPost && (
+                    <Link
+                        className={styles.nextLink}
+                        href={`/blog/${nextPost.metadata.slug}`}
+                    >
+                        Read Next
+                        <ArrowIcon
+                            className={styles.nextArrow}
+                            direction="right"
+                            aria-hidden="true"
+                        />
+                    </Link>
+                )}
             </footer>
         </article>
     )
