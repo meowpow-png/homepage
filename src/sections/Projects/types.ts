@@ -1,20 +1,20 @@
-export type ProjectLink = {
-  href: string
-  label: string
+export interface ProjectLink {
+    href: string
+    label: string
 }
 
-export type Project = {
-  description: string
-  id: string
-  links: ProjectLink[]
-  status: string
-  title: string
-  year: number
+export interface Project {
+    description: string
+    id: string
+    links: ProjectLink[]
+    status: string
+    title: string
+    year: number
 }
 
-export type ProjectsMetadata = {
-  closing: string
-  intro: string[]
-  projects: Project[]
-  title: string
+export interface ProjectsMetadata {
+    closing: string
+    intro: string[]
+    projects: Project[]
+    title: string
 }

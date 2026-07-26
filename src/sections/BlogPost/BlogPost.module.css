@@ -1,78 +1,78 @@
 .post {
-  padding-top: var(--space-page-top);
+    padding-top: var(--space-page-top);
 }
 
 .heading {
-  margin: 0;
-  color: var(--color-accent);
-  font-size: var(--font-size-page-title);
-  font-weight: 600;
-  line-height: 1.35;
+    margin: 0;
+    color: var(--color-accent);
+    font-size: var(--font-size-page-title);
+    font-weight: 600;
+    line-height: 1.35;
 }
 
 .metadata {
-  margin: 16px 0 0;
-  color: var(--color-text-secondary);
-  font-size: 16px;
+    margin: 16px 0 0;
+    color: var(--color-text-secondary);
+    font-size: 16px;
 }
 
 .postFooter {
-  margin-top: 48px;
+    margin-top: 48px;
 }
 
 .backLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  border-bottom: 1px solid transparent;
-  color: var(--color-accent);
-  line-height: 1.2;
-  text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-bottom: 1px solid transparent;
+    color: var(--color-accent);
+    line-height: 1.2;
+    text-decoration: none;
 }
 
 .backArrow {
-  width: 20px;
-  height: 20px;
-  flex: 0 0 auto;
-  fill: none;
-  stroke: currentcolor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentcolor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
 }
 
 .backLink:hover {
-  border-bottom-color: currentcolor;
+    border-bottom-color: currentcolor;
 }
 
 .content {
-  margin-top: 48px;
-  color: var(--color-text-primary);
-  line-height: 1.8;
+    margin-top: 48px;
+    color: var(--color-text-primary);
+    line-height: 1.8;
 }
 
 .content h2 {
-  margin: 44px 0 20px;
-  color: var(--color-accent);
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.35;
+    margin: 44px 0 20px;
+    color: var(--color-accent);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.35;
 }
 
 .content p {
-  margin: 0;
+    margin: 0;
 }
 
 .content p + p {
-  margin-top: var(--space-paragraph);
+    margin-top: var(--space-paragraph);
 }
 
 @media (max-width: 640px) {
-  .heading {
-    font-size: var(--font-size-page-title-mobile);
-  }
+    .heading {
+        font-size: var(--font-size-page-title-mobile);
+    }
 
-  .content {
-    margin-top: 40px;
-  }
+    .content {
+        margin-top: 40px;
+    }
 }

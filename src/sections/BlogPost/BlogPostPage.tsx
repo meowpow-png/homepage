@@ -1,57 +1,77 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import type {ComponentPropsWithoutRef, JSX} from 'react'
 
-import type { BlogPost } from '../../content/blog/posts'
-import { Link, useRouter } from '../../shared/routing'
+import type {BlogPost} from '@/content/blog/posts'
+import {Link} from '@/shared/routing'
 
 import styles from './BlogPost.module.css'
+import {ArrowIcon} from "@/shared/components/ArrowIcon";
 
-type BlogPostProps = {
-  post: BlogPost
+interface BlogPostPageProps {
+    post: BlogPost
 }
 
-function formatPublishedAt(publishedAt: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    day: 'numeric',
-    month: 'short',
-    timeZone: 'UTC',
-    year: 'numeric',
-  }).format(new Date(`${publishedAt}T00:00:00Z`))
+function formatPublishedAt(publishedAt: string): string {
+    return new Intl.DateTimeFormat('en-US', {
+        day: 'numeric',
+        month: 'short',
+        timeZone: 'UTC',
+        year: 'numeric',
+    }).format(new Date(`${publishedAt}T00:00:00Z`))
 }
 
-export function BlogPostPage({ post }: BlogPostProps) {
-  const { Content, metadata } = post
-  const { navigate } = useRouter()
-
-  function PostLink({ href, ...props }: ComponentPropsWithoutRef<'a'>) {
+function PostLink({
+    href,
+    ...props
+}: ComponentPropsWithoutRef<'a'>): JSX.Element {
     if (!href) {
-      return <a {...props} />
+        return <a {...props} />
     }
 
-    return <Link {...props} href={href} navigate={navigate} />
-  }
+    return <Link {...props} href={href}/>
+}
 
-  return (
-    <article className={styles.post} aria-labelledby="post-heading">
-      <header>
-        <h1 className={styles.heading} id="post-heading">
-          {metadata.title}
-        </h1>
-        <p className={styles.metadata}>
-          <time dateTime={metadata.publishedAt}>{formatPublishedAt(metadata.publishedAt)}</time>
-        </p>
-      </header>
-      <div className={`${styles.content} mdx-content`}>
-        <Content components={{ a: PostLink }} />
-      </div>
-      <footer className={styles.postFooter}>
-        <Link className={styles.backLink} href="/blog" navigate={navigate}>
-            <svg className={styles.backArrow} viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M19 12H5" />
-              <path d="m12 19-7-7 7-7" />
-            </svg>
-            Back to Blog
-        </Link>
-      </footer>
-    </article>
-  )
+export function BlogPostPage({
+    post,
+}: BlogPostPageProps): JSX.Element {
+    const {Content, metadata} = post
+
+    return (
+        <article
+            className={styles.post}
+            aria-labelledby="post-heading"
+        >
+            <header>
+                <h1
+                    className={styles.heading}
+                    id="post-heading"
+                >
+                    {metadata.title}
+                </h1>
+
+                <p className={styles.metadata}>
+                    <time dateTime={metadata.publishedAt}>
+                        {formatPublishedAt(metadata.publishedAt)}
+                    </time>
+                </p>
+            </header>
+
+            <div className={`${styles.content} mdx-content`}>
+                <Content components={{a: PostLink}}/>
+            </div>
+
+            <footer className={styles.postFooter}>
+                <Link
+                    className={styles.backLink}
+                    href="/blog"
+                >
+                    <ArrowIcon
+                        className={styles.backArrow}
+                        direction="left"
+                        aria-hidden="true"
+                    />
+                    Back to Blog
+                </Link>
+            </footer>
+        </article>
+    )
 }

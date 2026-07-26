@@ -1,45 +1,52 @@
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 
-export function useActiveProject(projectIds: string[]) {
-  const [activeProjectId, setActiveProjectId] = useState(projectIds[0] ?? '')
+export function useActiveProject(projectIds: string[]): string {
+    const [activeProjectId, setActiveProjectId] = useState(
+        projectIds[0] ?? '',
+    )
 
-  useEffect(() => {
-    const projects = projectIds
-      .map((projectId) => document.getElementById(projectId))
-      .filter((project): project is HTMLElement => project !== null)
+    useEffect(() => {
+        const projects = projectIds.map((id) => document.getElementById(id)).filter(
+            (project): project is HTMLElement => project !== null,
+        )
+        if (projects.length === 0) {
+            return
+        }
+        let animationFrame = 0
 
-    if (projects.length === 0) {
-      return
-    }
+        function updateActiveProject(): void {
+            const viewportMidpoint = window.innerHeight / 2
 
-    let animationFrame = 0
+            const activeProject = projects.reduce(
+                (current, project) =>
+                    project.getBoundingClientRect().top <= viewportMidpoint
+                        ? project
+                        : current,
+                projects[0],
+            )
+            setActiveProjectId(activeProject.id)
+        }
 
-    const updateActiveProject = () => {
-      const viewportMidpoint = window.innerHeight / 2
-      const activeProject = projects.reduce(
-        (currentProject, project) =>
-          project.getBoundingClientRect().top <= viewportMidpoint ? project : currentProject,
-        projects[0],
-      )
+        function scheduleUpdate(): void {
+            window.cancelAnimationFrame(animationFrame)
+            animationFrame = window.requestAnimationFrame(
+                updateActiveProject,
+            )
+        }
 
-      setActiveProjectId(activeProject.id)
-    }
+        scheduleUpdate()
 
-    const scheduleUpdate = () => {
-      window.cancelAnimationFrame(animationFrame)
-      animationFrame = window.requestAnimationFrame(updateActiveProject)
-    }
+        window.addEventListener('resize', scheduleUpdate)
+        window.addEventListener('scroll', scheduleUpdate, {
+            passive: true,
+        })
+        return () => {
+            window.cancelAnimationFrame(animationFrame)
 
-    scheduleUpdate()
-    window.addEventListener('resize', scheduleUpdate)
-    window.addEventListener('scroll', scheduleUpdate, { passive: true })
+            window.removeEventListener('resize', scheduleUpdate)
+            window.removeEventListener('scroll', scheduleUpdate)
+        }
+    }, [projectIds])
 
-    return () => {
-      window.cancelAnimationFrame(animationFrame)
-      window.removeEventListener('resize', scheduleUpdate)
-      window.removeEventListener('scroll', scheduleUpdate)
-    }
-  }, [projectIds])
-
-  return activeProjectId
+    return activeProjectId
 }

@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef, JSX } from 'react'
 
-import ArrowSvg from '@/shared/icons/arrow.svg?react'
+import ArrowSvg from '@/shared/assets/icons/arrow.svg?react'
 
 import styles from './ArrowIcon.module.css'
 

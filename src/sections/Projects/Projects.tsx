@@ -1,49 +1,63 @@
-import { metadata } from '../../content/projects.mdx'
+import type {JSX} from "react";
 
-import { ProjectEntry } from './components/ProjectEntry'
-import { ProjectTimeline } from './components/ProjectTimeline'
-import { useActiveProject } from './hooks/useActiveProject'
-import type { ProjectsMetadata } from './types'
+import {metadata} from '@/content/projects.mdx'
+
+import {getMetadata} from '@/content/getMetadata'
+import {ProjectEntry} from './components/ProjectEntry'
+import {ProjectTimeline} from './components/ProjectTimeline'
+import {useActiveProject} from './hooks/useActiveProject'
+import type {ProjectsMetadata} from './types'
 
 import styles from './Projects.module.css'
 
-const projectsMetadata = metadata as ProjectsMetadata
-const projectIds = projectsMetadata.projects.map((project) => project.id)
+const projectsMetadata = getMetadata<ProjectsMetadata>(metadata)
+const projectIds = projectsMetadata.projects.map(({id}) => id)
 
-export function Projects() {
-  const { closing, intro, projects, title } = projectsMetadata
-  const activeProjectId = useActiveProject(projectIds)
+export function Projects(): JSX.Element {
+    const {closing, intro, projects, title} = projectsMetadata
+    const activeProjectId = useActiveProject(projectIds)
 
-  return (
-    <section className={styles.projects} aria-labelledby="projects-heading">
-      <header className={styles.introduction}>
-        <h1 className={styles.heading} id="projects-heading">
-          {title}
-        </h1>
-        <div className={styles.introCopy}>
-          {intro.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
-      </header>
-
-      <div className={styles.projectLayout}>
-        <ProjectTimeline
-          activeProjectId={activeProjectId}
-          projects={projects}
-        />
-        <div className={styles.projectList}>
-          {projects.map((project) => (
-            <ProjectEntry key={project.id} project={project} />
-          ))}
-          <div className={styles.moreProjects}>
-            <p className={styles.moreProjectsMarker} aria-hidden="true">
-              ...
-            </p>
-            <p>{closing}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
+    return (
+        <section
+            className={styles.projects}
+            aria-labelledby="projects-heading"
+        >
+            <header className={styles.introduction}>
+                <h1
+                    className={styles.heading}
+                    id="projects-heading"
+                >
+                    {title}
+                </h1>
+                <div className={styles.introCopy}>
+                    {intro.map((text) => (
+                        <p key={text}>{text}</p>
+                    ))}
+                </div>
+            </header>
+            <div className={styles.projectLayout}>
+                <ProjectTimeline
+                    activeProjectId={activeProjectId}
+                    projects={projects}
+                />
+                <div className={styles.projectList}>
+                    {projects.map((project) => (
+                        <ProjectEntry
+                            key={project.id}
+                            project={project}
+                        />
+                    ))}
+                    <div className={styles.moreProjects}>
+                        <p
+                            className={styles.moreProjectsMarker}
+                            aria-hidden="true"
+                        >
+                            ...
+                        </p>
+                        <p>{closing}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
 }
