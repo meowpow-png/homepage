@@ -1,18 +1,10 @@
 import type {JSX} from "react";
 
-import QuestionsContent, {metadata} from '@/content/questions.mdx'
-import {getMetadata} from '@/content/getMetadata'
+import QuestionsIntro from '@/content/questions.mdx'
+import {questions} from '@/content/questions/questions'
 
 import {Question} from './Question'
 import styles from './Questions.module.css'
-
-interface QuestionsMetadata {
-    title: string
-}
-
-const questionsMetadata = getMetadata<QuestionsMetadata>(
-    metadata,
-)
 
 export function Questions(): JSX.Element {
     return (
@@ -24,13 +16,20 @@ export function Questions(): JSX.Element {
                 className={styles.heading}
                 id="questions-heading"
             >
-                {questionsMetadata.title}
+                Questions
             </h1>
 
             <div className={`${styles.content} mdx-content`}>
-                <QuestionsContent
-                    components={{Question}}
-                />
+                <QuestionsIntro/>
+
+                {questions.map(({Content, metadata}) => (
+                    <Question
+                        key={metadata.prompt}
+                        prompt={metadata.prompt}
+                    >
+                        <Content/>
+                    </Question>
+                ))}
             </div>
         </section>
     )
