@@ -6,8 +6,7 @@ import {Navigation} from '@/shared/components/Navigation'
 import {type NavigationPage, resolveRoute, type Route, RouterContext, useNavigation,} from '@/shared/routing'
 
 import {type BlogPost, getBlogPost} from '@/content/blog/posts'
-import {BlogPostPage} from '@/sections/BlogPost'
-import {NotFound} from '@/sections/NotFound'
+import {BlogPostPage, NotFound} from '@/sections/'
 
 export function App(): JSX.Element {
     const navigation = useNavigation()
