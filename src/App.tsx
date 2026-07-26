@@ -1,69 +1,60 @@
-import { useEffect, useState } from 'react'
+import type {JSX, ReactNode} from "react";
 
-import { getBlogPost } from './content/blog/posts'
-import { AppShell } from './shared/components/AppShell/AppShell'
-import { Footer } from './shared/components/Footer/Footer'
-import { Navigation } from './shared/components/Navigation/Navigation'
-import { About } from './sections/About'
-import { Blog } from './sections/Blog'
-import { BlogPost } from './sections/BlogPost'
-import { NotFound } from './sections/NotFound'
-import { Projects } from './sections/Projects'
-import { Questions } from './sections/Questions'
-import { RouterContext } from './shared/routing'
+import {AppShell} from '@/shared/components/AppShell/AppShell'
+import {Footer} from '@/shared/components/Footer/Footer'
+import {Navigation} from '@/shared/components/Navigation/Navigation'
+import {type NavigationPage, resolveRoute, type Route, RouterContext, useNavigation,} from '@/shared/routing'
 
-const routes = {
-  '/about': { currentPage: 'about', render: () => <About /> },
-  '/projects': { currentPage: 'projects', render: () => <Projects /> },
-  '/blog': { currentPage: 'blog', render: () => <Blog /> },
-  '/questions': { currentPage: 'questions', render: () => <Questions /> },
-} as const
+import {type BlogPost, getBlogPost} from '@/content/blog/posts'
+import {BlogPostPage} from '@/sections/BlogPost'
+import {NotFound} from '@/sections/NotFound'
 
-function getPathname(pathname: string) {
-  return pathname === '/' ? '/about' : pathname
+export function App(): JSX.Element {
+    const navigation = useNavigation()
+    const route = resolveRoute(navigation.pathname)
+    const blogPost = resolveBlogPost(navigation.pathname)
+    const currentPage = resolveCurrentPage(
+        route,
+        blogPost !== undefined,
+    )
+    return (
+        <RouterContext.Provider value={navigation}>
+            <AppShell
+                header={<Navigation currentPage={currentPage}/>}
+                footer={<Footer/>}
+            >
+                {renderPage(route, blogPost)}
+            </AppShell>
+        </RouterContext.Provider>
+    )
 }
 
-export function App() {
-  const [pathname, setPathname] = useState(() => getPathname(window.location.pathname))
-
-  useEffect(() => {
-    function syncPathname() {
-      const nextPathname = getPathname(window.location.pathname)
-
-      if (window.location.pathname === '/') {
-        window.history.replaceState(null, '', nextPathname)
-      }
-      setPathname(nextPathname)
+function resolveBlogPost(pathname: string) {
+    if (!pathname.startsWith('/blog/')) {
+        return undefined
     }
+    return getBlogPost(pathname.slice('/blog/'.length))
+}
 
-    syncPathname()
-    window.addEventListener('popstate', syncPathname)
-
-    return () => window.removeEventListener('popstate', syncPathname)
-  }, [])
-
-  function navigate(nextPathname: string) {
-    if (nextPathname === pathname) {
-      return
+function resolveCurrentPage(
+    route: Route | undefined,
+    isBlogPost: boolean,
+): NavigationPage | undefined {
+    if (route) {
+        return route.currentPage
     }
-    window.history.pushState(null, '', nextPathname)
-    setPathname(nextPathname)
-  }
+    return isBlogPost ? 'blog' : undefined
+}
 
-  const route = routes[pathname as keyof typeof routes]
-  const blogPost = pathname.startsWith('/blog/')
-      ? getBlogPost(pathname.slice('/blog/'.length))
-      : undefined
-  const currentPage = route?.currentPage ?? (blogPost ? 'blog' : undefined)
-
-  return (
-      <RouterContext.Provider value={{ navigate }}>
-        <AppShell
-            header={<Navigation currentPage={currentPage} />}
-            footer={<Footer />}
-        >
-          {route ? route.render() : blogPost ? <BlogPost post={blogPost} /> : <NotFound />}
-        </AppShell>
-      </RouterContext.Provider>
-  )
+function renderPage(
+    route: Route | undefined,
+    blogPost: BlogPost | undefined,
+): ReactNode {
+    if (route) {
+        return route.render()
+    }
+    if (blogPost) {
+        return <BlogPostPage post={blogPost}/>
+    }
+    return <NotFound/>
 }

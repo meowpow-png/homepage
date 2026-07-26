@@ -1,34 +1,50 @@
-import React from "react";
+import type {AnchorHTMLAttributes, MouseEvent, ReactElement,} from 'react'
 
-type LinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+import {useRouter} from './useRouter'
+
+interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
     href: string
-    navigate: (path: string) => void
 }
 
-export function Link({ href, navigate, onClick, ...props }: LinkProps) {
+export function Link({
+    href,
+    onClick,
+    ...props
+}: LinkProps): ReactElement {
+    const {navigate} = useRouter()
     const internal = href.startsWith('/')
+
+    function handleClick(event: MouseEvent<HTMLAnchorElement>): void {
+        onClick?.(event)
+        if (!shouldInterceptNavigation(event, internal)) {
+            return
+        }
+        event.preventDefault()
+        navigate(href)
+    }
+
     return (
         <a
             {...props}
             href={href}
             target={internal ? undefined : '_blank'}
             rel={internal ? undefined : 'noopener noreferrer'}
-            onClick={(event) => {
-                onClick?.(event)
-                if (
-                    event.defaultPrevented ||
-                    !internal ||
-                    event.metaKey ||
-                    event.ctrlKey ||
-                    event.shiftKey ||
-                    event.altKey ||
-                    event.button !== 0
-                ) {
-                    return
-                }
-                event.preventDefault()
-                navigate(href)
-            }}
+            onClick={handleClick}
         />
+    )
+}
+
+function shouldInterceptNavigation(
+    event: MouseEvent<HTMLAnchorElement>,
+    internal: boolean,
+): boolean {
+    return (
+        internal &&
+        !event.defaultPrevented &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.altKey &&
+        event.button === 0
     )
 }
