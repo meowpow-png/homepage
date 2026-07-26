@@ -169,9 +169,11 @@
     text-decoration: none;
 }
 
-.projectLinks a:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
+@media (hover: hover) {
+    .projectLinks a:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
 }
 
 .externalIndicator {

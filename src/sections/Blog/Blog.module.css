@@ -96,9 +96,11 @@
     overflow-wrap: anywhere;
 }
 
-.fileName:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
+@media (hover: hover) {
+    .fileName:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
 }
 
 .fileIcon {

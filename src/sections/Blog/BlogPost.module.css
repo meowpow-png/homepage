@@ -47,9 +47,11 @@
     stroke-width: 2;
 }
 
-.backLink:hover,
-.nextLink:hover {
-    border-bottom-color: currentcolor;
+@media (hover: hover) {
+    .backLink:hover,
+    .nextLink:hover {
+        border-bottom-color: currentcolor;
+    }
 }
 
 .content {
