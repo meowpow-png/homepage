@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, normalizePath, type Plugin } from 'vite'
 
 import react from '@vitejs/plugin-react'
+import svgr from 'vite-plugin-svgr'
 import mdx from '@mdx-js/rollup'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkFrontmatter from 'remark-frontmatter'
@@ -57,6 +58,7 @@ export default defineConfig({
       ],
     }),
     react(),
+    svgr(),
   ],
   resolve: {
     alias: {
