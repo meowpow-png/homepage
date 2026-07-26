@@ -1,14 +1,14 @@
 # Homepage
 
-Congratulations. You've successfully navigated to the repository behind my homepage.
-
-There's no prize, but you're welcome to look around.
+This is the repository behind my homepage.
 
 ## What you'll find
 
 Mostly source code.
 
 Nothing too exciting, unless you're into reading other people's code.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) if you want to see how the content gets added.
 
 ## Running locally
 
