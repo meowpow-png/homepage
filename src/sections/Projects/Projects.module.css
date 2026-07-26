@@ -410,6 +410,6 @@
     .moreProjects {
         min-block-size: 15vh;
         margin-top: 0;
-        padding-top: 40px;
+        padding: 40px 0 0;
     }
 }
