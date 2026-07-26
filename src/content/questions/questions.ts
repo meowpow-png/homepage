@@ -42,5 +42,3 @@ export const questions = [
         metadata: getMetadata<QuestionMetadata>(whySoManyAbandonedRepositoriesMetadata)
     },
 ] as const
-
-export type QuestionEntry = (typeof questions)[number]
