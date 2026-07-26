@@ -1,3 +1,5 @@
+import { execFileSync } from 'node:child_process'
+import { statSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, normalizePath, type Plugin } from 'vite'
@@ -15,6 +17,23 @@ function formatFileSize(bytes: number) {
   }
 
   return `${(bytes / 1000).toFixed(1)} KB`
+}
+
+function getLastModifiedDate(filePath: string): string {
+  try {
+    const gitDate = execFileSync(
+      'git', ['log', '-1', '--format=%cs', '--', filePath],
+      { encoding: 'utf8' },
+    ).trim()
+
+    if (gitDate) {
+      return gitDate
+    }
+  } catch {
+    // Not a git repo, or git unavailable — fall through to mtime.
+  }
+
+  return statSync(filePath).mtime.toISOString().slice(0, 10)
 }
 
 function injectBlogPostFileSize(): Plugin {
@@ -40,9 +59,33 @@ function injectBlogPostFileSize(): Plugin {
   }
 }
 
+function injectBlogPostModifiedAt(): Plugin {
+  const blogDirectory = normalizePath(resolve('src/content/blog'))
+
+  return {
+    name: 'inject-blog-post-modified-at',
+    enforce: 'pre',
+    transform(code, id) {
+      const filePath = normalizePath(id.split('?', 1)[0])
+
+      if (!filePath.startsWith(`${blogDirectory}/`) || !filePath.endsWith('.mdx')) {
+        return null
+      }
+
+      const modifiedAt = getLastModifiedDate(filePath)
+
+      return {
+        code: code.replace(/^---\r?\n/, (opening) => `${opening}modifiedAt: ${modifiedAt}\n`),
+        map: null,
+      }
+    },
+  }
+}
+
 export default defineConfig({
   plugins: [
     injectBlogPostFileSize(),
+    injectBlogPostModifiedAt(),
     mdx({
       remarkPlugins: [
         remarkFrontmatter,

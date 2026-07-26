@@ -19,6 +19,7 @@ import SoapChroniclesContent, {
 
 export type BlogPostMetadata = {
   filename: string
+  modifiedAt: string
   publishedAt: string
   size: string
   slug: string

@@ -53,10 +53,10 @@ export function Blog(): JSX.Element {
                                 <time
                                     className={styles.metadata}
                                     role="cell"
-                                    dateTime={post.publishedAt}
+                                    dateTime={post.modifiedAt}
                                     data-label="Modified"
                                 >
-                                    {post.publishedAt}
+                                    {post.modifiedAt}
                                 </time>
 
                                 <span
