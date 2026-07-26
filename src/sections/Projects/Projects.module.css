@@ -260,7 +260,7 @@
         top: 0;
         z-index: 12;
         display: block;
-        padding-top: 8px;
+        padding: 14px 0 14px;
         background: var(--color-canvas);
     }
 
