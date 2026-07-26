@@ -24,6 +24,12 @@ select {
   font: inherit;
 }
 
+a,
+button,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
 img,
 picture,
 svg {
