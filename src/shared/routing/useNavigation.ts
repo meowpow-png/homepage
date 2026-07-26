@@ -33,6 +33,7 @@ export function useNavigation(): Navigation {
         }
         window.history.pushState(null, '', nextPathname)
         syncPathname()
+        window.scrollTo(0, 0)
     }
 
     return {
