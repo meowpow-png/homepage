@@ -47,7 +47,8 @@ A typical section contains:
 
 - Sections are self-contained
 - Sections must not depend on other sections
-- External consumers import through the section's public API
+- External consumers import through the section's `index.ts`
+- Deep imports into a section's internal files are not allowed
 
 ## Shared Modules
 
@@ -58,11 +59,15 @@ Reusable SVG icons are stored in `src/shared/assets/icons/`.
 **Rules**
 
 - Shared modules must not depend on section modules
+- A shared submodule exposes `index.ts` once it has more than one exported member
+- A single-file module is imported directly
 
 ## Content
 
 Authored MDX content lives in `src/content/`. Sections render content; MDX may use shared modules
 but must not depend on section modules.
+
+Each content submodule exposes its data through `index.ts`.
 
 ## Styling
 
@@ -91,6 +96,8 @@ Imports are grouped by purpose:
 1. Runtime dependencies
 2. Type-only imports
 3. Static assets
+
+A module is imported through `index.ts`, never through an internal file path.
 
 ## Dependency Rules
 
