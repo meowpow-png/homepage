@@ -36,6 +36,7 @@ export function Blog(): JSX.Element {
                         className={`${styles.tableRow} ${styles.tableHeader}`}
                         role="row"
                     >
+                        <span role="columnheader">Created</span>
                         <span role="columnheader">Modified</span>
                         <span role="columnheader">Size</span>
                         <span role="columnheader">File</span>
@@ -50,6 +51,15 @@ export function Blog(): JSX.Element {
                                 className={styles.post}
                                 role="row"
                             >
+                                <time
+                                    className={styles.metadata}
+                                    role="cell"
+                                    dateTime={post.createdAt}
+                                    data-label="Created"
+                                >
+                                    {post.createdAt}
+                                </time>
+
                                 <time
                                     className={styles.metadata}
                                     role="cell"

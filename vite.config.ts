@@ -19,6 +19,10 @@ function formatFileSize(bytes: number) {
   return `${(bytes / 1000).toFixed(1)} KB`
 }
 
+function getFallbackDate(filePath: string): string {
+  return statSync(filePath).mtime.toISOString().slice(0, 10)
+}
+
 function getLastModifiedDate(filePath: string): string {
   try {
     const gitDate = execFileSync(
@@ -33,7 +37,27 @@ function getLastModifiedDate(filePath: string): string {
     // Not a git repo, or git unavailable — fall through to mtime.
   }
 
-  return statSync(filePath).mtime.toISOString().slice(0, 10)
+  return getFallbackDate(filePath)
+}
+
+function getCreatedDate(filePath: string): string {
+  try {
+    // --follow + --reverse silently returns nothing when combined with
+    // --diff-filter=A, so read newest-first and take the last (oldest) line.
+    const gitDates = execFileSync(
+      'git',
+      ['log', '--diff-filter=A', '--follow', '--format=%cs', '--', filePath],
+      { encoding: 'utf8' },
+    ).trim().split('\n').filter(Boolean)
+
+    if (gitDates.length > 0) {
+      return gitDates[gitDates.length - 1]
+    }
+  } catch {
+    // Not a git repo, or git unavailable — fall through to mtime.
+  }
+
+  return getFallbackDate(filePath)
 }
 
 function injectBlogPostFileSize(): Plugin {
@@ -59,11 +83,11 @@ function injectBlogPostFileSize(): Plugin {
   }
 }
 
-function injectBlogPostModifiedAt(): Plugin {
+function injectBlogPostDates(): Plugin {
   const blogDirectory = normalizePath(resolve('src/content/blog'))
 
   return {
-    name: 'inject-blog-post-modified-at',
+    name: 'inject-blog-post-dates',
     enforce: 'pre',
     transform(code, id) {
       const filePath = normalizePath(id.split('?', 1)[0])
@@ -73,9 +97,13 @@ function injectBlogPostModifiedAt(): Plugin {
       }
 
       const modifiedAt = getLastModifiedDate(filePath)
+      const createdAt = getCreatedDate(filePath)
 
       return {
-        code: code.replace(/^---\r?\n/, (opening) => `${opening}modifiedAt: ${modifiedAt}\n`),
+        code: code.replace(
+          /^---\r?\n/,
+          (opening) => `${opening}createdAt: ${createdAt}\nmodifiedAt: ${modifiedAt}\n`,
+        ),
         map: null,
       }
     },
@@ -85,7 +113,7 @@ function injectBlogPostModifiedAt(): Plugin {
 export default defineConfig({
   plugins: [
     injectBlogPostFileSize(),
-    injectBlogPostModifiedAt(),
+    injectBlogPostDates(),
     mdx({
       remarkPlugins: [
         remarkFrontmatter,

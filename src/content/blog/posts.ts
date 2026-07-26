@@ -18,6 +18,7 @@ import SoapChroniclesContent, {
 } from './telekom-assignment-overview.mdx'
 
 export type BlogPostMetadata = {
+  createdAt: string
   filename: string
   modifiedAt: string
   publishedAt: string
