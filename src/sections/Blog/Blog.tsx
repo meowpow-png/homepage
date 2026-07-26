@@ -1,6 +1,6 @@
 import BlogSummary from '../../content/blog.mdx'
 import { blogPosts, type BlogPostMetadata } from '../../content/blog/posts'
-import { Link, useRouter } from '../../shared/components/routing'
+import { Link, useRouter } from '../../shared/routing'
 
 import styles from './Blog.module.css'
 

@@ -1,5 +1,5 @@
 import type { Project } from '../types'
-import { Link, useRouter } from '../../../shared/components/routing'
+import { Link, useRouter } from '../../../shared/routing'
 
 import styles from '../Projects.module.css'
 

@@ -1,4 +1,4 @@
-import { Link, useRouter } from '../routing'
+import { Link, useRouter } from '../../routing'
 
 import styles from './Navigation.module.css'
 

@@ -10,7 +10,7 @@ import { BlogPost } from './sections/BlogPost'
 import { NotFound } from './sections/NotFound'
 import { Projects } from './sections/Projects'
 import { Questions } from './sections/Questions'
-import { RouterContext } from './shared/components/routing'
+import { RouterContext } from './shared/routing'
 
 const routes = {
   '/about': { currentPage: 'about', render: () => <About /> },

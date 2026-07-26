@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
 import type { BlogPost } from '../../content/blog/posts'
-import { Link, useRouter } from '../../shared/components/routing'
+import { Link, useRouter } from '../../shared/routing'
 
 import styles from './BlogPost.module.css'
 
