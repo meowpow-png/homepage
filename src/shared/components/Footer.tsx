@@ -34,10 +34,13 @@ export function Footer(): JSX.Element {
             <div className={styles.socialIcons}>
                 {socialIcons.map(({href, icon, label}) => (
                     <a
-                        key={href}
+                        key={label}
                         className={styles.socialLink}
                         href={href}
                         aria-label={label}
+                        {...(href.startsWith('http')
+                            ? {rel: 'noopener noreferrer', target: '_blank'}
+                            : {})}
                     >
             <span
                 className={`${styles.icon} ${styles[icon]}`}
