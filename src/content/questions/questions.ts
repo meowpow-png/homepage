@@ -1,19 +1,13 @@
 import {getMetadata} from '@/content/getMetadata'
 
-import WhyJavaContent, {
-  metadata as whyJavaMetadata
-} from './why-java.mdx'
-import WhyAiContent, {
-  metadata as whyAiMetadata
-} from './why-ai.mdx'
+import WhyJavaContent, {metadata as whyJavaMetadata} from './why-java.mdx'
+import WhyAiContent, {metadata as whyAiMetadata} from './why-ai.mdx'
 import WhySoMuchInfrastructureContent, {
-  metadata as whySoMuchInfrastructureMetadata,
+    metadata as whySoMuchInfrastructureMetadata,
 } from './why-so-much-infrastructure.mdx'
-import WhyDocumentEverythingContent, {
-  metadata as whyDocumentEverythingMetadata,
-} from './why-document-everything.mdx'
+import WhyDocumentEverythingContent, {metadata as whyDocumentEverythingMetadata,} from './why-document-everything.mdx'
 import WhySoManyAbandonedRepositoriesContent, {
-  metadata as whySoManyAbandonedRepositoriesMetadata,
+    metadata as whySoManyAbandonedRepositoriesMetadata,
 } from './why-so-many-abandoned-repositories.mdx'
 
 export type QuestionMetadata = {

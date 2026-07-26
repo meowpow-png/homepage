@@ -5,7 +5,7 @@ filename: telekom-assignment-architecture.mdx
 publishedAt: 2026-07-25T18:00
 ---
 
-import { Mermaid } from '@/shared/components/Mermaid'
+import {Mermaid} from '@/shared/components/Mermaid'
 
 I had a working solution after the first commit. Two endpoints,
 REST in, SOAP out. The next day I started over.
@@ -16,7 +16,7 @@ Hexagonal architecture was an easy choice. It made testing easier and
 kept the business logic isolated from SOAP.
 
 <Mermaid>
-{`
+    {`
 flowchart TB
     subgraph Infrastructure["Infrastructure"]
         direction TB
@@ -24,18 +24,18 @@ flowchart TB
         Outbound["Outbound Adapters<br/>(SOAP, Persistence)"]
     end
 
-        subgraph Application["Application"]
-            direction TB
-            Ports["Inbound Ports"]
-            Services["Application Services"]
-            Domain["Domain Model"]
-            OutPorts["Outbound Ports"]
-        end
+            subgraph Application["Application"]
+                direction TB
+                Ports["Inbound Ports"]
+                Services["Application Services"]
+                Domain["Domain Model"]
+                OutPorts["Outbound Ports"]
+            end
 
-        Inbound --> Ports --> Services
-        Services --> Domain
-        Services --> OutPorts
-        Outbound -.implements.-> OutPorts
+            Inbound --> Ports --> Services
+            Services --> Domain
+            Services --> OutPorts
+            Outbound -.implements.-> OutPorts
 `}
 </Mermaid>
 
@@ -53,7 +53,7 @@ Mockoon server and a WireMock instance configured to inject timeouts and server 
 That way I could test retry and backoff logic against a platform that didn't always behave.
 
 <Mermaid>
-{`
+    {`
 flowchart LR
     G[Gatling]
     B[Spring Boot]
@@ -61,10 +61,10 @@ flowchart LR
     M[Mockoon SOAP Platform]
     W[WireMock Fault Simulator]
 
-    G -->|HTTP| B
-    B -->|SOAP| N
-    N -->|Normal scenarios| M
-    N -->|Resilience scenarios| W
+        G -->|HTTP| B
+        B -->|SOAP| N
+        N -->|Normal scenarios| M
+        N -->|Resilience scenarios| W
 `}
 </Mermaid>
 
