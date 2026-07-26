@@ -247,7 +247,6 @@
         position: static;
         height: auto;
         min-height: 0;
-        overflow-x: auto;
         border-bottom: 1px solid var(--color-border);
         transform: none;
     }
@@ -255,9 +254,9 @@
     .timelineList {
         display: flex;
         height: auto;
-        min-width: max-content;
-        flex-direction: row;
-        gap: 8px;
+        min-width: 0;
+        flex-flow: row wrap;
+        gap: 8px 16px;
         padding: 0 0 16px;
         border-left: 0;
     }

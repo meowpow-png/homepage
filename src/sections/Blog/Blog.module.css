@@ -121,6 +121,8 @@
     }
 
     .table {
+        grid-template-columns: max-content 1fr;
+        column-gap: 16px;
         margin-top: 20px;
     }
 
@@ -129,9 +131,6 @@
     }
 
     .post {
-        display: grid;
-        grid-template-columns: repeat(2, max-content);
-        column-gap: 16px;
         row-gap: 10px;
         min-height: 0;
         padding-block: 22px;
@@ -149,6 +148,7 @@
 
     .file {
         grid-column: 1 / -1;
+        min-width: 0;
     }
 
     .fileName {
