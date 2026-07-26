@@ -3,9 +3,9 @@
 }
 
 .left {
-    transform: scaleX(-1);
+    transform: none;
 }
 
 .right {
-    transform: none;
+    transform: scaleX(-1);
 }
