@@ -174,4 +174,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  optimizeDeps: {
+    // mermaid lazily imports its diagram-type renderers (flowDiagram, dagre, ...)
+    // at render time. Without this, Vite only discovers them on first use,
+    // triggering a dependency re-optimization + reload mid-render.
+    include: ['mermaid'],
+  },
 })
