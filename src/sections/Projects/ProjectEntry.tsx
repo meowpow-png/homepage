@@ -24,7 +24,7 @@ export function ProjectEntry({
                     {metadata.title}
                 </h2>
                 <p className={styles.projectMeta}>
-                    {metadata.year}
+                    {metadata.date.slice(0, 4)}
                     <span aria-hidden="true"> · </span>
                     {metadata.status}
                 </p>

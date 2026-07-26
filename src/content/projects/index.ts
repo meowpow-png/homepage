@@ -1,9 +1,6 @@
-import {getMetadata} from '@/content/getMetadata'
+import type {ComponentType} from 'react'
 
-import WifiAdminContent, {metadata as wifiAdminMetadata} from './wifi-admin.mdx'
-import TaskRunnerContent, {metadata as taskRunnerMetadata} from './task-runner.mdx'
-import DotfilesContent, {metadata as dotfilesMetadata} from './dotfiles.mdx'
-import ReleaseMonitorContent, {metadata as releaseMonitorMetadata} from './release-monitor.mdx'
+import {getMetadata} from '@/content/getMetadata'
 
 export interface ProjectLink {
     href: string
@@ -11,28 +8,34 @@ export interface ProjectLink {
 }
 
 export interface ProjectMetadata {
+    date: string
     id: string
     links: ProjectLink[]
     status: string
     title: string
-    year: number
 }
 
-export const projects = [
-    {
-        Content: WifiAdminContent,
-        metadata: getMetadata<ProjectMetadata>(wifiAdminMetadata)
-    },
-    {
-        Content: TaskRunnerContent,
-        metadata: getMetadata<ProjectMetadata>(taskRunnerMetadata)
-    },
-    {
-        Content: DotfilesContent,
-        metadata: getMetadata<ProjectMetadata>(dotfilesMetadata)
-    },
-    {
-        Content: ReleaseMonitorContent,
-        metadata: getMetadata<ProjectMetadata>(releaseMonitorMetadata)
-    },
-] as const
+interface ProjectModule {
+    default: ComponentType<{components?: Record<string, unknown>}>
+    metadata: Record<string, unknown>
+}
+
+function toProject(module: ProjectModule) {
+    return {
+        Content: module.default,
+        metadata: getMetadata<ProjectMetadata>(module.metadata),
+    }
+}
+
+function byDateDescending(
+    a: {metadata: ProjectMetadata},
+    b: {metadata: ProjectMetadata},
+): number {
+    return b.metadata.date.localeCompare(a.metadata.date)
+}
+
+const modules = import.meta.glob<ProjectModule>('./*.mdx', {eager: true})
+
+export const projects = Object.values(modules)
+    .map(toProject)
+    .sort(byDateDescending)
