@@ -71,3 +71,12 @@ export function getNextPost(slug: string) {
     }
     return postsByDate[index + 1]
 }
+
+export function getPreviousPost(slug: string) {
+    const index = postsByDate.findIndex((post) => post.metadata.slug === slug)
+
+    if (index === -1) {
+        return undefined
+    }
+    return postsByDate[index - 1]
+}

@@ -1,7 +1,7 @@
 import type {ComponentPropsWithoutRef, JSX} from 'react'
 
 import type {BlogPost} from '@/content/blog/posts'
-import {getNextPost} from '@/content/blog/posts'
+import {getNextPost, getPreviousPost} from '@/content/blog/posts'
 import {Link} from '@/shared/routing'
 
 import styles from './BlogPost.module.css'
@@ -36,6 +36,7 @@ export function BlogPostPage({
 }: BlogPostPageProps): JSX.Element {
     const {Content, metadata} = post
     const nextPost = getNextPost(metadata.slug)
+    const previousPost = getPreviousPost(metadata.slug)
 
     return (
         <article
@@ -64,14 +65,14 @@ export function BlogPostPage({
             <footer className={styles.postFooter}>
                 <Link
                     className={styles.backLink}
-                    href="/blog"
+                    href={previousPost ? `/blog/${previousPost.metadata.slug}` : '/blog'}
                 >
                     <ArrowIcon
                         className={styles.backArrow}
                         direction="left"
                         aria-hidden="true"
                     />
-                    Back to Blog
+                    {previousPost ? 'Read Previous' : 'Back to Blog'}
                 </Link>
 
                 {nextPost && (
