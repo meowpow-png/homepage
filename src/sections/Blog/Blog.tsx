@@ -1,15 +1,11 @@
 import type {JSX} from "react";
 
 import BlogSummary from '@/content/blog.mdx'
-import {type BlogPostMetadata, blogPosts} from '@/content/blog/posts'
+import {blogPosts} from '@/content/blog/posts'
 import FileIcon from '@/shared/assets/icons/file.svg?react'
 import {Link} from '@/shared/routing'
 
 import styles from './Blog.module.css'
-
-function getMetadata<T>(metadata: Record<string, unknown>): T {
-    return metadata as T
-}
 
 export function Blog(): JSX.Element {
     return (
@@ -42,9 +38,7 @@ export function Blog(): JSX.Element {
                         <span role="columnheader">File</span>
                     </div>
 
-                    {blogPosts.map(({metadata}) => {
-                        const post = getMetadata<BlogPostMetadata>(metadata)
-
+                    {blogPosts.map(({metadata: post}) => {
                         return (
                             <article
                                 key={post.filename}

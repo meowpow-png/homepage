@@ -1,3 +1,5 @@
+import {getMetadata} from '@/content/getMetadata'
+
 import AnUnscheduledDesignReviewContent, {
   metadata as anUnscheduledDesignReviewMetadata,
 } from './telekom-assignment-ui-design.mdx'
@@ -30,27 +32,27 @@ export type BlogPostMetadata = {
 export const blogPosts = [
   {
     Content: SoapChroniclesContent,
-    metadata: soapChroniclesMetadata as BlogPostMetadata
+    metadata: getMetadata<BlogPostMetadata>(soapChroniclesMetadata)
   },
   { Content:
     TheAssignmentEscalatesContent,
-    metadata: theAssignmentEscalatesMetadata as BlogPostMetadata
+    metadata: getMetadata<BlogPostMetadata>(theAssignmentEscalatesMetadata)
   },
   {
     Content: ThePlatformFightsBackContent,
-    metadata: thePlatformFightsBackMetadata as BlogPostMetadata
+    metadata: getMetadata<BlogPostMetadata>(thePlatformFightsBackMetadata)
   },
   {
     Content: OptionalMeansOptionalContent,
-    metadata: optionalMeansOptionalMetadata as BlogPostMetadata
+    metadata: getMetadata<BlogPostMetadata>(optionalMeansOptionalMetadata)
   },
   {
     Content: IHiredSomeRobotsContent,
-    metadata: iHiredSomeRobotsMetadata as BlogPostMetadata
+    metadata: getMetadata<BlogPostMetadata>(iHiredSomeRobotsMetadata)
   },
   {
     Content: AnUnscheduledDesignReviewContent,
-    metadata: anUnscheduledDesignReviewMetadata as BlogPostMetadata,
+    metadata: getMetadata<BlogPostMetadata>(anUnscheduledDesignReviewMetadata),
   },
 ] as const
 
