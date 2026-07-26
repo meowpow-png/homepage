@@ -66,6 +66,10 @@
     background: var(--color-accent);
 }
 
+.backdrop {
+    display: none;
+}
+
 .links {
     display: flex;
     flex-wrap: wrap;
@@ -109,11 +113,14 @@
 
 @media (max-width: 640px) {
     .navigation {
+        position: relative;
         flex-direction: column;
         gap: 0;
     }
 
     .topRow {
+        position: relative;
+        z-index: 12;
         justify-content: space-between;
         width: 100%;
     }
@@ -122,15 +129,32 @@
         display: flex;
     }
 
+    .backdrop[data-open='true'] {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        background: rgb(0 0 0 / 50%);
+    }
+
     .links {
         display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        z-index: 11;
         flex-direction: column;
         justify-content: flex-start;
         gap: 16px;
-        width: 100%;
-        margin-top: 16px;
-        padding-top: 16px;
-        border-top: 1px solid var(--color-border);
+        width: 200px;
+        max-height: calc(100vh - 100px);
+        margin: 0;
+        padding: 16px;
+        overflow-y: auto;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        background: var(--color-surface);
+        box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
     }
 
     .links[data-open='true'] {

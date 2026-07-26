@@ -79,6 +79,13 @@ export function Navigation({currentPage}: NavigationProps): JSX.Element {
                 </button>
             </div>
 
+            <div
+                className={styles.backdrop}
+                data-open={isMenuOpen}
+                aria-hidden="true"
+                onClick={() => setIsMenuOpen(false)}
+            />
+
             <ul
                 id="primary-navigation-links"
                 className={styles.links}
