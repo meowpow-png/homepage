@@ -208,7 +208,7 @@
 .moreProjects {
     min-block-size: 15vh;
     margin-top: 0;
-    padding-top: 48px;
+    padding: 48px 24px 0;
     border-top: 1px solid var(--color-border);
     color: var(--color-text-secondary);
 }
