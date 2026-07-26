@@ -3,9 +3,9 @@ import type {JSX} from "react";
 import {metadata} from '@/content/projects.mdx'
 
 import {getMetadata} from '@/content/getMetadata'
-import {ProjectEntry} from './components/ProjectEntry'
-import {ProjectTimeline} from './components/ProjectTimeline'
-import {useActiveProject} from './hooks/useActiveProject'
+import {ProjectEntry} from './ProjectEntry'
+import {ProjectTimeline} from './ProjectTimeline'
+import {useActiveProject} from './useActiveProject'
 import type {ProjectsMetadata} from './types'
 
 import styles from './Projects.module.css'

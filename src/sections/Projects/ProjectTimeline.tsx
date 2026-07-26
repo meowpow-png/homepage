@@ -1,7 +1,7 @@
 import type {JSX, MouseEvent} from 'react'
 
-import type {Project} from '../types'
-import styles from '../Projects.module.css'
+import type {Project} from './types'
+import styles from './Projects.module.css'
 
 interface ProjectTimelineProps {
     activeProjectId: string

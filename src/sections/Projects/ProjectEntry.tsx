@@ -2,8 +2,8 @@ import type {JSX} from 'react'
 
 import {Link} from '@/shared/routing'
 
-import type {Project} from '../types'
-import styles from '../Projects.module.css'
+import type {Project} from './types'
+import styles from './Projects.module.css'
 
 interface ProjectEntryProps {
     project: Project
