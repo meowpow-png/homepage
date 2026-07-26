@@ -1,7 +1,7 @@
 import type {JSX} from "react";
 
 import BlogSummary from '@/content/blog.mdx'
-import {blogPosts} from '@/content/blog/posts'
+import {blogPosts} from '@/content/blog'
 import FileIcon from '@/shared/assets/icons/file.svg?react'
 import {Link} from '@/shared/routing'
 

@@ -1,7 +1,7 @@
 import type {JSX} from "react";
 
 import QuestionsIntro from '@/content/questions.mdx'
-import {questions} from '@/content/questions/questions'
+import {questions} from '@/content/questions'
 
 import {Question} from './Question'
 import styles from './Questions.module.css'

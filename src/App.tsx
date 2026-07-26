@@ -1,12 +1,11 @@
 import type {JSX, ReactNode} from "react";
 
-import {AppShell} from '@/shared/components/AppShell'
-import {Footer} from '@/shared/components/Footer'
-import {Navigation} from '@/shared/components/Navigation'
+import {AppShell, Footer, Navigation} from '@/shared/components'
 import {type NavigationPage, resolveRoute, type Route, RouterContext, useNavigation,} from '@/shared/routing'
 
-import {type BlogPost, getBlogPost} from '@/content/blog/posts'
-import {BlogPostPage, NotFound} from '@/sections/'
+import {type BlogPost, getBlogPost} from '@/content/blog'
+import {BlogPostPage} from '@/sections/Blog'
+import {NotFound} from '@/sections/NotFound'
 
 export function App(): JSX.Element {
     const navigation = useNavigation()

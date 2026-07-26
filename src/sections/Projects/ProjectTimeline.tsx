@@ -1,9 +1,9 @@
 import type {JSX, MouseEvent} from 'react'
 import {useEffect, useRef, useState} from 'react'
 
-import {ChevronIcon} from '@/shared/components/ChevronIcon'
+import {ChevronIcon} from '@/shared/components'
 
-import type {ProjectMetadata} from '@/content/projects/projects'
+import type {ProjectMetadata} from '@/content/projects'
 import styles from './Projects.module.css'
 
 interface ProjectTimelineProps {

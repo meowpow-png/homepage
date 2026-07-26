@@ -1,6 +1,9 @@
 import type {Route, RoutePath} from './types'
 
-import {About, Blog, Projects, Questions,} from '@/sections'
+import {About} from '@/sections/About'
+import {Blog} from '@/sections/Blog'
+import {Projects} from '@/sections/Projects'
+import {Questions} from '@/sections/Questions'
 
 export const routes = {
     '/about': {

@@ -2,7 +2,7 @@ import type {JSX, ReactNode} from 'react'
 
 import {Link} from '@/shared/routing'
 
-import type {ProjectMetadata} from '@/content/projects/projects'
+import type {ProjectMetadata} from '@/content/projects'
 import styles from './Projects.module.css'
 
 interface ProjectEntryProps {

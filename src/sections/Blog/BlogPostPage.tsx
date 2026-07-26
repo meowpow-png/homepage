@@ -1,11 +1,11 @@
 import type {ComponentPropsWithoutRef, JSX} from 'react'
 
-import type {BlogPost} from '@/content/blog/posts'
-import {getNextPost, getPreviousPost} from '@/content/blog/posts'
+import type {BlogPost} from '@/content/blog'
+import {getNextPost, getPreviousPost} from '@/content/blog'
+import {ArrowIcon} from '@/shared/components'
 import {Link} from '@/shared/routing'
 
 import styles from './BlogPost.module.css'
-import {ArrowIcon} from "@/shared/components/ArrowIcon";
 
 interface BlogPostPageProps {
     post: BlogPost

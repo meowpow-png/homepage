@@ -2,7 +2,7 @@ import type {JSX} from "react";
 
 import ProjectsIntro, {metadata} from '@/content/projects.mdx'
 import {getMetadata} from '@/content/getMetadata'
-import {projects} from '@/content/projects/projects'
+import {projects} from '@/content/projects'
 
 import {ProjectEntry} from './ProjectEntry'
 import {ProjectTimeline} from './ProjectTimeline'
