@@ -72,7 +72,7 @@ export function BlogPostPage({
                         direction="left"
                         aria-hidden="true"
                     />
-                    {previousPost ? 'Read Previous' : 'Back to Blog'}
+                    {previousPost ? 'Previous' : 'Blog'}
                 </Link>
 
                 {nextPost && (
@@ -80,7 +80,7 @@ export function BlogPostPage({
                         className={styles.nextLink}
                         href={`/blog/${nextPost.metadata.slug}`}
                     >
-                        Read Next
+                        Next
                         <ArrowIcon
                             className={styles.nextArrow}
                             direction="right"
