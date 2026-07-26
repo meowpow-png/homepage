@@ -16,8 +16,10 @@
   --line-height-page-intro: 1.65;
   --line-height-page-intro-mobile: 1.75;
 
-  --space-page-top: 64px;
-  --space-page-top-mobile: 30px;
+  --space-header-top: 64px;
+  --space-header-top-mobile: 30px;
+  --space-page-top: 92px;
+  --space-page-top-mobile: 40px;
   --space-page-inline: 32px;
   --space-page-inline-mobile: 24px;
   --space-page-inline-compact: 20px;

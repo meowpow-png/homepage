@@ -25,7 +25,7 @@
     width: 100%;
     max-width: 724px;
     margin-inline: auto;
-    padding-top: var(--space-page-top);
+    padding-top: var(--space-header-top);
 }
 
 .main {
@@ -46,7 +46,7 @@
     }
 
     .header {
-        padding-top: var(--space-page-top-mobile);
+        padding-top: var(--space-header-top-mobile);
     }
 }
 
