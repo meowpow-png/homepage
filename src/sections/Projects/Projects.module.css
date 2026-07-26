@@ -49,6 +49,10 @@
     transform-origin: top left;
 }
 
+.mobileBarWrapper {
+    display: none;
+}
+
 .timelineList,
 .projectLinks {
     margin: 0;
@@ -236,7 +240,7 @@
         gap: 40px;
         width: auto;
         margin-left: 0;
-        margin-top: 48px;
+        margin-top: 24px;
     }
 
     .projectLayout::before {
@@ -244,33 +248,143 @@
     }
 
     .timeline {
-        position: static;
-        height: auto;
-        min-height: 0;
-        border-bottom: 1px solid var(--color-border);
-        transform: none;
+        display: none;
     }
 
-    .timelineList {
+    .mobileBarWrapper {
+        position: sticky;
+        top: 0;
+        z-index: 12;
+        display: block;
+        padding-top: 8px;
+        background: var(--color-canvas);
+    }
+
+    .mobileBarWrapper::after {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        height: 20px;
+        background: linear-gradient(to bottom, var(--color-canvas), transparent);
+        content: '';
+        pointer-events: none;
+    }
+
+    .mobileBarToggle {
+        position: relative;
+        z-index: 12;
         display: flex;
-        height: auto;
-        min-width: 0;
-        flex-flow: row wrap;
-        gap: 8px 16px;
-        padding: 0 0 16px;
-        border-left: 0;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 14px 24px;
+        background: var(--color-canvas);
+        border: 1px solid var(--color-border);
+        color: var(--color-text-primary);
+        font: inherit;
+        cursor: pointer;
     }
 
-    .timelineLink {
-        gap: 8px;
-        margin-left: 0;
-        padding-inline: 4px 12px;
+    .mobileBarToggle[aria-expanded='true'] {
+        background: var(--color-surface);
+    }
+
+    .mobileBarMarker {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: var(--color-accent);
+    }
+
+    .mobileBarTitle {
+        overflow: hidden;
+        flex: 1 1 auto;
+        text-align: left;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .mobileBarPosition {
+        flex: 0 0 auto;
+        color: var(--color-text-secondary);
         font-size: 0.875rem;
     }
 
-    .timelineMarker {
-        width: 14px;
-        height: 14px;
+    .mobileBarChevron {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 auto;
+        color: var(--color-icon);
+    }
+
+    .mobileBackdrop {
+        display: none;
+    }
+
+    .mobileBackdrop[data-open='true'] {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        background: rgb(0 0 0 / 50%);
+    }
+
+    .mobileDropdownList {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        z-index: 11;
+        margin: 0;
+        padding: 16px;
+        list-style: none;
+        border: 1px solid var(--color-border);
+        border-top: none;
+        background: var(--color-surface);
+        box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+    }
+
+    .mobileDropdownList[data-open='true'] {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .mobileDropdownLink {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 44px;
+        padding: 6px 8px;
+        color: var(--color-text-primary);
+        font-size: 0.9375rem;
+        text-decoration: none;
+    }
+
+    .mobileDropdownMarker {
+        display: block;
+        width: 8px;
+        height: 8px;
+        flex: 0 0 auto;
+        border: 2px solid var(--color-text-secondary);
+        border-radius: 50%;
+        background: var(--color-canvas);
+    }
+
+    .mobileDropdownLink[aria-current='location'] {
+        color: var(--color-accent);
+    }
+
+    .mobileDropdownLink[aria-current='location'] .mobileDropdownMarker {
+        border-color: var(--color-accent);
+        background: var(--color-accent);
     }
 
     .projectTitle {

@@ -1,4 +1,7 @@
 import type {JSX, MouseEvent} from 'react'
+import {useEffect, useRef, useState} from 'react'
+
+import {ChevronIcon} from '@/shared/components/ChevronIcon'
 
 import type {ProjectMetadata} from '@/content/projects/projects'
 import styles from './Projects.module.css'
@@ -14,13 +17,41 @@ function shouldReduceMotion(): boolean {
     ).matches
 }
 
-export function ProjectTimeline({
-    activeProjectId,
-    projects,
-}: ProjectTimelineProps): JSX.Element {
+export function ProjectTimeline({activeProjectId, projects,}: ProjectTimelineProps): JSX.Element {
+    const [isJumpListOpen, setIsJumpListOpen] = useState(false)
+    const mobileNavRef = useRef<HTMLElement>(null)
+
+    useEffect(() => {
+        if (!isJumpListOpen) {
+            return
+        }
+
+        function handleKeyDown(event: KeyboardEvent): void {
+            if (event.key === 'Escape') {
+                setIsJumpListOpen(false)
+            }
+        }
+
+        function handleClickOutside(event: globalThis.MouseEvent): void {
+            if (!mobileNavRef.current?.contains(event.target as Node)) {
+                setIsJumpListOpen(false)
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyDown)
+        document.addEventListener('click', handleClickOutside)
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown)
+            document.removeEventListener('click', handleClickOutside)
+        }
+    }, [isJumpListOpen])
+
     function handleProjectNavigation(
         event: MouseEvent<HTMLAnchorElement>,
     ): void {
+        setIsJumpListOpen(false)
+
         const targetId = event.currentTarget.hash.slice(1)
         const target = document.getElementById(targetId)
 
@@ -37,38 +68,109 @@ export function ProjectTimeline({
         })
     }
 
+    function renderProjectItem(
+        project: ProjectMetadata,
+        itemClassName: string,
+        linkClassName: string,
+        markerClassName: string,
+    ): JSX.Element {
+        const isActive = project.id === activeProjectId
+        return (
+            <li key={project.id} className={itemClassName}>
+                <a
+                    className={linkClassName}
+                    href={`#${project.id}`}
+                    onClick={handleProjectNavigation}
+                    aria-current={isActive ? 'location' : undefined}
+                >
+                    <span className={markerClassName} aria-hidden="true"/>
+                    <span>{project.title}</span>
+                </a>
+            </li>
+        )
+    }
+
+    const activeIndex = projects.findIndex(
+        (project) => project.id === activeProjectId,
+    )
+    const activePosition = activeIndex === -1 ? 1 : activeIndex + 1
+    const projectCount = projects.length
+    const activeProject = projects[activeIndex === -1 ? 0 : activeIndex]
+
     return (
-        <nav
-            className={styles.timeline}
-            aria-label="Project navigation"
-        >
-            <ol className={styles.timelineList}>
-                {projects.map((project) => {
-                    const isActive = project.id === activeProjectId
-                    return (
-                        <li
-                            key={project.id}
-                            className={styles.timelineItem}
-                        >
-                            <a
-                                className={styles.timelineLink}
-                                href={`#${project.id}`}
-                                onClick={handleProjectNavigation}
-                                aria-current={
-                                    isActive ? 'location' : undefined
-                                }
-                            >
-                <span
-                    className={styles.timelineMarker}
+        <>
+            <nav
+                className={styles.timeline}
+                aria-label="Project navigation"
+            >
+                <ol className={styles.timelineList}>
+                    {projects.map((project) =>
+                        renderProjectItem(
+                            project,
+                            styles.timelineItem,
+                            styles.timelineLink,
+                            styles.timelineMarker,
+                        ),
+                    )}
+                </ol>
+            </nav>
+
+            <nav
+                ref={mobileNavRef}
+                className={styles.mobileBarWrapper}
+                aria-label="Project navigation, mobile"
+            >
+                <button
+                    type="button"
+                    className={styles.mobileBarToggle}
+                    aria-expanded={isJumpListOpen}
+                    aria-controls="mobile-project-navigation-list"
+                    aria-label={
+                        isJumpListOpen
+                            ? 'Collapse project list'
+                            : 'Expand project list'
+                    }
+                    onClick={() => setIsJumpListOpen((open) => !open)}
+                >
+                    <span className={styles.mobileBarMarker} aria-hidden="true"/>
+                    <span className={styles.mobileBarTitle}>
+                        {activeProject.title}
+                    </span>
+                    <span className={styles.mobileBarPosition}>
+                        {activePosition}/{projectCount}
+                    </span>
+                    <ChevronIcon
+                        className={styles.mobileBarChevron}
+                        direction={isJumpListOpen ? 'up' : 'down'}
+                        aria-hidden="true"
+                    />
+                </button>
+
+                <div
+                    className={styles.mobileBackdrop}
+                    data-open={isJumpListOpen}
                     aria-hidden="true"
+                    onClick={() => setIsJumpListOpen(false)}
                 />
-                                <span>{project.title}</span>
-                            </a>
-                        </li>
-                    )
-                })}
-            </ol>
-        </nav>
+
+                <ol
+                    id="mobile-project-navigation-list"
+                    className={styles.mobileDropdownList}
+                    data-open={isJumpListOpen}
+                >
+                    {projects
+                        .filter((project) => project.id !== activeProjectId)
+                        .map((project) =>
+                            renderProjectItem(
+                                project,
+                                styles.mobileDropdownItem,
+                                styles.mobileDropdownLink,
+                                styles.mobileDropdownMarker,
+                            ),
+                        )}
+                </ol>
+            </nav>
+        </>
     )
 }
 
