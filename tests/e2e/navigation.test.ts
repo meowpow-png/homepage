@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 test('navigating through all pages highlights the active nav item, then the back button returns to the previous page', async ({ page }) => {
     await page.goto('/')

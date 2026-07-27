@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 test('scrolling highlights the active project, and clicking a timeline entry scrolls to and highlights it', async ({ page }) => {
     await page.goto('/projects')
