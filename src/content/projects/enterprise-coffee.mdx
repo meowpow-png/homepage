@@ -10,5 +10,6 @@ links:
 
 Mission-critical espresso delivery infrastructure.
 
-Three components stand between a request and an actual cup:
-gateway, backend, and the machine itself.
+It won't accept an order unless the machine confirms it's online and ready to brew.
+Gateway, backend, and machine each run in their own container, just to make
+sure that check happens before you're promised a cup that never comes.
