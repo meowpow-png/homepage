@@ -21,6 +21,26 @@ End-to-end tests should validate the primary user journeys by
 exercising the application in a browser, ensuring navigation, 
 routing, and page rendering work together as expected.
 
+## Test Structure
+
+Store all tests in a dedicated tests directory. Unit tests should generally mirror 
+`src` directory structure, while end-to-end tests should be organized by user journey. 
+
+For example:
+
+```text
+tests/
+├── unit/
+│   ├── shared/
+│   ├── routing/
+│   ├── sections/
+│   └── vite/
+└── e2e/
+    ├── navigation.test.ts
+    ├── blog.test.ts
+    └── projects.test.ts
+```
+
 ## Code Coverage
 
 Code coverage should be treated as a diagnostic tool for identifying untested 
