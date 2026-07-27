@@ -59,6 +59,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 700,
   },
   test: {
+    include: ['tests/unit/**/*.test.{ts,tsx}'],
     coverage: {
       provider: 'v8',
     },
