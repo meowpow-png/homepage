@@ -62,6 +62,7 @@ export default defineConfig({
     include: ['tests/unit/**/*.test.{ts,tsx}'],
     coverage: {
       provider: 'v8',
+      reportsDirectory: 'tests/output/coverage',
     },
   },
 })

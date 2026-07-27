@@ -6,6 +6,6 @@ npm run coverage &&
 npm run e2e
 status=$?
 
-chown -R "$(stat -c '%u:%g' /workspace)" coverage test-results playwright-report 2>/dev/null
+chown -R "$(stat -c '%u:%g' /workspace)" tests/output 2>/dev/null
 
 exit "$status"
