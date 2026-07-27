@@ -30,14 +30,14 @@ function toProject(module: ProjectModule) {
     }
 }
 
-function byDateDescending(
+export function byDateDescending(
     a: {metadata: ProjectMetadata},
     b: {metadata: ProjectMetadata},
 ): number {
     return b.metadata.date.localeCompare(a.metadata.date)
 }
 
-function byPinnedThenDate(
+export function byPinnedThenDate(
     a: {metadata: ProjectMetadata},
     b: {metadata: ProjectMetadata},
 ): number {
