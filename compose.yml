@@ -5,7 +5,7 @@ services:
     image: ghcr.io/meowpow-png/mipe-runtime-codex-web:latest
     volumes:
       - codex-home:/home/dev/web/.codex
-      - .:/workspace:Z
+      - .:/workspace:z
     stdin_open: true
     tty: true
 
@@ -13,7 +13,7 @@ services:
     image: ghcr.io/meowpow-png/mipe-runtime-claude-web:latest
     volumes:
       - claude-home:/home/dev/web
-      - .:/workspace:Z
+      - .:/workspace:z
     stdin_open: true
     tty: true
 
