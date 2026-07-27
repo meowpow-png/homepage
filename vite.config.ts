@@ -58,4 +58,9 @@ export default defineConfig({
     // so it shouldn't trip the default 500kB warning.
     chunkSizeWarningLimit: 700,
   },
+  test: {
+    coverage: {
+      provider: 'v8',
+    },
+  },
 })

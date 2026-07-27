@@ -28,3 +28,8 @@ preview *args:
 [arg("args", help="Command arguments")]
 test *args:
     npm run test -- {{args}}
+
+# Run unit tests with coverage
+[arg("args", help="Command arguments")]
+coverage *args:
+    npm run coverage -- {{args}}
