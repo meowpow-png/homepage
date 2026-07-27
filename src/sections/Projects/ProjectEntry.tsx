@@ -4,6 +4,7 @@ import {PinIcon} from '@/shared/components'
 import {Link} from '@/shared/routing'
 
 import type {ProjectMetadata} from '@/content/projects'
+import {LANGUAGE_COLORS} from './languages'
 import styles from './Projects.module.css'
 
 interface ProjectEntryProps {
@@ -37,6 +38,25 @@ export function ProjectEntry({
                     <span aria-hidden="true"> · </span>
                     {metadata.status}
                 </p>
+                {metadata.languages && metadata.languages.length > 0 && (
+                    <ul
+                        className={styles.badges}
+                        aria-label={`${metadata.title} languages`}
+                    >
+                        {metadata.languages.map((language) => (
+                            <li key={language} className={styles.badge}>
+                                <span
+                                    className={styles.badgeDot}
+                                    style={{
+                                        background: LANGUAGE_COLORS[language.toLowerCase()],
+                                    }}
+                                    aria-hidden="true"
+                                />
+                                {language}
+                            </li>
+                        ))}
+                    </ul>
+                )}
                 <div className={`${styles.projectDescription} mdx-content`}>
                     {children}
                 </div>

@@ -13,6 +13,7 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { flavors } from '@catppuccin/palette'
 
 import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor'
+import { LANGUAGE_COLORS } from './src/sections/Projects/languages'
 
 const CODE_THEME = `catppuccin-${CATPPUCCIN_FLAVOR}` as const
 
@@ -115,6 +116,45 @@ function injectBlogPostDates(): Plugin {
   }
 }
 
+function validateProjectLanguages(): Plugin {
+  const projectsDirectory = normalizePath(resolve('src/content/projects'))
+
+  return {
+    name: 'validate-project-languages',
+    enforce: 'pre',
+    transform(code, id) {
+      const filePath = normalizePath(id.split('?', 1)[0])
+
+      if (!filePath.startsWith(`${projectsDirectory}/`) || !filePath.endsWith('.mdx')) {
+        return null
+      }
+      const frontmatterMatch = code.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+      const languagesMatch = frontmatterMatch?.[1].match(
+        /^languages:\s*\n((?:\s*-\s*.+\n?)+)/m,
+      )
+      if (!languagesMatch) {
+        return null
+      }
+      const languages = languagesMatch[1]
+        .split('\n')
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => line.replace(/^-\s*/, ''))
+
+      const unknown = languages.filter(
+        (language) => !(language.toLowerCase() in LANGUAGE_COLORS),
+      )
+      if (unknown.length > 0) {
+        throw new Error(
+          `${filePath}: unknown language(s) "${unknown.join(', ')}". ` +
+          'Add them to src/sections/Projects/languages.ts or fix the typo.',
+        )
+      }
+      return null
+    },
+  }
+}
+
 function mermaidCatppuccinTheme(): Plugin {
   const virtualModuleId = 'virtual:mermaid-theme'
   const resolvedVirtualModuleId = `\0${virtualModuleId}`
@@ -151,6 +191,7 @@ export default defineConfig({
   plugins: [
     injectBlogPostFileSize(),
     injectBlogPostDates(),
+    validateProjectLanguages(),
     mermaidCatppuccinTheme(),
     mdx({
       remarkPlugins: [

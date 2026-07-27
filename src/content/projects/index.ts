@@ -10,6 +10,7 @@ export interface ProjectLink {
 export interface ProjectMetadata {
     date: string
     id: string
+    languages?: string[]
     links: ProjectLink[]
     pinIndex?: number
     pinned?: boolean
