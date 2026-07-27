@@ -34,6 +34,7 @@ describe('getLastModifiedDate', () => {
 
         expect(getLastModifiedDate('post.mdx')).toBe('2024-03-15')
     })
+
     it('falls back to file mtime when git is unavailable', () => {
         vi.mocked(execFileSync).mockImplementation(() => {
             throw new Error('not a git repo')
@@ -49,6 +50,7 @@ describe('getCreatedDate', () => {
 
         expect(getCreatedDate('post.mdx')).toBe('2023-01-01')
     })
+
     it('falls back to file mtime when git history is empty', () => {
         vi.mocked(execFileSync).mockReturnValue('')
 
@@ -73,6 +75,7 @@ describe('injectBlogPostDates', () => {
             '---\ncreatedAt: 2023-01-01\nmodifiedAt: 2024-03-15\ntitle: Test\n---\ncontent',
         )
     })
+
     it('ignores files outside the blog directory', () => {
         const code = '---\ntitle: Test\n---\ncontent'
         const id = `${normalizePath(resolve('src/content/projects'))}/post.mdx`

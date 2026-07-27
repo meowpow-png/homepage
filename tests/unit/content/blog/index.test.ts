@@ -29,6 +29,7 @@ describe('toFilename', () => {
     it('strips the leading ./', () => {
         expect(toFilename('./post.mdx')).toBe('post.mdx')
     })
+
     it('leaves a path without a leading ./ unchanged', () => {
         expect(toFilename('post.mdx')).toBe('post.mdx')
     })
@@ -57,6 +58,7 @@ describe('findPostBySlug', () => {
     it('returns the matching post', () => {
         expect(findPostBySlug(posts, 'b')).toBe(posts[1])
     })
+
     it('returns undefined when no post matches', () => {
         expect(findPostBySlug(posts, 'missing')).toBeUndefined()
     })
@@ -71,9 +73,11 @@ describe('findNextPost', () => {
     it('returns the post after the given slug', () => {
         expect(findNextPost(posts, 'a')).toBe(posts[1])
     })
+
     it('returns undefined for the last post', () => {
         expect(findNextPost(posts, 'c')).toBeUndefined()
     })
+
     it('returns undefined when the slug is not found', () => {
         expect(findNextPost(posts, 'missing')).toBeUndefined()
     })
@@ -85,12 +89,15 @@ describe('findPreviousPost', () => {
         makePost({ slug: 'b' }),
         makePost({ slug: 'c' }),
     ]
+
     it('returns the post before the given slug', () => {
         expect(findPreviousPost(posts, 'c')).toBe(posts[1])
     })
+
     it('returns undefined for the first post', () => {
         expect(findPreviousPost(posts, 'a')).toBeUndefined()
     })
+
     it('returns undefined when the slug is not found', () => {
         expect(findPreviousPost(posts, 'missing')).toBeUndefined()
     })
