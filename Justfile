@@ -23,3 +23,8 @@ dev *args:
 [arg("args", help="Command arguments")]
 preview *args:
     npm run preview -- {{args}}
+
+# Run unit tests
+[arg("args", help="Command arguments")]
+test *args:
+    npm run test -- {{args}}
