@@ -27,14 +27,14 @@ export function App(): JSX.Element {
     )
 }
 
-function resolveBlogPost(pathname: string) {
+export function resolveBlogPost(pathname: string) {
     if (!pathname.startsWith('/blog/')) {
         return undefined
     }
     return getBlogPost(pathname.slice('/blog/'.length))
 }
 
-function resolveCurrentPage(
+export function resolveCurrentPage(
     route: Route | undefined,
     isBlogPost: boolean,
 ): NavigationPage | undefined {
@@ -44,7 +44,7 @@ function resolveCurrentPage(
     return isBlogPost ? 'blog' : undefined
 }
 
-function renderPage(
+export function renderPage(
     route: Route | undefined,
     blogPost: BlogPost | undefined,
 ): ReactNode {
