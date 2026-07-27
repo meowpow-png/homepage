@@ -33,3 +33,8 @@ test *args:
 [arg("args", help="Command arguments")]
 coverage *args:
     npm run coverage -- {{args}}
+
+# Run unit and e2e tests in Docker, with coverage
+[arg("args", help="Command arguments")]
+e2e-test *args:
+    docker compose run --rm test {{args}}

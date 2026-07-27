@@ -17,6 +17,21 @@ services:
     stdin_open: true
     tty: true
 
+  test:
+    image: mcr.microsoft.com/playwright:v1.62.0-noble
+    working_dir: /workspace
+    volumes:
+      - .:/workspace:z
+      - test-node-modules:/workspace/node_modules
+    command: |
+      sh -c "
+        git config --global --add safe.directory /workspace &&
+        npm ci &&
+        npm run coverage &&
+        npm run e2e
+      "
+
 volumes:
   codex-home:
   claude-home:
+  test-node-modules:
