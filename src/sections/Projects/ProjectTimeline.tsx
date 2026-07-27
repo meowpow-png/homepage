@@ -174,7 +174,7 @@ export function ProjectTimeline({activeProjectId, projects,}: ProjectTimelinePro
     )
 }
 
-function shouldHandleProjectNavigation(
+export function shouldHandleProjectNavigation(
     event: MouseEvent<HTMLAnchorElement>,
     target: HTMLElement | null,
 ): target is HTMLElement {
