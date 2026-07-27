@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 
 import type {Navigation} from "./types";
 
-function normalizePathname(pathname: string): string {
+export function normalizePathname(pathname: string): string {
     return pathname === '/' ? '/about' : pathname
 }
 

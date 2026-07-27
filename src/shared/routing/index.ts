@@ -1,9 +1,9 @@
-export {Link} from './Link'
+export {Link, shouldInterceptNavigation} from './Link'
 export {RouterContext} from './RouterContext'
 export {resolveRoute} from './resolveRoute'
 export {routes} from './routes'
 export {useRouter} from './useRouter'
-export {useNavigation} from './useNavigation'
+export {normalizePathname, useNavigation} from './useNavigation'
 
 export type {
     NavigationPage,

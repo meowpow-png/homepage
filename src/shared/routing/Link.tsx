@@ -34,7 +34,7 @@ export function Link({
     )
 }
 
-function shouldInterceptNavigation(
+export function shouldInterceptNavigation(
     event: MouseEvent<HTMLAnchorElement>,
     internal: boolean,
 ): boolean {
