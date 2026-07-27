@@ -11,7 +11,7 @@ interface BlogPostPageProps {
     post: BlogPost
 }
 
-function formatPublishedAt(publishedAt: string): string {
+export function formatPublishedAt(publishedAt: string): string {
     return new Intl.DateTimeFormat('en-US', {
         day: 'numeric',
         month: 'short',
