@@ -1,7 +1,7 @@
 import { test as testBase, type Page } from '@playwright/test'
 import MCR from 'monocart-coverage-reports'
 
-import coverageOptions from './mcr.config'
+import coverageOptions from '../mcr.config.js'
 
 export const test = testBase.extend<{ autoTestFixture: string }>({
     autoTestFixture: [async ({ context }, use) => {

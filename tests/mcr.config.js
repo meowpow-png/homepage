@@ -1,6 +1,6 @@
 export default {
-    name: 'E2E Coverage Report',
-    outputDir: 'tests/output/coverage-e2e',
+    name: 'Combined Coverage Report',
+    outputDir: 'tests/output/coverage-combined',
     reports: ['v8', 'raw'],
     entryFilter: {
         '**/src/**': true,
