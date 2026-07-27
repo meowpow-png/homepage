@@ -121,6 +121,20 @@
     padding: 24px;
 }
 
+.projectHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.pinIndicator {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    color: var(--color-accent);
+}
+
 .project + .project {
     margin-top: 0;
     padding-top: 60px;

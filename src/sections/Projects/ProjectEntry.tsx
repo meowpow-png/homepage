@@ -1,5 +1,6 @@
 import type {JSX, ReactNode} from 'react'
 
+import {PinIcon} from '@/shared/components'
 import {Link} from '@/shared/routing'
 
 import type {ProjectMetadata} from '@/content/projects'
@@ -17,12 +18,20 @@ export function ProjectEntry({
     return (
         <article className={styles.project}>
             <div className={styles.projectBody}>
-                <h2
-                    className={styles.projectTitle}
-                    id={metadata.id}
-                >
-                    {metadata.title}
-                </h2>
+                <div className={styles.projectHeader}>
+                    <h2
+                        className={styles.projectTitle}
+                        id={metadata.id}
+                    >
+                        {metadata.title}
+                    </h2>
+                    {metadata.pinned && (
+                        <PinIcon
+                            className={styles.pinIndicator}
+                            aria-label="Pinned project"
+                        />
+                    )}
+                </div>
                 <p className={styles.projectMeta}>
                     {metadata.date.slice(0, 4)}
                     <span aria-hidden="true"> · </span>

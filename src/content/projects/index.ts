@@ -11,6 +11,8 @@ export interface ProjectMetadata {
     date: string
     id: string
     links: ProjectLink[]
+    pinIndex?: number
+    pinned?: boolean
     status: string
     title: string
 }
@@ -34,8 +36,29 @@ function byDateDescending(
     return b.metadata.date.localeCompare(a.metadata.date)
 }
 
+function byPinnedThenDate(
+    a: {metadata: ProjectMetadata},
+    b: {metadata: ProjectMetadata},
+): number {
+    const aPinned = a.metadata.pinned ?? false
+    const bPinned = b.metadata.pinned ?? false
+
+    if (aPinned !== bPinned) {
+        return aPinned ? -1 : 1
+    }
+    if (aPinned && bPinned) {
+        const aIndex = a.metadata.pinIndex ?? Number.MAX_SAFE_INTEGER
+        const bIndex = b.metadata.pinIndex ?? Number.MAX_SAFE_INTEGER
+
+        if (aIndex !== bIndex) {
+            return aIndex - bIndex
+        }
+    }
+    return byDateDescending(a, b)
+}
+
 const modules = import.meta.glob<ProjectModule>('./*.mdx', {eager: true})
 
 export const projects = Object.values(modules)
     .map(toProject)
-    .sort(byDateDescending)
+    .sort(byPinnedThenDate)
