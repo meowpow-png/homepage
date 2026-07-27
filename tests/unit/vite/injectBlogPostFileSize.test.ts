@@ -2,7 +2,7 @@ import { resolve } from 'node:path'
 import { normalizePath, type Plugin } from 'vite'
 import { describe, expect, it } from 'vitest'
 
-import { formatFileSize, injectBlogPostFileSize } from '../../../vite.config'
+import { formatFileSize, injectBlogPostFileSize } from '../../../vite.plugins'
 
 function runTransform(plugin: Plugin, code: string, id: string) {
     const transform = plugin.transform as (this: unknown, code: string, id: string) => unknown

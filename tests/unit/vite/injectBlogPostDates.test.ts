@@ -15,7 +15,7 @@ const {
     getCreatedDate,
     getLastModifiedDate,
     injectBlogPostDates,
-} = await import('../../../vite.config')
+} = await import('../../../vite.plugins')
 
 function runTransform(plugin: Plugin, code: string, id: string) {
     const transform = plugin.transform as (this: unknown, code: string, id: string) => unknown
