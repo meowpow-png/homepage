@@ -23,13 +23,7 @@ services:
     volumes:
       - .:/workspace:z
       - test-node-modules:/workspace/node_modules
-    command: |
-      sh -c "
-        git config --global --add safe.directory /workspace &&
-        npm ci &&
-        npm run coverage &&
-        npm run e2e
-      "
+    command: sh docker/test/run.sh
 
 volumes:
   codex-home:
