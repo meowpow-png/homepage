@@ -17,7 +17,7 @@ import { LANGUAGE_COLORS } from './src/sections/Projects/languages'
 
 const CODE_THEME = `catppuccin-${CATPPUCCIN_FLAVOR}` as const
 
-function formatFileSize(bytes: number) {
+export function formatFileSize(bytes: number) {
   if (bytes < 1000) {
     return `${bytes} B`
   }
@@ -29,7 +29,7 @@ function getFallbackDate(filePath: string): string {
   return statSync(filePath).mtime.toISOString().slice(0, 10)
 }
 
-function getLastModifiedDate(filePath: string): string {
+export function getLastModifiedDate(filePath: string): string {
   try {
     const gitDate = execFileSync(
       'git', ['log', '-1', '--format=%cs', '--', filePath],
@@ -46,7 +46,7 @@ function getLastModifiedDate(filePath: string): string {
   return getFallbackDate(filePath)
 }
 
-function getCreatedDate(filePath: string): string {
+export function getCreatedDate(filePath: string): string {
   try {
     // --follow + --reverse silently returns nothing when combined with
     // --diff-filter=A, so read newest-first and take the last (oldest) line.
@@ -66,7 +66,7 @@ function getCreatedDate(filePath: string): string {
   return getFallbackDate(filePath)
 }
 
-function injectBlogPostFileSize(): Plugin {
+export function injectBlogPostFileSize(): Plugin {
   const blogDirectory = normalizePath(resolve('src/content/blog'))
 
   return {
@@ -89,7 +89,7 @@ function injectBlogPostFileSize(): Plugin {
   }
 }
 
-function injectBlogPostDates(): Plugin {
+export function injectBlogPostDates(): Plugin {
   const blogDirectory = normalizePath(resolve('src/content/blog'))
 
   return {
@@ -116,7 +116,7 @@ function injectBlogPostDates(): Plugin {
   }
 }
 
-function validateProjectLanguages(): Plugin {
+export function validateProjectLanguages(): Plugin {
   const projectsDirectory = normalizePath(resolve('src/content/projects'))
 
   return {
