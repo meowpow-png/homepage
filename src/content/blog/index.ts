@@ -17,7 +17,7 @@ interface BlogModule {
     metadata: Record<string, unknown>
 }
 
-function toFilename(path: string): string {
+export function toFilename(path: string): string {
     return path.replace('./', '')
 }
 
@@ -31,7 +31,7 @@ function toBlogPost([path, module]: [string, BlogModule]) {
     }
 }
 
-function byPublishedAtAscending(
+export function byPublishedAtAscending(
     a: {metadata: BlogPostMetadata},
     b: {metadata: BlogPostMetadata},
 ): number {
@@ -46,24 +46,36 @@ export const blogPosts = Object.entries(modules)
 
 export type BlogPost = (typeof blogPosts)[number]
 
+export function findPostBySlug(posts: BlogPost[], slug: string): BlogPost | undefined {
+    return posts.find((post) => post.metadata.slug === slug)
+}
+
+export function findNextPost(posts: BlogPost[], slug: string): BlogPost | undefined {
+    const index = posts.findIndex((post) => post.metadata.slug === slug)
+
+    if (index === -1) {
+        return undefined
+    }
+    return posts[index + 1]
+}
+
+export function findPreviousPost(posts: BlogPost[], slug: string): BlogPost | undefined {
+    const index = posts.findIndex((post) => post.metadata.slug === slug)
+
+    if (index === -1) {
+        return undefined
+    }
+    return posts[index - 1]
+}
+
 export function getBlogPost(slug: string) {
-    return blogPosts.find((post) => post.metadata.slug === slug)
+    return findPostBySlug(blogPosts, slug)
 }
 
 export function getNextPost(slug: string) {
-    const index = blogPosts.findIndex((post) => post.metadata.slug === slug)
-
-    if (index === -1) {
-        return undefined
-    }
-    return blogPosts[index + 1]
+    return findNextPost(blogPosts, slug)
 }
 
 export function getPreviousPost(slug: string) {
-    const index = blogPosts.findIndex((post) => post.metadata.slug === slug)
-
-    if (index === -1) {
-        return undefined
-    }
-    return blogPosts[index - 1]
+    return findPreviousPost(blogPosts, slug)
 }
