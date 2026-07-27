@@ -8,4 +8,4 @@
 
 ## Later
 
-- Look into the mermaid bundle size warning from `vite build`
+_Nothing planned for now..._
