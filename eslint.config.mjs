@@ -34,6 +34,10 @@ export default defineConfig([
     ...pluginReact.configs.flat.recommended,
   },
   {
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    ...pluginReact.configs.flat['jsx-runtime'],
+  },
+  {
     files: ['**/*.md'],
     plugins: { markdown },
     language: 'markdown/gfm',
