@@ -87,6 +87,8 @@ jobs:
     needs: changes
     if: needs.changes.outputs.test == 'true'
     runs-on: ubuntu-latest
+    env:
+      COMPOSE_FILE: compose.yml:compose.ci.yml
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -105,10 +107,31 @@ jobs:
         continue-on-error: true
         run: npm run build
 
+      - name: Resolve Playwright image
+        id: playwright-image
+        run: echo "image=$(docker compose config --images test)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright image
+        id: docker-cache
+        uses: actions/cache@v6
+        with:
+          path: /tmp/playwright-image.tar
+          key: docker-cache-${{ steps.playwright-image.outputs.image }}
+
+      - name: Load or pull Playwright image
+        run: |
+          image="${{ steps.playwright-image.outputs.image }}"
+          if [ -f /tmp/playwright-image.tar ]; then
+            docker load -i /tmp/playwright-image.tar
+          else
+            docker pull "$image"
+            docker save "$image" -o /tmp/playwright-image.tar
+          fi
+
       - name: Run tests with coverage
         id: test
         continue-on-error: true
-        run: docker compose -f compose.yml -f compose.ci.yml run --rm test
+        run: docker compose run --rm test
 
       - name: Upload coverage
         if: always()
