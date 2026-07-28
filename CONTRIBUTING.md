@@ -36,16 +36,18 @@ A quick rundown of the fields:
 - **title** — the name shown on the page
 - **date** — when the project happened. Controls the sort order (newest first)
 - **status** — a short label like `Active`, `Finished`, or `Experiment`
-- **languages** — optional, shown as small badges. Each one has to already
-  be listed in `src/sections/Projects/languages.ts`, or the build fails
-- **pinned** / **pinIndex** — both optional. Set `pinned: true` to pin the
-  project above the rest; `pinIndex` breaks ties between pinned projects, lower goes first
+- **languages** — optional, shown as small badges. Each one must already be listed
+- **pinned** — optional. Set to `true` to pin the project above the rest
+- **pinIndex** — optional. Breaks ties between pinned projects, lower goes first
 - **links** — a list of links shown with the project, each with a `label` and `href`
+
+> [!NOTE]
+> Using a language that isn't listed yet? Add it to [languages.ts](src/sections/Projects/languages.ts)
+> first, or the build fails.
 
 Everything after the `---` is the project description, and it's rendered as-is on the page.
 
-That's it. No code changes needed, unless you're using a language
-that isn't in listed yet. In that case, add it there first, or the build fails.
+That's it. No code changes needed.
 
 ## Adding a blog post
 
@@ -68,18 +70,23 @@ A quick rundown of the fields:
 
 - **title** — the post's title
 - **slug** — becomes the post's URL, as in `/blog/<slug>`. Keep it short and URL-friendly
-- **publishedAt** — when the post went live Controls the order posts appear in, and which post is "next" or "previous"
+- **publishedAt** — when the post went live. Controls the order posts appear in, and which post is
+  "next" or "previous"
 
-You might notice a few other fields on published posts, like `createdAt` or `size`. You don't need
-to add those yourself — they're filled in automatically based on the file itself, so just leave them out.
+You might notice a few other fields on published posts, like `createdAt` or `size`.
+You don't need to add those yourself — they're filled in automatically
+based on the file itself, so just leave them out.
 
 That's it here too. No code changes needed, just add the file.
 
 ## Adding a question
 
-Questions work a little differently. There's no field to sort by here, since the order
-is chosen on purpose rather than based on a date. Because of that, questions aren't picked
-up automatically — you register them by hand in `src/content/questions/index.ts`.
+Questions work a little differently. There's no field to sort by here,
+since the order is chosen on purpose rather than based on a date.
+
+> [!NOTE]
+> Questions aren't picked up automatically. You register them by hand in
+> [index.ts](src/content/questions/index.ts).
 
 To add one create a new `.mdx` file in `src/content/questions/`,
 with the question as the frontmatter `prompt` and the answer as the body:
@@ -92,20 +99,18 @@ prompt: Why do you do that?
 Because it seemed like a good idea at the time.
 ```
 
-Then import it in `src/content/questions/index.ts` and add
-it to the `questions` array, in whatever position makes sense.
+Then import it in [index.ts](src/content/questions/index.ts)
+and add it to the `questions` array, in whatever position makes sense.
 
 Yes, this means an extra step compared to projects and blog posts. That's intentional.
 
 ## Quality checks
 
-Before you push, always remember to run:
+Before you push, run:
 
-```shell
+```sh
 npm run verify
 ```
-
-This covers formatting, linting, type checking, and unused files/exports/dependencies.
 
 See [QUALITY.md](docs/QUALITY.md) for what each check does and how to fix what it flags.
 
