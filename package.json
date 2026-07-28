@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "coverage:merge": "node tests/merge-coverage.js"
   },
   "dependencies": {
     "@catppuccin/palette": "^1.8.0",
