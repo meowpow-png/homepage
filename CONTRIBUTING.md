@@ -97,6 +97,18 @@ it to the `questions` array, in whatever position makes sense.
 
 Yes, this means an extra step compared to projects and blog posts. That's intentional.
 
+## Quality checks
+
+Before you push, always remember to run:
+
+```shell
+npm run verify
+```
+
+This covers formatting, linting, type checking, and unused files/exports/dependencies.
+
+See [QUALITY.md](docs/QUALITY.md) for what each check does and how to fix what it flags.
+
 ## Testing
 
-See [docs/TESTING.md](docs/TESTING.md) for what to test, how tests are organized, and how to run them.
+See [TESTING.md](docs/TESTING.md) for what to test, how tests are organized, and how to run them.
