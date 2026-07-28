@@ -96,3 +96,7 @@ Then import it in `src/content/questions/index.ts` and add
 it to the `questions` array, in whatever position makes sense.
 
 Yes, this means an extra step compared to projects and blog posts. That's intentional.
+
+## Testing
+
+See [docs/TESTING.md](docs/TESTING.md) for what to test, how tests are organized, and how to run them.
