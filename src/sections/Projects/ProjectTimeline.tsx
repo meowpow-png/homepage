@@ -120,7 +120,7 @@ export function ProjectTimeline({ activeProjectId, projects }: ProjectTimelinePr
           onClick={() => setIsJumpListOpen((open) => !open)}
         >
           <span className={styles.mobileBarMarker} aria-hidden="true" />
-          <span className={styles.mobileBarTitle}>{activeProject.title}</span>
+          <span className={styles.mobileBarTitle}>{activeProject?.title}</span>
           <span className={styles.mobileBarPosition}>
             {activePosition}/{projectCount}
           </span>

@@ -49,7 +49,8 @@ export function getCreatedDate(filePath: string): string {
       .filter(Boolean)
 
     if (gitDates.length > 0) {
-      return gitDates[gitDates.length - 1]
+      // Guarded by the length check above, so the last element always exists
+      return gitDates[gitDates.length - 1]!
     }
   } catch {
     // Not a git repo, or git unavailable — fall through to mtime.
@@ -65,7 +66,8 @@ export function injectBlogPostFileSize(): Plugin {
     name: 'inject-blog-post-file-size',
     enforce: 'pre',
     transform(code, id) {
-      const filePath = normalizePath(id.split('?', 1)[0])
+      // split(..., 1) always returns exactly one element.
+      const filePath = normalizePath(id.split('?', 1)[0]!)
 
       if (!filePath.startsWith(`${blogDirectory}/`) || !filePath.endsWith('.mdx')) {
         return null
@@ -88,7 +90,8 @@ export function injectBlogPostDates(): Plugin {
     name: 'inject-blog-post-dates',
     enforce: 'pre',
     transform(code, id) {
-      const filePath = normalizePath(id.split('?', 1)[0])
+      // split(..., 1) always returns exactly one element.
+      const filePath = normalizePath(id.split('?', 1)[0]!)
 
       if (!filePath.startsWith(`${blogDirectory}/`) || !filePath.endsWith('.mdx')) {
         return null
@@ -115,7 +118,8 @@ export function validateProjectLanguages(): Plugin {
     name: 'validate-project-languages',
     enforce: 'pre',
     transform(code, id) {
-      const filePath = normalizePath(id.split('?', 1)[0])
+      // split(..., 1) always returns exactly one element.
+      const filePath = normalizePath(id.split('?', 1)[0]!)
 
       if (!filePath.startsWith(`${projectsDirectory}/`) || !filePath.endsWith('.mdx')) {
         return null
