@@ -28,7 +28,7 @@ src/
 ```
 
 | Module                 | Responsibility                    |
-|------------------------|-----------------------------------|
+| ---------------------- | --------------------------------- |
 | `content/`             | Authored MDX content              |
 | `sections/`            | Self-contained website sections   |
 | `shared/`              | Reusable components and utilities |
@@ -81,7 +81,7 @@ Routing is configured centrally and composes sections into navigable pages.
 Internal navigation is client-side and must not reload the document.
 
 | Route          | Page                 |
-|----------------|----------------------|
+| -------------- | -------------------- |
 | `/`            | Redirect to `/about` |
 | `/about`       | About                |
 | `/projects`    | Projects             |

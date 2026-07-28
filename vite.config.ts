@@ -26,10 +26,7 @@ export default defineConfig({
     validateProjectLanguages(),
     mermaidCatppuccinTheme(),
     mdx({
-      remarkPlugins: [
-        remarkFrontmatter,
-        [remarkMdxFrontmatter, { name: 'metadata' }],
-      ],
+      remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'metadata' }]],
       rehypePlugins: [
         [
           rehypePrettyCode,

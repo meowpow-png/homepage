@@ -21,10 +21,9 @@ function getFallbackDate(filePath: string): string {
 
 export function getLastModifiedDate(filePath: string): string {
   try {
-    const gitDate = execFileSync(
-      'git', ['log', '-1', '--format=%cs', '--', filePath],
-      { encoding: 'utf8' },
-    ).trim()
+    const gitDate = execFileSync('git', ['log', '-1', '--format=%cs', '--', filePath], {
+      encoding: 'utf8',
+    }).trim()
 
     if (gitDate) {
       return gitDate
@@ -44,7 +43,10 @@ export function getCreatedDate(filePath: string): string {
       'git',
       ['log', '--diff-filter=A', '--follow', '--format=%cs', '--', filePath],
       { encoding: 'utf8' },
-    ).trim().split('\n').filter(Boolean)
+    )
+      .trim()
+      .split('\n')
+      .filter(Boolean)
 
     if (gitDates.length > 0) {
       return gitDates[gitDates.length - 1]
@@ -119,9 +121,7 @@ export function validateProjectLanguages(): Plugin {
         return null
       }
       const frontmatterMatch = code.match(/^---\r?\n([\s\S]*?)\r?\n---/)
-      const languagesMatch = frontmatterMatch?.[1].match(
-        /^languages:\s*\n((?:\s*-\s*.+\n?)+)/m,
-      )
+      const languagesMatch = frontmatterMatch?.[1].match(/^languages:\s*\n((?:\s*-\s*.+\n?)+)/m)
       if (!languagesMatch) {
         return null
       }
@@ -131,13 +131,11 @@ export function validateProjectLanguages(): Plugin {
         .filter(Boolean)
         .map((line) => line.replace(/^-\s*/, ''))
 
-      const unknown = languages.filter(
-        (language) => !(language.toLowerCase() in LANGUAGE_COLORS),
-      )
+      const unknown = languages.filter((language) => !(language.toLowerCase() in LANGUAGE_COLORS))
       if (unknown.length > 0) {
         throw new Error(
           `${filePath}: unknown language(s) "${unknown.join(', ')}". ` +
-          'Add them to src/sections/Projects/languages.ts or fix the typo.',
+            'Add them to src/sections/Projects/languages.ts or fix the typo.',
         )
       }
       return null
