@@ -41,8 +41,24 @@ tests/
     └── projects.test.ts
 ```
 
-## Code Coverage
+## Running Tests
 
-Code coverage should be treated as a diagnostic tool for identifying untested 
-areas rather than a success metric. Priority should be given to meaningful 
-behavioral tests instead of achieving an arbitrary coverage percentage.
+```sh
+npm test                # unit tests
+npm run coverage        # unit tests, with coverage
+npm run e2e             # e2e tests
+npm run coverage:merge  # merge unit + e2e coverage into one report
+```
+
+`npm run e2e` needs a Chromium install. If you'd rather not 
+put a browser on your machine, run the whole suite in Docker instead:
+
+```sh
+just e2e-test
+```
+
+This runs coverage, e2e, and the merge step together and writes 
+everything to `tests/output/`, so it works the same whether 
+you ran it locally or in the container.
+
+`just test` and `just coverage` are shortcuts for the first two npm scripts above.
