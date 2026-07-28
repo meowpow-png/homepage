@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { test as testBase } from '@playwright/test'
 
-const coverageDir = 'tests/output/coverage-e2e/raw'
+const coverageDir = 'tests/output/coverage/e2e/raw'
 
 export const test = testBase.extend<{ autoCoverage: void }>({
   autoCoverage: [

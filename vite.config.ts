@@ -63,7 +63,7 @@ export default defineConfig({
     include: ['tests/unit/**/*.test.{ts,tsx}'],
     coverage: {
       provider: 'istanbul',
-      reportsDirectory: 'tests/output/coverage',
+      reportsDirectory: 'tests/output/coverage/unit',
       reporter: ['text', 'html', 'clover', 'json', 'json-summary'],
     },
   },

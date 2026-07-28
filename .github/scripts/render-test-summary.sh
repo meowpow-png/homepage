@@ -20,9 +20,9 @@ coverage_pct() {
 BUILD_RESULT=$(result "$BUILD_OUTCOME")
 TEST_RESULT=$(result "$TEST_OUTCOME")
 
-UNIT_COVERAGE=$(coverage_pct tests/output/coverage/coverage-summary.json)
-E2E_COVERAGE=$(coverage_pct tests/output/coverage-e2e/coverage-summary.json)
-COMBINED_COVERAGE=$(coverage_pct tests/output/coverage-combined/coverage-summary.json)
+UNIT_COVERAGE=$(coverage_pct tests/output/coverage/unit/coverage-summary.json)
+E2E_COVERAGE=$(coverage_pct tests/output/coverage/e2e/coverage-summary.json)
+COMBINED_COVERAGE=$(coverage_pct tests/output/coverage/combined/coverage-summary.json)
 
 FOOTER=""
 for outcome in "$BUILD_OUTCOME" "$TEST_OUTCOME"; do

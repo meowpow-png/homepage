@@ -138,7 +138,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: coverage
-          path: tests/output/coverage-combined/
+          path: tests/output/coverage/combined/
           if-no-files-found: ignore
 
       - name: Write job summary

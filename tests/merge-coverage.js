@@ -41,13 +41,13 @@ function zeroedBaseline(coverageMap) {
 }
 
 const unitMap = libCoverage.createCoverageMap({})
-unitMap.merge(await readCoverageFile('tests/output/coverage/coverage-final.json'))
+unitMap.merge(await readCoverageFile('tests/output/coverage/unit/coverage-final.json'))
 
 const e2eMap = zeroedBaseline(unitMap)
-e2eMap.merge(await readCoverageDir('tests/output/coverage-e2e/raw'))
-report(e2eMap, 'tests/output/coverage-e2e', ['json-summary'])
+e2eMap.merge(await readCoverageDir('tests/output/coverage/e2e/raw'))
+report(e2eMap, 'tests/output/coverage/e2e', ['json-summary'])
 
 const combinedMap = libCoverage.createCoverageMap({})
 combinedMap.merge(unitMap)
 combinedMap.merge(e2eMap)
-report(combinedMap, 'tests/output/coverage-combined', ['text', 'html', 'json-summary'])
+report(combinedMap, 'tests/output/coverage/combined', ['text', 'html', 'json-summary'])
