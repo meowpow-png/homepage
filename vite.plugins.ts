@@ -160,6 +160,7 @@ export function mermaidCatppuccinTheme(): Plugin {
       if (id === virtualModuleId) {
         return resolvedVirtualModuleId
       }
+      return undefined
     },
     load(id) {
       if (id !== resolvedVirtualModuleId) {
