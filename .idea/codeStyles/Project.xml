@@ -55,6 +55,9 @@
         <option name="TAB_SIZE" value="2" />
       </indentOptions>
     </codeStyleSettings>
+    <codeStyleSettings language="Markdown">
+      <option name="RIGHT_MARGIN" value="100" />
+    </codeStyleSettings>
     <codeStyleSettings language="TypeScript">
       <option name="RIGHT_MARGIN" value="100" />
       <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
