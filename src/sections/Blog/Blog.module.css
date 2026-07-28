@@ -28,16 +28,13 @@
 
 .directory {
   margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
 }
 
 .directory,
 .fileName {
   color: var(--color-accent);
-}
-
-.directory {
-  font-size: 1.0625rem;
-  font-weight: 600;
 }
 
 .table {
