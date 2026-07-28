@@ -3,6 +3,7 @@ import { defineConfig } from 'vitest/config'
 
 import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
+import istanbul from 'vite-plugin-istanbul'
 import mdx from '@mdx-js/rollup'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkFrontmatter from 'remark-frontmatter'
@@ -40,6 +41,11 @@ export default defineConfig({
     }),
     react(),
     svgr(),
+    istanbul({
+      include: 'src/*',
+      exclude: ['node_modules', 'tests/'],
+      requireEnv: true,
+    }),
   ],
   resolve: {
     alias: {
@@ -61,7 +67,7 @@ export default defineConfig({
   test: {
     include: ['tests/unit/**/*.test.{ts,tsx}'],
     coverage: {
-      provider: 'v8',
+      provider: 'istanbul',
       reportsDirectory: 'tests/output/coverage',
     },
   },
