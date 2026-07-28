@@ -105,8 +105,7 @@
   background: var(--color-accent);
 }
 
-.timelineLink:focus-visible,
-.projectLinks a:focus-visible {
+.timelineLink:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 4px;
 }
@@ -204,6 +203,11 @@
 .projectLinks a {
   color: var(--color-accent);
   text-decoration: none;
+}
+
+.projectLinks a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }
 
 @media (hover: hover) {
