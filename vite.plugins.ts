@@ -29,7 +29,7 @@ export function getLastModifiedDate(filePath: string): string {
       return gitDate
     }
   } catch {
-    // Not a git repo, or git unavailable — fall through to mtime.
+    // not a git repo or git unavailable, fall back to mtime
   }
 
   return getFallbackDate(filePath)
@@ -37,8 +37,8 @@ export function getLastModifiedDate(filePath: string): string {
 
 export function getCreatedDate(filePath: string): string {
   try {
-    // --follow + --reverse silently returns nothing when combined with
-    // --diff-filter=A, so read newest-first and take the last (oldest) line.
+    // --follow + --reverse returns nothing combined with --diff-filter=A,
+    // so read newest-first and grab the last line instead
     const gitDates = execFileSync(
       'git',
       ['log', '--diff-filter=A', '--follow', '--format=%cs', '--', filePath],
@@ -49,11 +49,11 @@ export function getCreatedDate(filePath: string): string {
       .filter(Boolean)
 
     if (gitDates.length > 0) {
-      // Guarded by the length check above, so the last element always exists
+      // length check above guarantees the last element exists
       return gitDates[gitDates.length - 1]!
     }
   } catch {
-    // Not a git repo, or git unavailable — fall through to mtime.
+    // not a git repo or git unavailable, fall back to mtime
   }
 
   return getFallbackDate(filePath)
@@ -66,7 +66,7 @@ export function injectBlogPostFileSize(): Plugin {
     name: 'inject-blog-post-file-size',
     enforce: 'pre',
     transform(code, id) {
-      // split(..., 1) always returns exactly one element.
+      // split(..., 1) always returns exactly one element
       const filePath = normalizePath(id.split('?', 1)[0]!)
 
       if (!filePath.startsWith(`${blogDirectory}/`) || !filePath.endsWith('.mdx')) {
@@ -90,7 +90,7 @@ export function injectBlogPostDates(): Plugin {
     name: 'inject-blog-post-dates',
     enforce: 'pre',
     transform(code, id) {
-      // split(..., 1) always returns exactly one element.
+      // split(..., 1) always returns exactly one element
       const filePath = normalizePath(id.split('?', 1)[0]!)
 
       if (!filePath.startsWith(`${blogDirectory}/`) || !filePath.endsWith('.mdx')) {
@@ -118,14 +118,14 @@ export function validateProjectLanguages(): Plugin {
     name: 'validate-project-languages',
     enforce: 'pre',
     transform(code, id) {
-      // split(..., 1) always returns exactly one element.
+      // split(..., 1) always returns exactly one element
       const filePath = normalizePath(id.split('?', 1)[0]!)
 
       if (!filePath.startsWith(`${projectsDirectory}/`) || !filePath.endsWith('.mdx')) {
         return null
       }
       const frontmatterMatch = code.match(/^---\r?\n([\s\S]*?)\r?\n---/)
-      // The regex has one required capturing group, so index 1 is always present when matched.
+      // regex has one required capture group, so index 1 always exists when matched
       const languagesMatch = frontmatterMatch?.[1]!.match(/^languages:\s*\n((?:\s*-\s*.+\n?)+)/m)
       if (!languagesMatch) {
         return null

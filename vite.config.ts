@@ -50,15 +50,13 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    // mermaid lazily imports its diagram-type renderers at render
-    // time. Without this, Vite only discovers them on first use,
-    // triggering a dependency re-optimization + reload mid-render.
+    // mermaid lazily imports diagram renderers at render time — pre-bundle
+    // here or vite reloads mid-render the first time one is used
     include: ['mermaid'],
   },
   build: {
-    // mermaid ships one large shared chunk covering diagram
-    // types we don't use. It's never fetched at runtime,
-    // so it shouldn't trip the default 500kB warning.
+    // mermaid's shared chunk covers diagram types we don't use and is
+    // never fetched at runtime, so ignore the default 500kb warning
     chunkSizeWarningLimit: 700,
   },
   test: {

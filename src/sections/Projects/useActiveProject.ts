@@ -15,7 +15,7 @@ export function useActiveProject(projectIds: string[]): string {
     function updateActiveProject(): void {
       const viewportMidpoint = window.innerHeight / 2
 
-      // projects.length === 0 returns above, so projects[0] always exists here
+      // length check above guarantees projects[0] exists
       const activeProject = projects.reduce(
         (current, project) =>
           project.getBoundingClientRect().top <= viewportMidpoint ? project : current,
