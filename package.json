@@ -12,7 +12,9 @@
     "e2e": "playwright test",
     "coverage:merge": "node tests/merge-coverage.js",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@catppuccin/palette": "^1.8.0",
