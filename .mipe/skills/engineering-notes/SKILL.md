@@ -4,7 +4,7 @@ description: Writes engineering notes. Use after an investigation, experiment, o
 ---
 
 An engineering note captures technical knowledge that isn't derivable from the code itself:
-It is not a changelog or a design doc — it's a record for future-me of *why*, backed by evidence.
+It is not a changelog or a design doc — it's a record for future-me of _why_, backed by evidence.
 
 ## Workflow
 

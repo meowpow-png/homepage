@@ -63,9 +63,9 @@ Finalize the repository for long-term maintenance.
 
 Add visibility into production behavior and reliability.
 
-- [ ] Configure analytics *(optional)*
-- [ ] Configure error reporting *(optional)*
-- [ ] Configure uptime monitoring *(optional)*
+- [ ] Configure analytics _(optional)_
+- [ ] Configure error reporting _(optional)_
+- [ ] Configure uptime monitoring _(optional)_
 
 ### Release
 

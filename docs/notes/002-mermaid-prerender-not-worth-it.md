@@ -25,8 +25,8 @@ working browser required either layering packages onto the OS, using
 toolbox/distrobox, or a container — and this same install is needed by
 anyone building the project (other contributors, CI), not just this machine.
 
-Separately, testing the *original* client-side approach against a real
-production build (`npm run build` && `npm run preview`) showed both 
+Separately, testing the _original_ client-side approach against a real
+production build (`npm run build` && `npm run preview`) showed both
 diagrams loading and rendering instantly, no perceptible lag at all.
 
 ## Analysis
