@@ -30,23 +30,29 @@
   mask-position: center;
   mask-repeat: no-repeat;
   mask-size: contain;
+  /* stylelint-disable-next-line property-no-vendor-prefix -- pre-15.4 Safari support, no autoprefixer */
   -webkit-mask-position: center;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-mask-repeat: no-repeat;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-mask-size: contain;
 }
 
 .github {
   mask-image: url('../assets/icons/github.svg');
+  /* stylelint-disable-next-line property-no-vendor-prefix -- pre-15.4 Safari support, no autoprefixer */
   -webkit-mask-image: url('../assets/icons/github.svg');
 }
 
 .linkedin {
   mask-image: url('../assets/icons/linkedin.svg');
+  /* stylelint-disable-next-line property-no-vendor-prefix -- pre-15.4 Safari support, no autoprefixer */
   -webkit-mask-image: url('../assets/icons/linkedin.svg');
 }
 
 .mail {
   mask-image: url('../assets/icons/mail.svg');
+  /* stylelint-disable-next-line property-no-vendor-prefix -- pre-15.4 Safari support, no autoprefixer */
   -webkit-mask-image: url('../assets/icons/mail.svg');
 }
 
