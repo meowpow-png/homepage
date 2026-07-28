@@ -17,11 +17,15 @@
     "coverage:merge": "node tests/merge-coverage.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "e=0; eslint . || e=1; stylelint \"**/*.css\" || e=1; exit $e",
-    "lint:fix": "e=0; eslint . --fix || e=1; stylelint \"**/*.css\" --fix || e=1; exit $e",
+    "lint:eslint": "eslint .",
+    "lint:stylelint": "stylelint '**/*.css'",
+    "lint": "run-s --continue-on-error lint:eslint lint:stylelint",
+    "lint:fix:eslint": "eslint . --fix",
+    "lint:fix:stylelint": "stylelint '**/*.css' --fix",
+    "lint:fix": "run-s --continue-on-error lint:fix:eslint lint:fix:stylelint",
     "typecheck": "tsc -b",
     "knip": "knip",
-    "verify": "e=0; npm run format:check || e=1; npm run lint || e=1; npm run typecheck || e=1; npm run build || e=1; npm run coverage || e=1; npm run knip || e=1; exit $e"
+    "verify": "run-s --continue-on-error format:check lint typecheck build coverage knip"
   },
   "dependencies": {
     "@catppuccin/palette": "^1.8.0",
