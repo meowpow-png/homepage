@@ -264,7 +264,7 @@
   letter-spacing: 0.2em;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .projects {
     padding-top: var(--space-page-top-mobile);
   }
@@ -299,7 +299,7 @@
     top: 0;
     z-index: 12;
     display: block;
-    padding: 14px 0 14px;
+    padding: 14px 0;
     background: var(--color-canvas);
   }
 

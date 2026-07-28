@@ -73,7 +73,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .about {
     padding-top: var(--space-page-top-mobile);
   }
@@ -96,7 +96,7 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (width <= 400px) {
   .name {
     font-size: 3.25rem;
   }

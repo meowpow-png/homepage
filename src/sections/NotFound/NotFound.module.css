@@ -14,7 +14,7 @@
   margin: 0;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .notFound {
     padding-top: var(--space-page-top-mobile);
   }

@@ -114,7 +114,7 @@
   stroke-width: 1.4;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .blog {
     padding-top: var(--space-page-top-mobile);
   }

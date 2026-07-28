@@ -41,7 +41,7 @@
   margin-inline: auto;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .shell {
     padding-inline: var(--space-page-inline-mobile);
   }
@@ -51,7 +51,7 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (width <= 400px) {
   .shell {
     padding-inline: var(--space-page-inline-compact);
   }

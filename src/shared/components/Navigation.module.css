@@ -113,7 +113,7 @@
   transform: scaleX(1);
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .navigation {
     position: relative;
     flex-direction: column;
@@ -173,7 +173,7 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (width <= 400px) {
   .link {
     font-size: 0.9375rem;
   }

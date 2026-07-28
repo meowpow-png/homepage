@@ -21,7 +21,7 @@
   margin-top: var(--space-page-inline);
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .questions {
     padding-top: var(--space-page-top-mobile);
   }

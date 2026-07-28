@@ -1,7 +1,7 @@
-@import '@fontsource/ibm-plex-mono/latin-400.css';
-@import '@fontsource/ibm-plex-mono/latin-500.css';
-@import '@fontsource/ibm-plex-mono/latin-600.css';
-@import '@fontsource/ibm-plex-mono/latin-700.css';
+@import url('@fontsource/ibm-plex-mono/latin-400.css');
+@import url('@fontsource/ibm-plex-mono/latin-500.css');
+@import url('@fontsource/ibm-plex-mono/latin-600.css');
+@import url('@fontsource/ibm-plex-mono/latin-700.css');
 
 html {
   font-size: 100%;
@@ -15,7 +15,7 @@ body {
   line-height: 1.75;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   html {
     font-size: 90%;
   }

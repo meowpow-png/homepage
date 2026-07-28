@@ -70,7 +70,7 @@
   color: var(--color-accent);
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .footer {
     flex-direction: column;
     gap: var(--space-footer-stack);
@@ -81,7 +81,7 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (width <= 400px) {
   .socialIcons {
     gap: 10px;
   }
