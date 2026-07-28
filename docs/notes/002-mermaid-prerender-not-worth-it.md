@@ -13,9 +13,9 @@ at build time instead of running mermaid in the browser at all.
 
 Implemented it with `rehype-mermaid` (uses a headless browser via
 `mermaid-isomorphic`/Playwright to run mermaid's layout ahead of time)
-wired into the MDX pipeline, converting `<Mermaid>` blocks to `mermaid` 
-code fences. It worked: the production bundle dropped to one ~296KB chunk 
-with no mermaid/dagre/cytoscape code, and diagrams rendered as 
+wired into the MDX pipeline, converting `<Mermaid>` blocks to `mermaid`
+code fences. It worked: the production bundle dropped to one ~296KB chunk
+with no mermaid/dagre/cytoscape code, and diagrams rendered as
 plain inline `<svg>`with correct theming.
 
 It also introduced a hard build-time dependency on a working Chromium
@@ -35,11 +35,11 @@ The build-time pre-render only pays off the residual ~100-200ms of
 client-side render compute (parse + dagre layout + DOM text measurement).
 Weighed against that: it makes a headless browser a mandatory part of the
 build for every environment that runs it, with no path around it (Docker
-would be the properly portable fix, but that's a new hard dependency for 
-the whole project). 
+would be the properly portable fix, but that's a new hard dependency for
+the whole project).
 
-For a personal blog with two small diagrams, that cost was disproportionate 
-to the benefit — especially once production testing showed there 
+For a personal blog with two small diagrams, that cost was disproportionate
+to the benefit — especially once production testing showed there
 was no visible lag to fix in the first place.
 
 ## Conclusions

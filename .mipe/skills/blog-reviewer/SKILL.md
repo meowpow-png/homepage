@@ -1,6 +1,6 @@
 ---
 name: Engineering Blog Post Reviewer
-description: Reviews blog post drafts. Use after you draft a blog post, or when asked to review one 
+description: Reviews blog post drafts. Use after you draft a blog post, or when asked to review one
 ---
 
 Apply the `blog-writer` skill as a review checklist.

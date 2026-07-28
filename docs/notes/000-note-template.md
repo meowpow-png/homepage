@@ -6,12 +6,12 @@
 
 ## Observations
 
-{{ describe the relevant observations, expected or unexpected 
+{{ describe the relevant observations, expected or unexpected
 behavior, measurements, or other facts gathered during the work }}
 
 ## Analysis
 
-{{ describe the investigation, experiments, comparisons, or reasoning performed 
+{{ describe the investigation, experiments, comparisons, or reasoning performed
 to understand the observations. Focus on evidence rather than assumptions }}
 
 ## Conclusions
@@ -21,11 +21,11 @@ what was ruled out, and any root cause or important insight that was identified 
 
 ## Next Steps
 
-{{ describe any actions that should be taken as a result of these findings. 
-This may include implementation changes, configuration updates, documentation improvements, 
+{{ describe any actions that should be taken as a result of these findings.
+This may include implementation changes, configuration updates, documentation improvements,
 follow-up investigations, or explicitly state that no further action is required }}
 
 ## References
 
-{{ list any related documentation, design notes, architecture decision records, 
+{{ list any related documentation, design notes, architecture decision records,
 or external resources. If there are no relevant references, state "None" }}

@@ -19,7 +19,7 @@ locked this coding session itself out of the repo, since it also runs
 in a bind-mounted container sharing the same mount — a shared label
 fixed it. And running the container as root left coverage/test output
 root-owned in the bind-mounted repo; pinning it to my own user instead
-broke the install step, since a freshly created volume is 
+broke the install step, since a freshly created volume is
 initialized root-owned by Docker before that user ever touches it.
 
 ## Analysis
@@ -32,9 +32,9 @@ as the last step gets the same result.
 
 ## Conclusions
 
-- Root + reconcile-ownership-after beats pinning a non-root 
+- Root + reconcile-ownership-after beats pinning a non-root
   user once named volumes are involved
-- Shared, not exclusive, SELinux labels are required wherever 
+- Shared, not exclusive, SELinux labels are required wherever
   multiple containers or sessions share a bind mount
 - The image must match the installed test package's version exactly
 

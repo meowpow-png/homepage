@@ -2,7 +2,7 @@
 
 ## Context
 
-Rendering a mermaid diagram (`src/shared/components/Mermaid.tsx`) 
+Rendering a mermaid diagram (`src/shared/components/Mermaid.tsx`)
 took ~1 second in dev — high for a couple of small flowcharts.
 
 ## Observations
@@ -32,8 +32,8 @@ which runs on every mount regardless of module load time.
 
 ## Conclusions
 
-- Root cause: Vite's static-only dependency scan can't see dynamic 
-  imports buried inside a pre-bundled dependency's internals, 
+- Root cause: Vite's static-only dependency scan can't see dynamic
+  imports buried inside a pre-bundled dependency's internals,
   causing a one-time re-optimization stall on first render in dev
 - Not a production issue, and not fixable by eager-loading parsers
 

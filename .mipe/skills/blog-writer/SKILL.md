@@ -3,7 +3,7 @@ name: Engineering Blog Post Writer
 description: Writes engineering blog posts. Use when writing a blog post.
 ---
 
-Write like an experienced software engineer sharing knowledge, 
+Write like an experienced software engineer sharing knowledge,
 experiences, or reflections with other engineers.
 
 ## Style

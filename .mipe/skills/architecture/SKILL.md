@@ -4,7 +4,7 @@ description: Designs or refactors architecture. Use when introducing new structu
 ---
 
 Before making architectural changes, read `docs/ARCHITECTURE.md` unless
-it is already available in the current context. The architecture document 
+it is already available in the current context. The architecture document
 is the source of truth unless the user explicitly requests otherwise.
 
 ## Architecture
