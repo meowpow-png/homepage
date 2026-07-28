@@ -28,8 +28,10 @@ You should still run `npm run format` before pushing to catch what IDE style doe
 
 ## Linting
 
-Linting uses ESLint for JS/TS and Stylelint for CSS, catching real bugs
-and CSS mistakes Prettier won't touch. Most of it can be fixed automatically too:
+Linting uses ESLint for JS/TS, catching real bugs Prettier won't touch.
+ESLint doesn't understand CSS though, so Stylelint covers that instead.
+
+Most of it can be fixed automatically too:
 
 ```sh
 npm run lint:fix
