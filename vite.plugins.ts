@@ -125,11 +125,14 @@ export function validateProjectLanguages(): Plugin {
         return null
       }
       const frontmatterMatch = code.match(/^---\r?\n([\s\S]*?)\r?\n---/)
-      const languagesMatch = frontmatterMatch?.[1].match(/^languages:\s*\n((?:\s*-\s*.+\n?)+)/m)
+      // The regex has one required capturing group, so index 1 is always present when matched.
+      const languagesMatch = frontmatterMatch?.[1]!.match(
+        /^languages:\s*\n((?:\s*-\s*.+\n?)+)/m,
+      )
       if (!languagesMatch) {
         return null
       }
-      const languages = languagesMatch[1]
+      const languages = languagesMatch[1]!
         .split('\n')
         .map((line) => line.trim())
         .filter(Boolean)
