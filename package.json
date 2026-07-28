@@ -19,7 +19,9 @@
     "format:check": "prettier --check .",
     "lint": "e=0; eslint . || e=1; stylelint \"**/*.css\" || e=1; exit $e",
     "lint:fix": "e=0; eslint . --fix || e=1; stylelint \"**/*.css\" --fix || e=1; exit $e",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "knip": "knip",
+    "verify": "e=0; npm run format:check || e=1; npm run lint || e=1; npm run typecheck || e=1; npm run build || e=1; npm run coverage || e=1; npm run knip || e=1; exit $e"
   },
   "dependencies": {
     "@catppuccin/palette": "^1.8.0",
