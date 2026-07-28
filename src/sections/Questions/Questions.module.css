@@ -1,37 +1,37 @@
 .questions {
-    padding-top: var(--space-page-top);
+  padding-top: var(--space-page-top);
 }
 
 .heading {
-    margin: 0 0 var(--space-heading-to-copy);
-    color: var(--color-accent);
-    font-size: var(--font-size-page-title);
-    font-weight: 600;
-    line-height: 1.35;
+  margin: 0 0 var(--space-heading-to-copy);
+  color: var(--color-accent);
+  font-size: var(--font-size-page-title);
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .content > p {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-page-intro);
-    line-height: var(--line-height-page-intro);
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-page-intro);
+  line-height: var(--line-height-page-intro);
 }
 
 .content > p + * {
-    margin-top: var(--space-page-inline);
+  margin-top: var(--space-page-inline);
 }
 
 @media (max-width: 640px) {
-    .questions {
-        padding-top: var(--space-page-top-mobile);
-    }
+  .questions {
+    padding-top: var(--space-page-top-mobile);
+  }
 
-    .heading {
-        font-size: var(--font-size-page-title-mobile);
-    }
+  .heading {
+    font-size: var(--font-size-page-title-mobile);
+  }
 
-    .content > p {
-        font-size: var(--font-size-page-intro-mobile);
-        line-height: var(--line-height-page-intro-mobile);
-    }
+  .content > p {
+    font-size: var(--font-size-page-intro-mobile);
+    line-height: var(--line-height-page-intro-mobile);
+  }
 }

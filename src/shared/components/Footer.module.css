@@ -1,88 +1,88 @@
 .footer {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--space-page-inline);
-    margin-top: var(--space-section-to-footer);
-    padding-block: var(--space-divider-to-section-heading);
-    border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-page-inline);
+  margin-top: var(--space-section-to-footer);
+  padding-block: var(--space-divider-to-section-heading);
+  border-top: 1px solid var(--color-border);
 }
 
 .socialIcons {
-    display: flex;
-    flex-shrink: 0;
-    gap: var(--space-social-links);
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-social-links);
 }
 
 .socialLink {
-    display: grid;
-    width: 44px;
-    height: 44px;
-    justify-items: center;
-    align-items: start;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  justify-items: center;
+  align-items: start;
 }
 
 .icon {
-    display: block;
-    width: 30px;
-    height: 30px;
-    background: var(--color-icon);
-    mask-position: center;
-    mask-repeat: no-repeat;
-    mask-size: contain;
-    -webkit-mask-position: center;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-size: contain;
+  display: block;
+  width: 30px;
+  height: 30px;
+  background: var(--color-icon);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
 }
 
 .github {
-    mask-image: url('../assets/icons/github.svg');
-    -webkit-mask-image: url('../assets/icons/github.svg');
+  mask-image: url('../assets/icons/github.svg');
+  -webkit-mask-image: url('../assets/icons/github.svg');
 }
 
 .linkedin {
-    mask-image: url('../assets/icons/linkedin.svg');
-    -webkit-mask-image: url('../assets/icons/linkedin.svg');
+  mask-image: url('../assets/icons/linkedin.svg');
+  -webkit-mask-image: url('../assets/icons/linkedin.svg');
 }
 
 .mail {
-    mask-image: url('../assets/icons/mail.svg');
-    -webkit-mask-image: url('../assets/icons/mail.svg');
+  mask-image: url('../assets/icons/mail.svg');
+  -webkit-mask-image: url('../assets/icons/mail.svg');
 }
 
 .attribution {
-    display: grid;
-    grid-template-columns: max-content minmax(0, 1fr);
-    align-items: start;
-    column-gap: var(--space-footer-attribution-gap);
-    max-width: 350px;
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: 0.875rem;
-    line-height: 1.65;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--space-footer-attribution-gap);
+  max-width: 350px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.65;
 }
 
 .attribution p {
-    margin: 0;
+  margin: 0;
 }
 
 .prompt {
-    color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 @media (max-width: 640px) {
-    .footer {
-        flex-direction: column;
-        gap: var(--space-footer-stack);
-    }
+  .footer {
+    flex-direction: column;
+    gap: var(--space-footer-stack);
+  }
 
-    .attribution {
-        max-width: none;
-    }
+  .attribution {
+    max-width: none;
+  }
 }
 
 @media (max-width: 400px) {
-    .socialIcons {
-        gap: 10px;
-    }
+  .socialIcons {
+    gap: 10px;
+  }
 }

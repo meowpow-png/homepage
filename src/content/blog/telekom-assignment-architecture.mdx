@@ -4,7 +4,7 @@ slug: telekom-assignment-architecture
 publishedAt: 2026-07-25T18:00
 ---
 
-import {Mermaid} from '@/shared/components'
+import { Mermaid } from '@/shared/components'
 
 I had a working solution after the first commit. Two endpoints,
 REST in, SOAP out. The next day I started over.
@@ -35,7 +35,9 @@ flowchart TB
             Services --> Domain
             Services --> OutPorts
             Outbound -.implements.-> OutPorts
+
 `}
+
 </Mermaid>
 
 Dependencies only point inward. Infrastructure depends
@@ -64,7 +66,9 @@ flowchart LR
         B -->|SOAP| N
         N -->|Normal scenarios| M
         N -->|Resilience scenarios| W
+
 `}
+
 </Mermaid>
 
 There was implementation documentation describing this rig end to end.

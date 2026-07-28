@@ -1,30 +1,21 @@
-import type {ReactNode} from 'react'
+import type { ReactNode } from 'react'
 
-export type NavigationPage =
-    | 'about'
-    | 'projects'
-    | 'blog'
-    | 'questions'
+export type NavigationPage = 'about' | 'projects' | 'blog' | 'questions'
 
-export type RoutePath =
-    | '/about'
-    | '/projects'
-    | '/blog'
-    | '/questions'
+export type RoutePath = '/about' | '/projects' | '/blog' | '/questions'
 
 export interface Route {
-    currentPage: NavigationPage
+  currentPage: NavigationPage
 
-    render(): ReactNode
+  render(): ReactNode
 }
 
 export interface Navigation {
-    pathname: string
+  pathname: string
 
-    navigate(pathname: string): void
+  navigate(pathname: string): void
 }
 
-
 export interface RouterContextValue {
-    navigate: Navigation['navigate']
+  navigate: Navigation['navigate']
 }

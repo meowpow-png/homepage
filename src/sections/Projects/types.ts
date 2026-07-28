@@ -1,3 +1,3 @@
 export interface ProjectsPageMetadata {
-    closing: string
+  closing: string
 }

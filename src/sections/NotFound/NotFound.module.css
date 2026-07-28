@@ -1,21 +1,21 @@
 .notFound {
-    padding-top: var(--space-page-top);
+  padding-top: var(--space-page-top);
 }
 
 .heading {
-    margin: 0 0 var(--space-heading-to-copy);
-    color: var(--color-accent);
-    font-size: 1.5rem;
-    font-weight: 600;
-    line-height: 1.35;
+  margin: 0 0 var(--space-heading-to-copy);
+  color: var(--color-accent);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .notFound p {
-    margin: 0;
+  margin: 0;
 }
 
 @media (max-width: 640px) {
-    .notFound {
-        padding-top: var(--space-page-top-mobile);
-    }
+  .notFound {
+    padding-top: var(--space-page-top-mobile);
+  }
 }

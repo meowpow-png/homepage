@@ -23,7 +23,7 @@ That cost me the next several days. The container runs as a mapped host user via
 `LOCAL_UID`/`LOCAL_GID` and `gosu`, and getting that right took a proper tour of
 permission fixes. First "allow running codex shell as root," because the unprivileged
 user couldn't do something. Then "resolve codex permission issues," which actually fixed
-things by quietly *removing* several bind mounts (`.gradle`, `build`, `just/`, the `Justfile`)
+things by quietly _removing_ several bind mounts (`.gradle`, `build`, `just/`, the `Justfile`)
 instead of solving the underlying problem. Then "allow backend codex access to more files,"
 which added most of those same paths straight back in, plus a few more.
 

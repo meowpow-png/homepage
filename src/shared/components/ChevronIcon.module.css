@@ -1,12 +1,12 @@
 .icon {
-    display: block;
-    transition: transform 0.2s ease;
+  display: block;
+  transition: transform 0.2s ease;
 }
 
 .down {
-    transform: none;
+  transform: none;
 }
 
 .up {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }

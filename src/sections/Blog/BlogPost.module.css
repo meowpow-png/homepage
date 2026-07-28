@@ -1,91 +1,91 @@
 .post {
-    padding-top: var(--space-page-top);
+  padding-top: var(--space-page-top);
 }
 
 .heading {
-    margin: 0;
-    color: var(--color-accent);
-    font-size: var(--font-size-page-title);
-    font-weight: 600;
-    line-height: 1.35;
+  margin: 0;
+  color: var(--color-accent);
+  font-size: var(--font-size-page-title);
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .metadata {
-    margin: 16px 0 0;
-    color: var(--color-text-secondary);
-    font-size: 1rem;
+  margin: 16px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
 }
 
 .postFooter {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    margin-top: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 48px;
 }
 
 .backLink,
 .nextLink {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--color-accent);
-    line-height: 1.2;
-    text-decoration: none;
-    text-underline-offset: var(--link-underline-offset);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-accent);
+  line-height: 1.2;
+  text-decoration: none;
+  text-underline-offset: var(--link-underline-offset);
 }
 
 .backArrow,
 .nextArrow {
-    width: 20px;
-    height: 20px;
-    flex: 0 0 auto;
-    fill: none;
-    stroke: currentcolor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 2;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
 @media (hover: hover) {
-    .backLink:hover,
-    .nextLink:hover {
-        text-decoration: underline;
-    }
+  .backLink:hover,
+  .nextLink:hover {
+    text-decoration: underline;
+  }
 }
 
 .content {
-    margin-top: 48px;
-    color: var(--color-text-primary);
-    line-height: 1.8;
+  margin-top: 48px;
+  color: var(--color-text-primary);
+  line-height: 1.8;
 }
 
 .content h2 {
-    margin: 44px 0 20px;
-    color: var(--color-accent);
-    font-size: 1.375rem;
-    font-weight: 600;
-    line-height: 1.35;
+  margin: 44px 0 20px;
+  color: var(--color-accent);
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .content p {
-    margin: 0;
+  margin: 0;
 }
 
 .content p + p {
-    margin-top: var(--space-paragraph);
+  margin-top: var(--space-paragraph);
 }
 
 @media (max-width: 640px) {
-    .post {
-        padding-top: var(--space-page-top-mobile);
-    }
+  .post {
+    padding-top: var(--space-page-top-mobile);
+  }
 
-    .heading {
-        font-size: var(--font-size-page-title-mobile);
-    }
+  .heading {
+    font-size: var(--font-size-page-title-mobile);
+  }
 
-    .content {
-        margin-top: 40px;
-    }
+  .content {
+    margin-top: 40px;
+  }
 }

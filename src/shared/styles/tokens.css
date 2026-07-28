@@ -7,7 +7,7 @@
   --color-border: rgb(255 255 255 / 12%);
   --color-icon: #8a8c92;
 
-  --font-family-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-family-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --font-size-page-title: 1.875rem;
   --font-size-page-title-mobile: 1.5rem;

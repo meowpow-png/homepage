@@ -1,11 +1,11 @@
 .icon {
-    display: block;
+  display: block;
 }
 
 .left {
-    transform: none;
+  transform: none;
 }
 
 .right {
-    transform: scaleX(-1);
+  transform: scaleX(-1);
 }
