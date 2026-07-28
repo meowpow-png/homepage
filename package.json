@@ -16,7 +16,7 @@
     "format:check": "prettier --check .",
     "lint": "e=0; eslint . || e=1; stylelint \"**/*.css\" || e=1; exit $e",
     "lint:fix": "e=0; eslint . --fix || e=1; stylelint \"**/*.css\" --fix || e=1; exit $e",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc -b"
   },
   "dependencies": {
     "@catppuccin/palette": "^1.8.0",
