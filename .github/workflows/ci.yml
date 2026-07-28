@@ -24,7 +24,8 @@ on:
       - 'knip.json'
       - 'playwright.config.ts'
       - 'index.html'
-      - 'compose.yml'
+      - 'compose*.yml'
+      - 'docker/**'
       - '.github/workflows/ci.yml'
   pull_request:
     branches: [main, dev]
@@ -58,6 +59,8 @@ jobs:
               - 'vite.config.ts'
               - 'vite.plugins.ts'
               - 'index.html'
+              - 'compose*.yml'
+              - 'docker/**'
               - '.github/workflows/ci.yml'
             quality:
               - 'src/**'
@@ -76,7 +79,7 @@ jobs:
               - 'knip.json'
               - 'playwright.config.ts'
               - 'index.html'
-              - 'compose.yml'
+              - 'compose*.yml'
               - '.github/workflows/ci.yml'
 
   test:
@@ -105,14 +108,14 @@ jobs:
       - name: Run tests with coverage
         id: test
         continue-on-error: true
-        run: npm run coverage
+        run: docker compose -f compose.yml -f compose.ci.yml run --rm test
 
       - name: Upload coverage
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: coverage
-          path: coverage/
+          path: tests/output/coverage-combined/
           if-no-files-found: ignore
 
       - name: Report check results

@@ -1,0 +1,5 @@
+services:
+  test:
+    volumes:
+      - ./node_modules:/workspace/node_modules:z
+    command: sh docker/test/run.sh --skip-install
