@@ -6,7 +6,7 @@ permissions:
 on:
   workflow_dispatch:
   push:
-    branches: [ main, dev ]
+    branches: [main, dev]
     paths: &all-paths
       - 'src/**'
       - 'tests/**'
@@ -27,7 +27,7 @@ on:
       - 'compose.yml'
       - '.github/workflows/ci.yml'
   pull_request:
-    branches: [ main, dev ]
+    branches: [main, dev]
     paths: *all-paths
 
 jobs:
