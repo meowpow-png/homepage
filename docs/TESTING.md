@@ -62,3 +62,25 @@ everything to `tests/output/`, so it works the same whether
 you ran it locally or in the container.
 
 `just test` and `just coverage` are shortcuts for the first two npm scripts above.
+
+## Reading Coverage
+
+`coverage:merge` writes reports to `tests/output/coverage/`:
+
+```text
+coverage/
+├── unit/      # unit tests only
+├── e2e/       # e2e tests only
+└── combined/  # both merged
+```
+
+All reports are measured against the whole codebase, not just the files each
+run happens to touch, so they're directly comparable. Combined report will
+always be the highest of the three, since it's the union of the other two.
+
+See [004-e2e-coverage-baseline.md](notes/004-e2e-coverage-baseline.md)
+for why that took some fixing.
+
+Each folder's `coverage-summary.json` has the raw numbers; `index.html`
+is the browsable report. CI posts the same three numbers in the job summary
+on every run, so you don't need to open either to get a quick read.
