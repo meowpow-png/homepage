@@ -13,7 +13,7 @@ export default defineConfig([
       '.codex/**',
       '.mipe/**',
       'dist/**',
-      'coverage/**',
+      '**/coverage/**',
       'node_modules/**',
       '.prettierrc.json',
       '**/*.md',
