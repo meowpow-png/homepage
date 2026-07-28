@@ -64,6 +64,7 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul',
       reportsDirectory: 'tests/output/coverage',
+      reporter: ['text', 'html', 'clover', 'json', 'json-summary'],
     },
   },
 })
