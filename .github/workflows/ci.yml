@@ -1,0 +1,178 @@
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, dev ]
+    paths: &all-paths
+      - 'src/**'
+      - 'tests/**'
+      - 'docs/**'
+      - '**/*.md'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.npmrc'
+      - 'tsconfig*.json'
+      - 'vite.config.ts'
+      - 'vite.plugins.ts'
+      - 'eslint.config.mjs'
+      - '.stylelintrc.json'
+      - '.prettierrc.json'
+      - 'knip.json'
+      - 'playwright.config.ts'
+      - 'index.html'
+      - 'compose.yml'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches: [ main, dev ]
+    paths: *all-paths
+
+jobs:
+  changes:
+    name: Detect changed paths
+    runs-on: ubuntu-latest
+    outputs:
+      test: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.test == 'true' }}
+      quality: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.quality == 'true' }}
+    steps:
+      - name: Checkout repository
+        if: github.event_name != 'workflow_dispatch'
+        uses: actions/checkout@v7
+
+      - name: Filter changed paths
+        id: filter
+        if: github.event_name != 'workflow_dispatch'
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            test:
+              - 'src/**'
+              - 'tests/**'
+              - 'package.json'
+              - 'package-lock.json'
+              - '.npmrc'
+              - 'tsconfig*.json'
+              - 'vite.config.ts'
+              - 'vite.plugins.ts'
+              - 'index.html'
+              - '.github/workflows/ci.yml'
+            quality:
+              - 'src/**'
+              - 'tests/**'
+              - 'docs/**'
+              - '**/*.md'
+              - 'package.json'
+              - 'package-lock.json'
+              - '.npmrc'
+              - 'tsconfig*.json'
+              - 'vite.config.ts'
+              - 'vite.plugins.ts'
+              - 'eslint.config.mjs'
+              - '.stylelintrc.json'
+              - '.prettierrc.json'
+              - 'knip.json'
+              - 'playwright.config.ts'
+              - 'index.html'
+              - 'compose.yml'
+              - '.github/workflows/ci.yml'
+
+  test:
+    name: Build and test
+    needs: changes
+    if: needs.changes.outputs.test == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: package.json
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        id: build
+        continue-on-error: true
+        run: npm run build
+
+      - name: Run tests with coverage
+        id: test
+        continue-on-error: true
+        run: npm run coverage
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: coverage/
+          if-no-files-found: ignore
+
+      - name: Report check results
+        if: always()
+        run: |
+          outcomes=(
+            "${{ steps.build.outcome }}"
+            "${{ steps.test.outcome }}"
+          )
+          for outcome in "${outcomes[@]}"; do
+            [ "$outcome" = "success" ] || exit 1
+          done
+
+  quality:
+    name: Quality checks
+    needs: changes
+    if: needs.changes.outputs.quality == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: package.json
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        id: format
+        continue-on-error: true
+        run: npm run format:check
+
+      - name: Run linting
+        id: lint
+        continue-on-error: true
+        run: npm run lint
+
+      - name: Run type checking
+        id: typecheck
+        continue-on-error: true
+        run: npm run typecheck
+
+      - name: Check for unused files and dependencies
+        id: knip
+        continue-on-error: true
+        run: npm run knip
+
+      - name: Report check results
+        if: always()
+        run: |
+          outcomes=(
+            "${{ steps.format.outcome }}"
+            "${{ steps.lint.outcome }}"
+            "${{ steps.typecheck.outcome }}"
+            "${{ steps.knip.outcome }}"
+          )
+          for outcome in "${outcomes[@]}"; do
+            [ "$outcome" = "success" ] || exit 1
+          done
