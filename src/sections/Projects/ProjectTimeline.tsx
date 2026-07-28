@@ -66,9 +66,9 @@ export function ProjectTimeline({ activeProjectId, projects }: ProjectTimelinePr
 
   function renderProjectItem(
     project: ProjectMetadata,
-    itemClassName: string,
-    linkClassName: string,
-    markerClassName: string,
+    itemClassName: string | undefined,
+    linkClassName: string | undefined,
+    markerClassName: string | undefined,
   ): JSX.Element {
     const isActive = project.id === activeProjectId
     return (
