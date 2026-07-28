@@ -13,7 +13,8 @@ Automate quality checks to ensure every change is production-ready.
 - [ ] Run linting
 - [ ] Run type checking
 - [ ] Build the project
-- [ ] Verify pull request and push workflows
+- [ ] Run unit and integration tests
+- [ ] Update coverage data
 
 ### Deployment
 
