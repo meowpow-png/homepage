@@ -58,6 +58,9 @@ export default defineConfig({
     // mermaid's shared chunk covers diagram types we don't use and is
     // never fetched at runtime, so ignore the default 500kb warning
     chunkSizeWarningLimit: 700,
+    // vite-plugin-istanbul needs this for accurate coverage;
+    // hidden keeps the map off production bundle's sourceMappingURL
+    sourcemap: 'hidden',
   },
   test: {
     include: ['tests/unit/**/*.test.{ts,tsx}'],
