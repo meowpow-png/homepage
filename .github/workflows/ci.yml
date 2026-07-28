@@ -141,6 +141,13 @@ jobs:
           path: tests/output/coverage-combined/
           if-no-files-found: ignore
 
+      - name: Write job summary
+        if: always()
+        env:
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          TEST_OUTCOME: ${{ steps.test.outcome }}
+        run: sh .github/scripts/render-test-summary.sh >> "$GITHUB_STEP_SUMMARY"
+
       - name: Report check results
         if: always()
         run: |
@@ -189,6 +196,15 @@ jobs:
         id: knip
         continue-on-error: true
         run: npm run knip
+
+      - name: Write job summary
+        if: always()
+        env:
+          FORMAT_OUTCOME: ${{ steps.format.outcome }}
+          LINT_OUTCOME: ${{ steps.lint.outcome }}
+          TYPECHECK_OUTCOME: ${{ steps.typecheck.outcome }}
+          KNIP_OUTCOME: ${{ steps.knip.outcome }}
+        run: sh .github/scripts/render-quality-summary.sh >> "$GITHUB_STEP_SUMMARY"
 
       - name: Report check results
         if: always()
