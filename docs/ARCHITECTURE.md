@@ -2,7 +2,8 @@
 
 ## Overview
 
-The frontend follows a section-oriented architecture that groups related UI and application logic into self-contained modules.
+The frontend follows a section-oriented architecture that groups
+related UI and application logic into self-contained modules.
 
 The architecture emphasizes clear boundaries, explicit data flow, and minimal complexity.
 
@@ -64,8 +65,8 @@ Reusable SVG icons are stored in `src/shared/assets/icons/`.
 
 ## Content
 
-Authored MDX content lives in `src/content/`. Sections render content; MDX may use shared modules
-but must not depend on section modules.
+Authored MDX content lives in `src/content/`. Sections render content;
+MDX may use shared modules but must not depend on section modules.
 
 Each content submodule exposes its data through `index.ts`.
 
