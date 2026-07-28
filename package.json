@@ -10,7 +10,9 @@
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "e2e": "playwright test",
-    "coverage:merge": "node tests/merge-coverage.js"
+    "coverage:merge": "node tests/merge-coverage.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@catppuccin/palette": "^1.8.0",
