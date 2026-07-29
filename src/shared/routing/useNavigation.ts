@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 import type { Navigation } from './types'
 
 export function normalizePathname(pathname: string): string {
-  return pathname === '/' ? '/about' : pathname
+  const trimmed = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname
+  return trimmed === '/' ? '/about' : trimmed
 }
 
 export function useNavigation(): Navigation {

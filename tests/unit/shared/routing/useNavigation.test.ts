@@ -11,4 +11,13 @@ describe('normalizePathname', () => {
     expect(normalizePathname('/projects')).toBe('/projects')
     expect(normalizePathname('/blog/some-post')).toBe('/blog/some-post')
   })
+
+  it('strips a trailing slash', () => {
+    expect(normalizePathname('/about/')).toBe('/about')
+    expect(normalizePathname('/blog/some-post/')).toBe('/blog/some-post')
+  })
+
+  it('strips repeated trailing slashes', () => {
+    expect(normalizePathname('/about///')).toBe('/about')
+  })
 })
