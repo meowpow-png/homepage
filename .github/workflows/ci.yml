@@ -24,8 +24,6 @@ on:
       - 'knip.json'
       - 'playwright.config.ts'
       - 'index.html'
-      - 'compose*.yml'
-      - 'docker/**'
       - '.github/workflows/ci.yml'
   pull_request:
     branches: [main, dev]
@@ -59,8 +57,6 @@ jobs:
               - 'vite.config.ts'
               - 'vite.plugins.ts'
               - 'index.html'
-              - 'compose*.yml'
-              - 'docker/**'
               - '.github/workflows/ci.yml'
             quality:
               - 'src/**'
@@ -79,7 +75,6 @@ jobs:
               - 'knip.json'
               - 'playwright.config.ts'
               - 'index.html'
-              - 'compose*.yml'
               - '.github/workflows/ci.yml'
 
   test:
@@ -87,8 +82,6 @@ jobs:
     needs: changes
     if: needs.changes.outputs.test == 'true'
     runs-on: ubuntu-latest
-    env:
-      COMPOSE_FILE: compose.yml:compose.ci.yml
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -107,31 +100,29 @@ jobs:
         continue-on-error: true
         run: npm run build
 
-      - name: Resolve Playwright image
-        id: playwright-image
-        run: echo "image=$(docker compose config --images test)" >> "$GITHUB_OUTPUT"
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: sh .github/scripts/get-playwright-version.sh >> "$GITHUB_OUTPUT"
 
-      - name: Cache Playwright image
-        id: docker-cache
+      - name: Cache Playwright browsers
+        id: playwright-cache
         uses: actions/cache@v6
         with:
-          path: /tmp/playwright-image.tar
-          key: docker-cache-${{ steps.playwright-image.outputs.image }}
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ steps.playwright-version.outputs.version }}
 
-      - name: Load or pull Playwright image
-        run: |
-          image="${{ steps.playwright-image.outputs.image }}"
-          if [ -f /tmp/playwright-image.tar ]; then
-            docker load -i /tmp/playwright-image.tar
-          else
-            docker pull "$image"
-            docker save "$image" -o /tmp/playwright-image.tar
-          fi
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
 
       - name: Run tests with coverage
         id: test
         continue-on-error: true
-        run: docker compose run --rm test
+        run: npm run coverage && npm run e2e && npm run coverage:merge
 
       - name: Upload code coverage
         if: always()
