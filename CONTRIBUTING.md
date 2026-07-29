@@ -17,9 +17,15 @@ branch tied to a GitHub issue instead. Topic branches get its own Vercel
 preview URL to check your work, and merging it back into `dev` gives 
 the issue a clean reference to the commit that resolved it.
 
-See [Branch overview](docs/WORKFLOW.md#branch-overview),
-[Topic branches](docs/WORKFLOW.md#topic-branches), and
-[Environments](docs/WORKFLOW.md#environments) for more details.
+See [Branch overview](docs/WORKFLOW.md#branch-overview) and
+[Topic branches](docs/WORKFLOW.md#topic-branches) for more details.
+
+## Deploying
+
+Vercel deploys `main`, `dev`, and every `topic/*` branch automatically.
+Docs-only changes like fixing README typos don't trigger a deploy.
+
+See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for more information.
 
 ## Inspecting quality
 

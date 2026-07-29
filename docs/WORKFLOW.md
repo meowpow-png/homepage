@@ -31,18 +31,6 @@ only auto-closes an issue once a commit with `Closes #42` reaches
 the default branch, so the issue stays open through staging 
 and closes when the fix actually ships, at release time.
 
-## Environments
-
-| Environment | Branch    | URL                           |
-|-------------|-----------|-------------------------------|
-| Production  | `main`    | `https://meowpow.dev`         |
-| Staging     | `dev`     | `https://staging.meowpow.dev` |
-| Preview     | `topic/*` | Vercel preview deployment     |
-
-Staging is public and always reflects what's about to ship. Vercel deploys
-all branches automatically; however, only production and preview get 
-stable domain, topic branches just get a throwaway preview URL each.
-
 ## Versioning
 
 Versions are CalVer, `YYYY.MM.PATCH`, tracked in `package.json`
@@ -71,7 +59,7 @@ version was last released, until it's time to prepare the next one.
 3. Bump the version in `package.json` and commit
 4. Promote `dev` to `main`
 5. Tag the release and push
-6. CI creates the GitHub Release and deploys production
+6. CI creates GitHub Release; Vercel deploys production
 7. Bring `dev` back in sync with `main`
 
 ```sh
