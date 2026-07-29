@@ -18,7 +18,10 @@ services:
     tty: true
 
   test:
-    image: mcr.microsoft.com/playwright:v1.62.0-noble
+    build:
+      context: .
+      dockerfile: docker/test/Dockerfile
+    image: homepage-test:local
     working_dir: /workspace
     volumes:
       - .:/workspace:z
