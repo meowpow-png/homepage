@@ -133,13 +133,29 @@ jobs:
         continue-on-error: true
         run: docker compose run --rm test
 
-      - name: Upload coverage
+      - name: Upload code coverage
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: coverage
           path: tests/output/coverage/combined/
           if-no-files-found: ignore
+
+      - name: Extract code coverage
+        id: coverage
+        if: always()
+        run: sh .github/scripts/extract-coverage.sh >> "$GITHUB_OUTPUT"
+
+      - name: Update code coverage badge
+        if: github.ref == 'refs/heads/dev' && steps.coverage.outputs.coverage != ''
+        uses: schneegans/dynamic-badges-action@v1.9.0
+        with:
+          auth: ${{ secrets.GIST_TOKEN }}
+          gistID: 9d82a498aa63b2b7b872629c4cd6759c
+          filename: homepage-coverage.json
+          label: coverage
+          message: ${{ steps.coverage.outputs.coverage }}
+          color: ${{ steps.coverage.outputs.color }}
 
       - name: Write job summary
         if: always()
