@@ -5,7 +5,7 @@ set -eu
 
 # Vercel's shallow clone may not contain $VERCEL_GIT_PREVIOUS_SHA
 # once a few deploys in a row get skipped; unshallow so diff below can resolve it
-git fetch --quiet --unshallow 2>/dev/null || true
+git fetch --unshallow || echo "unshallow failed, continuing with existing history" >&2
 
 BUILD_PATHS="src package.json package-lock.json .npmrc tsconfig*.json vite.config.ts vite.plugins.ts index.html"
 
