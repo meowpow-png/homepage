@@ -30,6 +30,8 @@ Prepare and automate the production deployment process.
 
 Ensure the site is discoverable and displays correctly when shared.
 
+- [ ] Block staging from indexing (`noindex`)
+- [ ] Prerender per-route HTML (needed for per-page metadata)
 - [ ] Verify metadata
 - [ ] Verify Open Graph metadata
 - [ ] Verify Twitter/X metadata
@@ -37,6 +39,9 @@ Ensure the site is discoverable and displays correctly when shared.
 - [ ] Configure robots.txt
 - [ ] Verify canonical URLs
 - [ ] Verify favicon and app icons
+- [ ] Validate with Lighthouse/PageSpeed SEO audit
+- [ ] Validate with Google Search Console
+- [ ] Validate social card previews (Twitter/X, Facebook, LinkedIn)
 
 ### Performance
 
@@ -56,10 +61,18 @@ Finalize the repository for long-term maintenance.
 - [ ] Review README and LICENSE
 - [x] Block force-push and deletion on `main`
 
+### Versioning
+
+Set up version tracking ahead of the first release.
+
+- [ ] Create CHANGELOG.md
+- [ ] Bump version in package.json
+
 ### Release
 
 Perform final validation before making the site public.
 
+- [ ] Configure release automation
 - [ ] Verify navigation
 - [ ] Verify responsive layouts
 - [ ] Verify accessibility
