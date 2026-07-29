@@ -3,7 +3,7 @@
 ## Context
 
 Pushing combined coverage from ~75% toward the 80% badge threshold,
-I'd already closed the cheap, legitimate gaps (dead code, untested 
+I'd already closed the cheap, legitimate gaps (dead code, untested
 pure functions). What was left was concentrated in the site navigation
 component, fully exercised by passing e2e tests yet reported well
 below 100%. I wanted to know whether that gap was real missing
@@ -23,14 +23,14 @@ the component mounting on every one of the suite's ~10 page loads.
 
 Forcing coverage instrumentation into a production build and running
 one isolated e2e test against it gave a clean result: 21 statements,
-max line 98, and the previously-zero lines at 7 hits. Running the 
-full 10-test suite against that same, unrebuilt bundle reproduced 
+max line 98, and the previously-zero lines at 7 hits. Running the
+full 10-test suite against that same, unrebuilt bundle reproduced
 the broken shape again — on both my machine and the user's,
-regardless  of parallelism or server-reuse settings.
+regardless of parallelism or server-reuse settings.
 
 Combined coverage barely moved between the two measurements: 74.82%
-(547/731) vs. 74.23% (317/427). The total line count itself dropped 
-by 304 under production — mostly-static components instrument down 
+(547/731) vs. 74.23% (317/427). The total line count itself dropped
+by 304 under production — mostly-static components instrument down
 to a handful of statements once dev-only tracking code isn't
 there to inflate them.
 
@@ -73,7 +73,7 @@ for that was individually ruled out.
 
 Given TESTING.md's own stance against maximizing the coverage number,
 I'm not planning to keep chasing the remaining gap. This note exists
-so that future me who notices the same components looking suspiciously 
+so that future me who notices the same components looking suspiciously
 undercovered doesn't re-derive all of the above from scratch.
 
 ## References
