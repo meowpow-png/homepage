@@ -3,7 +3,7 @@
 ## Branch overview
 
 | Branch    | Purpose                                   |
-|-----------|-------------------------------------------|
+| --------- | ----------------------------------------- |
 | `main`    | Production                                |
 | `dev`     | Preview (active development work)         |
 | `topic/*` | Everything else — features, fixes, chores |
@@ -25,10 +25,10 @@ git merge --no-ff topic/42-fix-nav -m "Fix navigation issue" -m "Closes #42"
 git push origin dev
 ```
 
-`--no-ff` matters here: a plain merge often just fast-forwards with 
-no merge commit, leaving nowhere to put the issue reference. GitHub 
-only auto-closes an issue once a commit with `Closes #42` reaches 
-the default branch, so the issue stays open through staging 
+`--no-ff` matters here: a plain merge often just fast-forwards with
+no merge commit, leaving nowhere to put the issue reference. GitHub
+only auto-closes an issue once a commit with `Closes #42` reaches
+the default branch, so the issue stays open through staging
 and closes when the fix actually ships, at release time.
 
 ## Versioning

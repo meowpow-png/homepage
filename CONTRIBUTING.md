@@ -10,11 +10,11 @@ See [CONTENT.md](docs/CONTENT.md) for more information on how to write content.
 
 ## Committing work
 
-`main` and `dev` are long-lived branches for production and staging. 
+`main` and `dev` are long-lived branches for production and staging.
 
 You can commit to `dev` directly, but prefer a short-lived `topic/*`
 branch tied to a GitHub issue instead. Topic branches get its own Vercel
-preview URL to check your work, and merging it back into `dev` gives 
+preview URL to check your work, and merging it back into `dev` gives
 the issue a clean reference to the commit that resolved it.
 
 See [Branch overview](docs/WORKFLOW.md#branch-overview) and
