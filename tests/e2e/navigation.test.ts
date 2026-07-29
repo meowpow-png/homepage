@@ -42,3 +42,38 @@ test('navigating through all pages highlights the active nav item, then the back
     'page',
   )
 })
+
+test('mobile menu opens and closes via toggle, Escape, click-outside, and link click', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 800 })
+  await page.goto('/')
+
+  const toggle = page.getByRole('button', { name: /menu/i })
+  const links = page.locator('#primary-navigation-links')
+  const backdrop = page.locator('[aria-hidden="true"][data-open="true"]')
+
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(links).toHaveAttribute('data-open', 'true')
+
+  await page.keyboard.press('Escape')
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(links).toHaveAttribute('data-open', 'false')
+
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+  await backdrop.click({ force: true })
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(links).toHaveAttribute('data-open', 'false')
+
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+  await page.getByRole('link', { name: 'Projects', exact: true }).click()
+  await expect(page).toHaveURL(/\/projects$/)
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+})
