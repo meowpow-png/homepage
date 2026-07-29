@@ -12,6 +12,21 @@ describe('resolveRoute', () => {
   it('returns undefined for an unknown path', () => {
     expect(resolveRoute('/unknown')).toBeUndefined()
   })
+
+  it('returns the static blog route for the blog index path', () => {
+    expect(resolveRoute('/blog')).toBe(routes['/blog'])
+  })
+
+  it('returns a blog route for a known post slug', () => {
+    const route = resolveRoute('/blog/telekom-assignment-overview')
+
+    expect(route?.currentPage).toBe('blog')
+    expect(route && isValidElement(route.render())).toBe(true)
+  })
+
+  it('returns undefined for an unknown post slug', () => {
+    expect(resolveRoute('/blog/unknown-slug')).toBeUndefined()
+  })
 })
 
 describe('routes', () => {

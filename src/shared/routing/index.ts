@@ -1,3 +1,4 @@
+export { dynamicRoutes } from './dynamicRoutes'
 export { Link, shouldInterceptNavigation } from './Link'
 export { RouterContext } from './RouterContext'
 export { resolveRoute } from './resolveRoute'
