@@ -10,6 +10,16 @@ test('visiting an unknown URL shows the not found page', async ({ page }) => {
       'page',
     )
   }
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex')
+})
+
+test('navigating away from the not found page removes noindex', async ({ page }) => {
+  await page.goto('/this-page-does-not-exist')
+  await expect(page.locator('#not-found-heading')).toHaveText('Not Found')
+
+  await page.getByRole('link', { name: 'About', exact: true }).click()
+
+  await expect(page.locator('meta[name="robots"]')).toHaveCount(0)
 })
 
 test('visiting an unknown blog slug shows the not found page', async ({ page }) => {
