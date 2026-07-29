@@ -20,7 +20,7 @@ export function formatPublishedAt(publishedAt: string): string {
   }).format(new Date(`${publishedAt}:00Z`))
 }
 
-function PostLink({ href, ...props }: ComponentPropsWithoutRef<'a'>): JSX.Element {
+export function PostLink({ href, ...props }: ComponentPropsWithoutRef<'a'>): JSX.Element {
   if (!href) {
     return <a {...props} />
   }
