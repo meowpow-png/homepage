@@ -1,3 +1,5 @@
 {
-  "ignoreCommand": "sh scripts/vercel-ignore-build.sh"
+  "ignoreCommand": "sh scripts/vercel-ignore-build.sh",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "trailingSlash": false
 }
