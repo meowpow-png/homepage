@@ -60,7 +60,7 @@ export function Navigation({ currentPage }: NavigationProps): JSX.Element {
       <div className={styles.topRow}>
         <Link className={styles.brand} href="/about">
           <span className={styles.brandDot} aria-hidden="true" />
-          marin.dev
+          meowpow.dev
         </Link>
 
         <button
