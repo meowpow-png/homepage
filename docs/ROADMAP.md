@@ -53,18 +53,8 @@ Validate that the site loads quickly and efficiently.
 
 Finalize the repository for long-term maintenance.
 
-- [ ] Review README
-- [ ] Review LICENSE
-- [ ] Configure branch protection
-- [ ] Configure required status checks
-
-### Monitoring
-
-Add visibility into production behavior and reliability.
-
-- [ ] Configure analytics _(optional)_
-- [ ] Configure error reporting _(optional)_
-- [ ] Configure uptime monitoring _(optional)_
+- [ ] Review README and LICENSE
+- [x] Block force-push and deletion on `main`
 
 ### Release
 
@@ -77,3 +67,11 @@ Perform final validation before making the site public.
 - [ ] Verify 404 handling
 - [ ] Verify redirects
 - [ ] Publish first release
+
+## Milestone 2 — Monitoring
+
+Add visibility into production behavior and reliability.
+
+- [ ] Configure analytics
+- [ ] Configure error reporting
+- [ ] Configure uptime monitoring
