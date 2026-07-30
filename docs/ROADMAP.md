@@ -26,22 +26,20 @@ Prepare and automate the production deployment process.
 - [x] Configure custom domain
 - [x] Configure HTTPS
 
-### SEO & Metadata
+### Discoverability
 
 Ensure the site is discoverable and displays correctly when shared.
 
-- [ ] Block staging from indexing (`noindex`)
-- [ ] Prerender per-route HTML (needed for per-page metadata)
-- [ ] Verify metadata
-- [ ] Verify Open Graph metadata
-- [ ] Verify Twitter/X metadata
+- [ ] Block staging from indexing
+- [ ] Prerender per-route HTML
+- [ ] Configure page metadata (title, description, canonical)
+- [ ] Configure Open Graph and Twitter/X metadata
 - [ ] Generate sitemap
 - [ ] Configure robots.txt
-- [ ] Verify canonical URLs
-- [ ] Verify favicon and app icons
-- [ ] Validate with Lighthouse/PageSpeed SEO audit
-- [ ] Validate with Google Search Console
-- [ ] Validate social card previews (Twitter/X, Facebook, LinkedIn)
+- [ ] Configure favicon and app icons
+- [ ] Validate with Lighthouse SEO audit
+- [ ] Validate Google indexing (Search Console)
+- [ ] Verify social card previews
 
 ### Performance
 
