@@ -31,7 +31,7 @@ on:
 
 jobs:
   changes:
-    name: Detect changed paths
+    name: Detect Paths
     runs-on: ubuntu-latest
     outputs:
       test: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.test == 'true' }}
@@ -78,7 +78,7 @@ jobs:
               - '.github/workflows/ci.yml'
 
   test:
-    name: Build and test
+    name: Build & Test
     needs: changes
     if: needs.changes.outputs.test == 'true'
     runs-on: ubuntu-latest
@@ -167,7 +167,7 @@ jobs:
           done
 
   quality:
-    name: Quality checks
+    name: Quality Checks
     needs: changes
     if: needs.changes.outputs.quality == 'true'
     runs-on: ubuntu-latest
