@@ -43,6 +43,38 @@ test('navigating through all pages highlights the active nav item, then the back
   )
 })
 
+test('page title, description, and canonical update per route', async ({ page }) => {
+  await page.goto('/about')
+  await expect(page).toHaveTitle('Marin · meowpow.dev')
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    "I enjoy building software that makes other developers' lives a little easier.",
+  )
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://meowpow.dev/about',
+  )
+
+  await page.getByRole('link', { name: 'Projects', exact: true }).click()
+  await expect(page).toHaveTitle('Projects · meowpow.dev')
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    "A collection of things I've built.",
+  )
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://meowpow.dev/projects',
+  )
+
+  await page.goto('/this-page-does-not-exist')
+  await expect(page).toHaveTitle('Not Found · meowpow.dev')
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    'Page not found.',
+  )
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0)
+})
+
 test('mobile menu opens and closes via toggle, Escape, click-outside, and link click', async ({
   page,
 }) => {
