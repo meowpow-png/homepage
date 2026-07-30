@@ -1,16 +1,13 @@
 ## Build and test
 
-| Check | Result          |
-| ----- | --------------- |
-| Build | ${BUILD_RESULT} |
-| Tests | ${TEST_RESULT}  |
+- Build Result: ${BUILD_RESULT}
+- Tests Result: ${TEST_RESULT}
 
-### Coverage
-
-| Scope    | Lines                |
-| -------- | -------------------- |
-| Unit     | ${UNIT_COVERAGE}     |
-| E2E      | ${E2E_COVERAGE}      |
-| Combined | ${COMBINED_COVERAGE} |
+| Suite    | Files          | Tests          | Coverage             |
+| -------- | -------------- | -------------- | -------------------- |
+| Build    | ${BUILD_FILES} | ${BUILD_TESTS} | —                    |
+| Unit     | ${UNIT_FILES}  | ${UNIT_TESTS}  | ${UNIT_COVERAGE}     |
+| E2E      | ${E2E_FILES}   | ${E2E_TESTS}   | ${E2E_COVERAGE}      |
+| Combined | —              | —              | ${COMBINED_COVERAGE} |
 
 ${FOOTER}
