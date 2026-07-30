@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 
+import art404 from '@/shared/assets/images/404.png'
+
 import styles from './NotFound.module.css'
 
 export function NotFound() {
@@ -22,7 +24,16 @@ export function NotFound() {
       <h1 className={styles.heading} id="not-found-heading">
         Not Found
       </h1>
-      <p>The requested page could not be found.</p>
+
+      <div className={styles.log}>
+        <p className={styles.title}>Page Not Found</p>
+        <p>The kraken got here first.</p>
+        <p className={styles.prompt}>$ cat ./404.txt</p>
+
+        <div className={styles.artWrapper}>
+          <img src={art404} alt="" aria-hidden="true" className={styles.art} />
+        </div>
+      </div>
     </section>
   )
 }

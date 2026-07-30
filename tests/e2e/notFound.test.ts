@@ -4,8 +4,9 @@ test('visiting an unknown URL shows the not found page', async ({ page }) => {
   await page.goto('/this-page-does-not-exist')
   await expect(page.locator('#not-found-heading')).toHaveText('Not Found')
 
+  const primaryNav = page.getByRole('navigation', { name: 'Primary navigation' })
   for (const name of ['About', 'Projects', 'Blog', 'Questions']) {
-    await expect(page.getByRole('link', { name, exact: true })).not.toHaveAttribute(
+    await expect(primaryNav.getByRole('link', { name, exact: true })).not.toHaveAttribute(
       'aria-current',
       'page',
     )
@@ -13,11 +14,19 @@ test('visiting an unknown URL shows the not found page', async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex')
 })
 
+test('the log mentions the attempted path and a 404', async ({ page }) => {
+  await page.goto('/this-page-does-not-exist')
+
+  await expect(page.getByText('/this-page-does-not-exist').first()).toBeVisible()
+  await expect(page.getByText(/404/)).toBeVisible()
+})
+
 test('navigating away from the not found page removes noindex', async ({ page }) => {
   await page.goto('/this-page-does-not-exist')
   await expect(page.locator('#not-found-heading')).toHaveText('Not Found')
 
-  await page.getByRole('link', { name: 'About', exact: true }).click()
+  const primaryNav = page.getByRole('navigation', { name: 'Primary navigation' })
+  await primaryNav.getByRole('link', { name: 'About', exact: true }).click()
 
   await expect(page.locator('meta[name="robots"]')).toHaveCount(0)
 })

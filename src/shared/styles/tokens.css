@@ -7,6 +7,13 @@
   --color-border: rgb(255 255 255 / 12%);
   --color-icon: #8a8c92;
   --font-family-mono: 'IBM Plex Mono', ui-monospace, sfmono-regular, menlo, monospace;
+  --ctp-mocha-base: #1e1e2e;
+  --ctp-mocha-surface0: #313244;
+  --ctp-mocha-surface1: #45475a;
+  --ctp-mocha-overlay0: #6c7086;
+  --ctp-mocha-text: #cdd6f4;
+  --ctp-mocha-subtext0: #a6adc8;
+  --ctp-mocha-peach: #fab387;
   --font-size-page-title: 1.875rem;
   --font-size-page-title-mobile: 1.5rem;
   --font-size-page-intro: 1.0625rem;
