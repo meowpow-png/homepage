@@ -26,6 +26,7 @@
     "lint:fix": "run-s --continue-on-error lint:fix:eslint lint:fix:stylelint",
     "typecheck": "tsc -b",
     "knip": "knip",
+    "qualitycheck": "run-s --continue-on-error format:check lint typecheck build knip",
     "verify": "run-s --continue-on-error format:check lint typecheck build coverage knip"
   },
   "dependencies": {

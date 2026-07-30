@@ -1,19 +1,25 @@
 # Quality
 
+Quality check passes when:
+
+- the project builds
+- code is formatted, linted, and type-checked
+- there are no unused exports or dependencies
+
 Run all quality checks:
 
 ```sh
-npm run verify
+npm run qualitycheck
 ```
 
-> [!NOTE]
-> A `pre-push` hook runs this automatically via lefthook,
-> installed by `npm install`. No separate setup needed.
+That runs all quality checks sequentially. It keeps going
+even if one of them fails, so you see everything that's
+wrong in one pass instead of one at a time.
 
-That runs formatting, linting, type checking, knip, a full build,
-and the test suite with coverage, one after another. It keeps
-going even if one of them fails, so you see everything
-that's wrong in one pass instead of one at a time.
+> [!NOTE]
+> `npm run verify` runs `qualitycheck` plus the test suite. A `pre-push`
+> hook runs `verify` automatically via lefthook, installed by `npm install`.
+> No separate setup needed.
 
 ## Formatting
 
