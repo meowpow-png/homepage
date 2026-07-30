@@ -18,7 +18,12 @@ const template = `<!doctype html>
     <title>Placeholder</title>
     <meta name="description" content="Placeholder description." />
     <link rel="canonical" href="https://meowpow.dev/placeholder" />
+    <meta content="https://meowpow.dev/placeholder" property="og:url" />
+    <meta content="Placeholder" property="og:title" />
+    <meta content="Placeholder description." property="og:description" />
     <meta content="https://meowpow.dev/placeholder.png" property="og:image" />
+    <meta content="Placeholder" name="twitter:title" />
+    <meta content="Placeholder description." name="twitter:description" />
     <meta content="https://meowpow.dev/placeholder.png" name="twitter:image" />
   </head>
   <body>
@@ -43,7 +48,7 @@ describe('injectHead', () => {
     expect(html).toContain('<link rel="canonical" href="https://meowpow.dev/projects" />')
   })
 
-  it('replaces the og:image and twitter:image content', () => {
+  it('replaces the og: and twitter: title, description, image, and url', () => {
     const html = injectHead(template, {
       title: 'Projects',
       description: "A collection of things I've built.",
@@ -51,8 +56,17 @@ describe('injectHead', () => {
       ogImageUrl: 'https://meowpow.dev/og-image.png',
     })
 
+    expect(html).toContain('<meta content="Projects" property="og:title" />')
+    expect(html).toContain(
+      '<meta content="A collection of things I\'ve built." property="og:description" />',
+    )
     expect(html).toContain(
       '<meta content="https://meowpow.dev/og-image.png" property="og:image" />',
+    )
+    expect(html).toContain('<meta content="https://meowpow.dev/projects" property="og:url" />')
+    expect(html).toContain('<meta content="Projects" name="twitter:title" />')
+    expect(html).toContain(
+      '<meta content="A collection of things I\'ve built." name="twitter:description" />',
     )
     expect(html).toContain(
       '<meta content="https://meowpow.dev/og-image.png" name="twitter:image" />',
@@ -71,7 +85,7 @@ describe('injectHead', () => {
     expect(html).toContain('content="&quot;Quoted&quot; &lt;text&gt;"')
   })
 
-  it('omits the canonical link entirely when canonicalUrl is falsy', () => {
+  it('omits the canonical link and og:url entirely when canonicalUrl is falsy', () => {
     const html = injectHead(template, {
       title: 'Not Found',
       description: 'Page not found.',
@@ -80,5 +94,6 @@ describe('injectHead', () => {
     })
 
     expect(html).not.toContain('rel="canonical"')
+    expect(html).not.toContain('property="og:url"')
   })
 })

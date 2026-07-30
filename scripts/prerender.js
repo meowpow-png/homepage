@@ -51,33 +51,51 @@ function resolveAssetUrls(html, assetMap) {
   )
 }
 
-// keep in sync with App.tsx's metadata effect: same title/description/canonical
-// rules must apply server-side (this function) and client-side
+function replaceMetaContent(html, attr, property, content) {
+  return html.replace(
+    new RegExp(`<meta\\s+content="[^"]*"\\s+${attr}="${property}"\\s*/>`),
+    `<meta content="${escapeHtml(content)}" ${attr}="${property}" />`,
+  )
+}
+
+// keep in sync with App.tsx's metadata effect: same title/description/canonical/
+// image rules must apply server-side (this function) and client-side
 export function injectHead(html, { title, description, canonicalUrl, ogImageUrl }) {
-  const withTitleAndDescription = html
+  const socialFields = [
+    ['property', 'og:title', title],
+    ['property', 'og:description', description],
+    ['property', 'og:image', ogImageUrl],
+    ['name', 'twitter:title', title],
+    ['name', 'twitter:description', description],
+    ['name', 'twitter:image', ogImageUrl],
+  ]
+  const withMeta = socialFields
+    .reduce(
+      (acc, [attr, property, content]) => replaceMetaContent(acc, attr, property, content),
+      html,
+    )
     .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(title)} · meowpow.dev</title>`)
     .replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
       `<meta name="description" content="${escapeHtml(description)}" />`,
     )
-    .replace(
-      /<meta\s+content="[^"]*"\s+property="og:image"\s*\/>/,
-      `<meta content="${escapeHtml(ogImageUrl)}" property="og:image" />`,
-    )
-    .replace(
-      /<meta\s+content="[^"]*"\s+name="twitter:image"\s*\/>/,
-      `<meta content="${escapeHtml(ogImageUrl)}" name="twitter:image" />`,
-    )
 
-  // an error page isn't "the" canonical version of anything, so drop the tag instead of
-  // pointing it at the internal not-found sentinel path
+  // an error page isn't "the" canonical version of anything, so drop canonical
+  // and og:url instead of pointing them at the internal not-found sentinel path
   if (!canonicalUrl) {
-    return withTitleAndDescription.replace(/\s*<link rel="canonical" href="[^"]*" \/>\n?/, '\n')
+    return withMeta
+      .replace(/\s*<link rel="canonical" href="[^"]*" \/>\n?/, '\n')
+      .replace(/\s*<meta content="[^"]*" property="og:url" \/>\n?/, '\n')
   }
 
-  return withTitleAndDescription.replace(
-    /<link rel="canonical" href="[^"]*" \/>/,
-    `<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`,
+  return replaceMetaContent(
+    withMeta.replace(
+      /<link rel="canonical" href="[^"]*" \/>/,
+      `<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`,
+    ),
+    'property',
+    'og:url',
+    canonicalUrl,
   )
 }
 

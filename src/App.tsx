@@ -12,39 +12,56 @@ interface AppProps {
   initialPathname?: string
 }
 
+function setMetaContent(selector: string, content: string): void {
+  document.querySelector(selector)?.setAttribute('content', content)
+}
+
 export function App({ initialPathname }: AppProps = {}): JSX.Element {
   const navigation = useNavigation(initialPathname)
   const route = resolveRoute(navigation.pathname)
 
-  // keep in sync with prerender.js's injectHead: same title/description/canonical
-  // rules must apply client-side (this effect) and server-side
+  // keep in sync with prerender.js's injectHead: same title/description/canonical/
+  // image rules must apply client-side (this effect) and server-side
   useEffect(() => {
     const title = route?.title ?? 'Not Found'
     const description = route?.description ?? 'Page not found.'
+    const imageUrl = `${SITE_URL}${OG_IMAGE_URL}`
 
     document.title = `${title} · meowpow.dev`
-    document.querySelector('meta[name="description"]')?.setAttribute('content', description)
-    document
-      .querySelector('meta[property="og:image"]')
-      ?.setAttribute('content', `${SITE_URL}${OG_IMAGE_URL}`)
-    document
-      .querySelector('meta[name="twitter:image"]')
-      ?.setAttribute('content', `${SITE_URL}${OG_IMAGE_URL}`)
+    setMetaContent('meta[name="description"]', description)
+    setMetaContent('meta[property="og:title"]', title)
+    setMetaContent('meta[property="og:description"]', description)
+    setMetaContent('meta[property="og:image"]', imageUrl)
+    setMetaContent('meta[name="twitter:title"]', title)
+    setMetaContent('meta[name="twitter:description"]', description)
+    setMetaContent('meta[name="twitter:image"]', imageUrl)
 
     const canonical = document.querySelector('link[rel="canonical"]')
+    const ogUrl = document.querySelector('meta[property="og:url"]')
 
-    // an error page has no canonical version, so drop the tag entirely
+    // an error page has no canonical version, so drop both tags entirely
     if (!route) {
       canonical?.remove()
+      ogUrl?.remove()
       return
     }
+    const url = `${SITE_URL}${navigation.pathname}`
+
     if (canonical) {
-      canonical.setAttribute('href', `${SITE_URL}${navigation.pathname}`)
+      canonical.setAttribute('href', url)
     } else {
       const link = document.createElement('link')
       link.rel = 'canonical'
-      link.href = `${SITE_URL}${navigation.pathname}`
+      link.href = url
       document.head.appendChild(link)
+    }
+    if (ogUrl) {
+      ogUrl.setAttribute('content', url)
+    } else {
+      const meta = document.createElement('meta')
+      meta.setAttribute('property', 'og:url')
+      meta.setAttribute('content', url)
+      document.head.appendChild(meta)
     }
   }, [route, navigation.pathname])
 
