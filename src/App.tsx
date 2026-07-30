@@ -21,9 +21,22 @@ export function App({ initialPathname }: AppProps = {}): JSX.Element {
 
     document.title = `${title} · meowpow.dev`
     document.querySelector('meta[name="description"]')?.setAttribute('content', description)
-    document
-      .querySelector('link[rel="canonical"]')
-      ?.setAttribute('href', `${SITE_URL}${navigation.pathname}`)
+
+    const canonical = document.querySelector('link[rel="canonical"]')
+
+    // an error page has no canonical version, so drop the tag entirely
+    if (!route) {
+      canonical?.remove()
+      return
+    }
+    if (canonical) {
+      canonical.setAttribute('href', `${SITE_URL}${navigation.pathname}`)
+    } else {
+      const link = document.createElement('link')
+      link.rel = 'canonical'
+      link.href = `${SITE_URL}${navigation.pathname}`
+      document.head.appendChild(link)
+    }
   }, [route, navigation.pathname])
 
   return (
