@@ -9,12 +9,32 @@ const MANIFEST_PATH = join(DIST, '.vite/manifest.json')
 
 // not a real route: resolveRoute() won't match it, so app renders <NotFound/>
 const NOT_FOUND_PATHNAME = '/__prerender_404__'
+const NOT_FOUND_ENTRY = { title: 'Not Found', description: 'Page not found.' }
 
-async function collectPaths(vite) {
+function escapeHtml(text) {
+  return text.replace(
+    /[&<>"]/g,
+    (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[char],
+  )
+}
+
+async function collectRouteEntries(vite) {
   const { routes } = await vite.ssrLoadModule('/src/shared/routing/routes.tsx')
   const { blogPosts } = await vite.ssrLoadModule('/src/content/blog/index.ts')
 
-  return [...Object.keys(routes), ...blogPosts.map((post) => `/blog/${post.metadata.slug}`)]
+  const staticEntries = Object.entries(routes).map(([pathname, route]) => ({
+    pathname,
+    title: route.title,
+    description: route.description,
+  }))
+
+  const blogEntries = blogPosts.map((post) => ({
+    pathname: `/blog/${post.metadata.slug}`,
+    title: post.metadata.title,
+    description: post.metadata.description,
+  }))
+
+  return [...staticEntries, ...blogEntries]
 }
 
 async function loadAssetMap() {
@@ -29,12 +49,34 @@ function resolveAssetUrls(html, assetMap) {
   )
 }
 
-async function renderPage(vite, template, assetMap, pathname) {
+function injectHead(html, { title, description, canonicalUrl }) {
+  const withTitleAndDescription = html
+    .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(title)} · meowpow.dev</title>`)
+    .replace(
+      /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
+      `<meta name="description" content="${escapeHtml(description)}" />`,
+    )
+
+  // an error page isn't "the" canonical version of anything, so drop the tag instead of
+  // pointing it at the internal not-found sentinel path
+  if (!canonicalUrl) {
+    return withTitleAndDescription.replace(/\s*<link rel="canonical" href="[^"]*" \/>\n?/, '\n')
+  }
+
+  return withTitleAndDescription.replace(
+    /<link rel="canonical" href="[^"]*" \/>/,
+    `<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`,
+  )
+}
+
+async function renderPage(vite, template, assetMap, pathname, meta, canonicalPath = pathname) {
+  const { SITE_URL } = await vite.ssrLoadModule('/src/shared/siteUrl.ts')
   const { App } = await vite.ssrLoadModule('/src/App.tsx')
   const appHtml = renderToString(createElement(App, { initialPathname: pathname }))
   const html = template.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
+  const canonicalUrl = canonicalPath && `${SITE_URL}${canonicalPath}`
 
-  return resolveAssetUrls(html, assetMap)
+  return resolveAssetUrls(injectHead(html, { ...meta, canonicalUrl }), assetMap)
 }
 
 async function writeFileEnsuringDir(path, contents) {
@@ -48,24 +90,26 @@ async function main() {
   try {
     const template = await readFile(join(DIST, 'index.html'), 'utf8')
     const assetMap = await loadAssetMap()
-    const paths = await collectPaths(vite)
+    const entries = await collectRouteEntries(vite)
 
-    for (const pathname of paths) {
-      const html = await renderPage(vite, template, assetMap, pathname)
-      await writeFileEnsuringDir(join(DIST, pathname, 'index.html'), html)
+    for (const entry of entries) {
+      const html = await renderPage(vite, template, assetMap, entry.pathname, entry)
+      await writeFileEnsuringDir(join(DIST, entry.pathname, 'index.html'), html)
     }
 
-    // '/' normalizes to '/about' client-side, so the root document gets the same content
+    // '/' normalizes to '/about' client-side and is byte-identical content, so it
+    // canonicalizes to '/about' too rather than splitting the two into duplicates
+    const aboutEntry = entries.find((entry) => entry.pathname === '/about')
     await writeFileEnsuringDir(
       join(DIST, 'index.html'),
-      await renderPage(vite, template, assetMap, '/'),
+      await renderPage(vite, template, assetMap, '/', aboutEntry, '/about'),
     )
 
-    // Vercel serves this automatically, with a real
-    // 404 status, for any path with no matching file
+    // Vercel serves this automatically, with a real 404 status, for any path with
+    // no matching file; canonicalPath is null since an error page canonicalizes to nothing
     await writeFileEnsuringDir(
       join(DIST, '404.html'),
-      await renderPage(vite, template, assetMap, NOT_FOUND_PATHNAME),
+      await renderPage(vite, template, assetMap, NOT_FOUND_PATHNAME, NOT_FOUND_ENTRY, null),
     )
   } finally {
     await vite.close()

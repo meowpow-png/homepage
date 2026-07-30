@@ -4,6 +4,7 @@ import { getMetadata } from '@/content/getMetadata'
 
 export type BlogPostMetadata = {
   createdAt: string
+  description: string
   filename: string
   modifiedAt: string
   publishedAt: string

@@ -59,6 +59,7 @@ Here's what a post file looks like:
 title: A Title For The Post
 slug: a-title-for-the-post
 publishedAt: 2026-05-12T10:00
+description: One sentence summing up the post.
 ---
 
 Your post starts here. Regular Markdown, so headings, code blocks, links, all of that works.
@@ -70,6 +71,8 @@ A quick rundown of the fields:
 - **slug** — becomes the post's URL, as in `/blog/<slug>`. Keep it short and URL-friendly
 - **publishedAt** — when the post went live. Controls the order posts appear in, and which post is
   "next" or "previous"
+- **description** — one sentence summing up the post. Used as the page's meta description,
+  so keep it short and skip the clickbait
 
 You might notice a few other fields on published posts, like `createdAt` or `size`.
 You don't need to add those yourself — they're filled in automatically

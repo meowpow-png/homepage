@@ -6,6 +6,8 @@ export type RoutePath = '/about' | '/projects' | '/blog' | '/questions'
 
 export interface Route {
   currentPage: NavigationPage
+  title: string
+  description: string
 
   render(): ReactNode
 }

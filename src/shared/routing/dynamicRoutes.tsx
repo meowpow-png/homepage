@@ -14,6 +14,8 @@ function matchBlogPost(pathname: string): Route | undefined {
   }
   return {
     currentPage: 'blog',
+    title: post.metadata.title,
+    description: post.metadata.description,
     render: () => <BlogPostPage post={post} />,
   }
 }

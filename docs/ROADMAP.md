@@ -32,7 +32,7 @@ Ensure the site is discoverable and displays correctly when shared.
 
 - [x] Block staging from indexing
 - [x] Prerender per-route HTML
-- [ ] Configure page metadata (title, description, canonical)
+- [x] Configure page metadata (title, description, canonical)
 - [ ] Configure Open Graph and Twitter/X metadata
 - [ ] Generate sitemap
 - [ ] Configure robots.txt
