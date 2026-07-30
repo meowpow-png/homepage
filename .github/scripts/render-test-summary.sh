@@ -39,4 +39,4 @@ sed \
   -e "s|\${E2E_COVERAGE}|$E2E_COVERAGE|g" \
   -e "s|\${COMBINED_COVERAGE}|$COMBINED_COVERAGE|g" \
   -e "s|\${FOOTER}|$FOOTER|g" \
-  .github/templates/test-summary.md
+  .github/templates/build-test-summary.md
