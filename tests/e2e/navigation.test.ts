@@ -54,6 +54,14 @@ test('page title, description, and canonical update per route', async ({ page })
     'href',
     'https://meowpow.dev/about',
   )
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    /^https:\/\/meowpow\.dev\/.*\.png$/,
+  )
+  await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute(
+    'content',
+    /^https:\/\/meowpow\.dev\/.*\.png$/,
+  )
 
   await page.getByRole('link', { name: 'Projects', exact: true }).click()
   await expect(page).toHaveTitle('Projects · meowpow.dev')
@@ -73,6 +81,10 @@ test('page title, description, and canonical update per route', async ({ page })
     'Page not found.',
   )
   await expect(page.locator('link[rel="canonical"]')).toHaveCount(0)
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    /^https:\/\/meowpow\.dev\/.*\.png$/,
+  )
 })
 
 test('mobile menu opens and closes via toggle, Escape, click-outside, and link click', async ({

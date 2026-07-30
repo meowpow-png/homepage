@@ -18,6 +18,8 @@ const template = `<!doctype html>
     <title>Placeholder</title>
     <meta name="description" content="Placeholder description." />
     <link rel="canonical" href="https://meowpow.dev/placeholder" />
+    <meta content="https://meowpow.dev/placeholder.png" property="og:image" />
+    <meta content="https://meowpow.dev/placeholder.png" name="twitter:image" />
   </head>
   <body>
     <div id="root"></div>
@@ -31,6 +33,7 @@ describe('injectHead', () => {
       title: 'Projects',
       description: "A collection of things I've built.",
       canonicalUrl: 'https://meowpow.dev/projects',
+      ogImageUrl: 'https://meowpow.dev/og-image.png',
     })
 
     expect(html).toContain('<title>Projects · meowpow.dev</title>')
@@ -40,11 +43,28 @@ describe('injectHead', () => {
     expect(html).toContain('<link rel="canonical" href="https://meowpow.dev/projects" />')
   })
 
+  it('replaces the og:image and twitter:image content', () => {
+    const html = injectHead(template, {
+      title: 'Projects',
+      description: "A collection of things I've built.",
+      canonicalUrl: 'https://meowpow.dev/projects',
+      ogImageUrl: 'https://meowpow.dev/og-image.png',
+    })
+
+    expect(html).toContain(
+      '<meta content="https://meowpow.dev/og-image.png" property="og:image" />',
+    )
+    expect(html).toContain(
+      '<meta content="https://meowpow.dev/og-image.png" name="twitter:image" />',
+    )
+  })
+
   it('escapes HTML-significant characters in title and description', () => {
     const html = injectHead(template, {
       title: 'A & B',
       description: '"Quoted" <text>',
       canonicalUrl: 'https://meowpow.dev/a-b',
+      ogImageUrl: 'https://meowpow.dev/og-image.png',
     })
 
     expect(html).toContain('<title>A &amp; B · meowpow.dev</title>')
@@ -56,6 +76,7 @@ describe('injectHead', () => {
       title: 'Not Found',
       description: 'Page not found.',
       canonicalUrl: null,
+      ogImageUrl: 'https://meowpow.dev/og-image.png',
     })
 
     expect(html).not.toContain('rel="canonical"')

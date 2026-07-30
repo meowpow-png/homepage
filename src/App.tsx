@@ -2,6 +2,7 @@ import type { JSX } from 'react'
 import { useEffect } from 'react'
 
 import { AppShell, Footer, Navigation } from '@/shared/components'
+import { OG_IMAGE_URL } from '@/shared/ogImageUrl'
 import { resolveRoute, RouterContext, useNavigation } from '@/shared/routing'
 import { SITE_URL } from '@/shared/siteUrl'
 
@@ -23,6 +24,12 @@ export function App({ initialPathname }: AppProps = {}): JSX.Element {
 
     document.title = `${title} · meowpow.dev`
     document.querySelector('meta[name="description"]')?.setAttribute('content', description)
+    document
+      .querySelector('meta[property="og:image"]')
+      ?.setAttribute('content', `${SITE_URL}${OG_IMAGE_URL}`)
+    document
+      .querySelector('meta[name="twitter:image"]')
+      ?.setAttribute('content', `${SITE_URL}${OG_IMAGE_URL}`)
 
     const canonical = document.querySelector('link[rel="canonical"]')
 

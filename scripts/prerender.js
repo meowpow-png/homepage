@@ -53,12 +53,20 @@ function resolveAssetUrls(html, assetMap) {
 
 // keep in sync with App.tsx's metadata effect: same title/description/canonical
 // rules must apply server-side (this function) and client-side
-export function injectHead(html, { title, description, canonicalUrl }) {
+export function injectHead(html, { title, description, canonicalUrl, ogImageUrl }) {
   const withTitleAndDescription = html
     .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(title)} · meowpow.dev</title>`)
     .replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
       `<meta name="description" content="${escapeHtml(description)}" />`,
+    )
+    .replace(
+      /<meta\s+content="[^"]*"\s+property="og:image"\s*\/>/,
+      `<meta content="${escapeHtml(ogImageUrl)}" property="og:image" />`,
+    )
+    .replace(
+      /<meta\s+content="[^"]*"\s+name="twitter:image"\s*\/>/,
+      `<meta content="${escapeHtml(ogImageUrl)}" name="twitter:image" />`,
     )
 
   // an error page isn't "the" canonical version of anything, so drop the tag instead of
@@ -75,12 +83,14 @@ export function injectHead(html, { title, description, canonicalUrl }) {
 
 async function renderPage(vite, template, assetMap, pathname, meta, canonicalPath = pathname) {
   const { SITE_URL } = await vite.ssrLoadModule('/src/shared/siteUrl.ts')
+  const { OG_IMAGE_URL } = await vite.ssrLoadModule('/src/shared/ogImageUrl.ts')
   const { App } = await vite.ssrLoadModule('/src/App.tsx')
   const appHtml = renderToString(createElement(App, { initialPathname: pathname }))
   const html = template.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
   const canonicalUrl = canonicalPath && `${SITE_URL}${canonicalPath}`
+  const ogImageUrl = `${SITE_URL}${OG_IMAGE_URL}`
 
-  return resolveAssetUrls(injectHead(html, { ...meta, canonicalUrl }), assetMap)
+  return resolveAssetUrls(injectHead(html, { ...meta, canonicalUrl, ogImageUrl }), assetMap)
 }
 
 async function writeFileEnsuringDir(path, contents) {
