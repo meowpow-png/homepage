@@ -13,10 +13,10 @@
     "clean": "rm -rf node_modules package-lock.json",
     "preview": "vite preview",
     "test": "vitest run",
-    "coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage",
     "test:build": "vitest run --config vitest.build.config.ts",
-    "e2e": "playwright test",
-    "coverage:merge": "node tests/merge-coverage.js",
+    "test:e2e": "playwright test",
+    "test:coverage:merge": "node tests/merge-coverage.js",
     "format": "prettier --Lwrite .",
     "format:check": "prettier --check .",
     "lint:eslint": "eslint .",
@@ -28,7 +28,7 @@
     "typecheck": "tsc -b",
     "knip": "knip",
     "qualitycheck": "run-s --continue-on-error format:check lint typecheck build test:build knip",
-    "verify": "run-s --continue-on-error format:check lint typecheck build test:build coverage knip"
+    "verify": "run-s --continue-on-error format:check lint typecheck build test:build test:coverage knip"
   },
   "dependencies": {
     "@catppuccin/palette": "^1.8.0",

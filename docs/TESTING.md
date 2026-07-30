@@ -24,7 +24,7 @@ routing, and page rendering work together as expected.
 ## Build Tests
 
 Build tests check what `npm run build` actually produces: the static
-HTML pages the prerender step writes out. That output is what a search 
+HTML pages the prerender step writes out. That output is what a search
 crawler or link-preview bot sees, and no browser is involved in producing
 it, so neither unit nor e2e tests can catch a regression there.
 
@@ -44,7 +44,7 @@ don't break every time someone edits a title or description.
 ## Test Structure
 
 Store all tests in a dedicated tests directory. Unit and build
-tests should generally mirror `src` directory structure, while 
+tests should generally mirror `src` directory structure, while
 end-to-end tests should be organized by user journey.
 
 For example:
@@ -69,30 +69,28 @@ tests/
 ## Running Tests
 
 ```sh
-npm test                # unit tests
-npm run coverage        # unit tests, with coverage
-npm run build           # required once before test:build, writes dist/
-npm run test:build      # build tests, against dist/
-npm run e2e             # e2e tests
-npm run coverage:merge  # merge unit + e2e coverage into one report
+npm test                     # unit tests
+npm run test:coverage        # unit tests, with coverage
+npm run build                # required once before test:build, writes dist/
+npm run test:build           # build tests, against dist/
+npm run test:e2e             # e2e tests
+npm run test:coverage:merge  # merge unit + e2e coverage into one report
 ```
 
-`npm run e2e` needs a Chromium install. If you'd rather not
+`npm run test:e2e` needs a Chromium install. If you'd rather not
 put a browser on your machine, run the whole suite in Docker instead:
 
 ```sh
-just e2e-test
+just test
 ```
 
 This runs coverage, e2e, and the merge step together and writes
 everything to `tests/output/`, so it works the same whether
 you ran it locally or in the container.
 
-`just test` and `just coverage` are shortcuts for the first two npm scripts above.
-
 ## Reading Coverage
 
-`coverage:merge` writes reports to `tests/output/coverage/`:
+`test:coverage:merge` writes reports to `tests/output/coverage/`:
 
 ```text
 coverage/

@@ -122,7 +122,7 @@ jobs:
       - name: Run tests with coverage
         id: test
         continue-on-error: true
-        run: npm run coverage && npm run e2e && npm run coverage:merge
+        run: npm run test:coverage && npm run test:e2e && npm run test:coverage:merge
 
       - name: Upload code coverage
         if: always()
