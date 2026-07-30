@@ -160,7 +160,7 @@ jobs:
         env:
           BUILD_OUTCOME: ${{ steps.build.outcome }}
           TEST_OUTCOME: ${{ steps.test.outcome }}
-        run: sh .github/scripts/render-test-summary.sh >> "$GITHUB_STEP_SUMMARY"
+        run: sh .github/scripts/render-build-test-summary.sh >> "$GITHUB_STEP_SUMMARY"
 
       - name: Report check results
         if: always()
