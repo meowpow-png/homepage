@@ -11,7 +11,7 @@ const MANIFEST_PATH = join(DIST, '.vite/manifest.json')
 const NOT_FOUND_PATHNAME = '/__prerender_404__'
 const NOT_FOUND_ENTRY = { title: 'Not Found', description: 'Page not found.' }
 
-function escapeHtml(text) {
+export function escapeHtml(text) {
   return text.replace(
     /[&<>"]/g,
     (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[char],
@@ -49,7 +49,7 @@ function resolveAssetUrls(html, assetMap) {
   )
 }
 
-function injectHead(html, { title, description, canonicalUrl }) {
+export function injectHead(html, { title, description, canonicalUrl }) {
   const withTitleAndDescription = html
     .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(title)} · meowpow.dev</title>`)
     .replace(
@@ -119,4 +119,8 @@ async function main() {
   await rm(MANIFEST_PATH)
 }
 
-await main()
+// only run when executed directly via `node scripts/prerender.js`,
+// not when imported elsewhere (e.g. tests importing escapeHtml/injectHead)
+if (import.meta.url === `file://${process.argv[1]}`) {
+  await main()
+}
