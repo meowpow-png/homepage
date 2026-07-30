@@ -148,6 +148,21 @@ export function validateProjectLanguages(): Plugin {
   }
 }
 
+export function blockNonProductionIndexing(): Plugin {
+  return {
+    name: 'block-non-production-indexing',
+    transformIndexHtml(html) {
+      if (process.env.VERCEL_ENV === 'production') {
+        return html
+      }
+      return html.replace(
+        '<head>',
+        '<head>\n    <meta content="noindex, nofollow" name="robots" />',
+      )
+    },
+  }
+}
+
 export function mermaidCatppuccinTheme(): Plugin {
   const virtualModuleId = 'virtual:mermaid-theme'
   const resolvedVirtualModuleId = `\0${virtualModuleId}`

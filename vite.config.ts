@@ -11,6 +11,7 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 
 import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor'
 import {
+  blockNonProductionIndexing,
   injectBlogPostDates,
   injectBlogPostFileSize,
   mermaidCatppuccinTheme,
@@ -24,6 +25,7 @@ export default defineConfig({
     injectBlogPostFileSize(),
     injectBlogPostDates(),
     validateProjectLanguages(),
+    blockNonProductionIndexing(),
     mermaidCatppuccinTheme(),
     mdx({
       remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'metadata' }]],
