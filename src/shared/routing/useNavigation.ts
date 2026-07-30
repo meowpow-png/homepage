@@ -7,8 +7,10 @@ export function normalizePathname(pathname: string): string {
   return trimmed === '/' ? '/about' : trimmed
 }
 
-export function useNavigation(): Navigation {
-  const [pathname, setPathname] = useState(() => normalizePathname(window.location.pathname))
+export function useNavigation(initialPathname?: string): Navigation {
+  const [pathname, setPathname] = useState(() =>
+    normalizePathname(initialPathname ?? window.location.pathname),
+  )
 
   function syncPathname(): void {
     const nextPathname = normalizePathname(window.location.pathname)

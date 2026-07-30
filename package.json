@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/prerender.js",
     "clean": "rm -rf node_modules package-lock.json",
     "preview": "vite preview",
     "test": "vitest run",

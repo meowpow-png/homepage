@@ -31,7 +31,7 @@ Prepare and automate the production deployment process.
 Ensure the site is discoverable and displays correctly when shared.
 
 - [x] Block staging from indexing
-- [ ] Prerender per-route HTML
+- [x] Prerender per-route HTML
 - [ ] Configure page metadata (title, description, canonical)
 - [ ] Configure Open Graph and Twitter/X metadata
 - [ ] Generate sitemap

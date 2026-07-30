@@ -5,8 +5,12 @@ import { resolveRoute, RouterContext, useNavigation } from '@/shared/routing'
 
 import { NotFound } from '@/sections/NotFound'
 
-export function App(): JSX.Element {
-  const navigation = useNavigation()
+interface AppProps {
+  initialPathname?: string
+}
+
+export function App({ initialPathname }: AppProps = {}): JSX.Element {
+  const navigation = useNavigation(initialPathname)
   const route = resolveRoute(navigation.pathname)
 
   return (
