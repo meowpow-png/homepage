@@ -6,6 +6,11 @@ import styles from './NotFound.module.css'
 
 export function NotFound() {
   useEffect(() => {
+    // staging already has a site-wide noindex tag,
+    // don't add a second one (see blockNonProductionIndexing)
+    if (document.querySelector('meta[name="robots"]')) {
+      return
+    }
     // Vercel SPA fallback serves the page with 200 status,
     // so noindex is the only signal crawlers get. Must clean up on
     // unmount, or it leaks onto whichever page the user navigates to next

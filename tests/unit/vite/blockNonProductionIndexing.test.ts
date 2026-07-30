@@ -32,11 +32,9 @@ describe('blockNonProductionIndexing', () => {
     expect(runTransformIndexHtml(plugin, html)).toBe(html)
   })
 
-  it('injects a noindex meta tag when VERCEL_ENV is unset (local builds)', () => {
+  it('leaves the html untouched when VERCEL_ENV is unset (local dev/builds)', () => {
     vi.stubEnv('VERCEL_ENV', undefined)
 
-    expect(runTransformIndexHtml(plugin, html)).toContain(
-      '<meta content="noindex, nofollow" name="robots" />',
-    )
+    expect(runTransformIndexHtml(plugin, html)).toBe(html)
   })
 })

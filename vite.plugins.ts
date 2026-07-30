@@ -152,7 +152,9 @@ export function blockNonProductionIndexing(): Plugin {
   return {
     name: 'block-non-production-indexing',
     transformIndexHtml(html) {
-      if (process.env.VERCEL_ENV === 'production') {
+      // only real non-production Vercel deployments (staging, previews) get this.
+      // VERCEL_ENV is unset for local dev/builds, which should behave like production
+      if (!process.env.VERCEL_ENV || process.env.VERCEL_ENV === 'production') {
         return html
       }
       return html.replace(
