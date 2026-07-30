@@ -3,10 +3,9 @@ set -eu
 
 [ -z "${VERCEL_GIT_PREVIOUS_SHA:-}" ] && exit 1
 
-# Vercel's shallow clone may not contain $VERCEL_GIT_PREVIOUS_SHA
-# once a few deploys in a row get skipped; unshallow so diff below can resolve it
-git fetch --unshallow || echo "unshallow failed, continuing with existing history" >&2
-
+# requires VERCEL_DEEP_CLONE=true configured as vercel project env var
+# so this clone has full history; otherwise $VERCEL_GIT_PREVIOUS_SHA can
+# fall outside default shallow depth after several skipped builds in a row
 BUILD_PATHS="src package.json package-lock.json .npmrc tsconfig*.json vite.config.ts vite.plugins.ts index.html"
 
 # shellcheck disable=SC2086
