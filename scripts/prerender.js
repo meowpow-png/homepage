@@ -37,6 +37,8 @@ async function collectRouteEntries(vite) {
   return [...staticEntries, ...blogEntries]
 }
 
+// ssrLoadModule renders dev-mode asset paths (/src/...) that don't exist in
+// dist/, so map each one to its hashed prod path via the build manifest
 async function loadAssetMap() {
   const manifest = JSON.parse(await readFile(MANIFEST_PATH, 'utf8'))
   return Object.entries(manifest).map(([source, entry]) => [`/${source}`, `/${entry.file}`])
@@ -49,6 +51,8 @@ function resolveAssetUrls(html, assetMap) {
   )
 }
 
+// keep in sync with App.tsx's metadata effect: same title/description/canonical
+// rules must apply server-side (this function) and client-side
 export function injectHead(html, { title, description, canonicalUrl }) {
   const withTitleAndDescription = html
     .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(title)} · meowpow.dev</title>`)

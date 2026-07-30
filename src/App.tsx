@@ -15,6 +15,8 @@ export function App({ initialPathname }: AppProps = {}): JSX.Element {
   const navigation = useNavigation(initialPathname)
   const route = resolveRoute(navigation.pathname)
 
+  // keep in sync with prerender.js's injectHead: same title/description/canonical
+  // rules must apply client-side (this effect) and server-side
   useEffect(() => {
     const title = route?.title ?? 'Not Found'
     const description = route?.description ?? 'Page not found.'
