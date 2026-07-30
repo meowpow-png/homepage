@@ -21,10 +21,31 @@ End-to-end tests should validate the primary user journeys by
 exercising the application in a browser, ensuring navigation,
 routing, and page rendering work together as expected.
 
+## Build Tests
+
+Build tests check what `npm run build` actually produces: the static
+HTML pages the prerender step writes out. That output is what a search 
+crawler or link-preview bot sees, and no browser is involved in producing
+it, so neither unit nor e2e tests can catch a regression there.
+
+They cover:
+
+- every route gets its own prerendered page
+- each page has real rendered content, not an empty shell
+- title, description, and canonical tags match the page's actual metadata
+- no dev-only asset paths leak into the output
+- no build cruft gets left behind
+
+They only make sense after a real build, so they never run before it,
+and never mix into the unit suite. They also read metadata from the
+same place the build does, instead of repeating the wording, so they
+don't break every time someone edits a title or description.
+
 ## Test Structure
 
-Store all tests in a dedicated tests directory. Unit tests should generally mirror
-`src` directory structure, while end-to-end tests should be organized by user journey.
+Store all tests in a dedicated tests directory. Unit and build
+tests should generally mirror `src` directory structure, while 
+end-to-end tests should be organized by user journey.
 
 For example:
 
@@ -35,10 +56,14 @@ tests/
 │   ├── routing/
 │   ├── sections/
 │   └── vite/
+├── build/
+│   ├── routeFiles.test.ts
+│   ├── metadata.test.ts
+│   └── ...
 └── e2e/
     ├── navigation.test.ts
     ├── blog.test.ts
-    └── projects.test.ts
+    └── ...
 ```
 
 ## Running Tests
@@ -46,6 +71,8 @@ tests/
 ```sh
 npm test                # unit tests
 npm run coverage        # unit tests, with coverage
+npm run build           # required once before test:build, writes dist/
+npm run test:build      # build tests, against dist/
 npm run e2e             # e2e tests
 npm run coverage:merge  # merge unit + e2e coverage into one report
 ```

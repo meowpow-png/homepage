@@ -14,9 +14,10 @@
     "preview": "vite preview",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
+    "test:build": "vitest run --config vitest.build.config.ts",
     "e2e": "playwright test",
     "coverage:merge": "node tests/merge-coverage.js",
-    "format": "prettier --write .",
+    "format": "prettier --Lwrite .",
     "format:check": "prettier --check .",
     "lint:eslint": "eslint .",
     "lint:stylelint": "stylelint '**/*.css'",
@@ -26,8 +27,8 @@
     "lint:fix": "run-s --continue-on-error lint:fix:eslint lint:fix:stylelint",
     "typecheck": "tsc -b",
     "knip": "knip",
-    "qualitycheck": "run-s --continue-on-error format:check lint typecheck build knip",
-    "verify": "run-s --continue-on-error format:check lint typecheck build coverage knip"
+    "qualitycheck": "run-s --continue-on-error format:check lint typecheck build test:build knip",
+    "verify": "run-s --continue-on-error format:check lint typecheck build test:build coverage knip"
   },
   "dependencies": {
     "@catppuccin/palette": "^1.8.0",
