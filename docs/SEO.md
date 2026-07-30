@@ -86,6 +86,12 @@ Metadata is applied in two places:
   in sync on every navigation. It follows the same rule as the server:
   no matched route means the canonical tag gets removed
 
+Open Graph and Twitter tags piggyback on the same title and description,
+plus the resolved social image URL and `og:url`, which mirrors canonical 
+— including getting dropped on the 404 page for the same reason.
+`og:type` and `twitter:card` never change, so they're only 
+ever set once, directly in `index.html`.
+
 ## Generating social preview image
 
 `og:image` and `twitter:image` need a real PNG, not an SVG because most
@@ -112,5 +118,11 @@ npm run generate:og-image
 
 This script is not part of the build. Run it by hand whenever
 the design changes. Output lands at `src/shared/assets/images/`,
-next to the site's other images, waiting for a later step
-to wire it into the actual meta tags.
+next to the site's other images.
+
+`src/shared/ogImageUrl.ts` imports that PNG so it's part of the 
+real client build, which is what lets Vite hash it and put it in
+the build manifest. This is the same manifest the prerender step 
+already uses to turn other dev-mode asset paths into their real 
+hashed ones. Without that import, the image would never make it 
+into the manifest, no matter what path is written into `index.html`.
