@@ -17,7 +17,7 @@
     "test:build": "vitest run --config vitest.build.config.ts",
     "test:e2e": "playwright test",
     "test:coverage:merge": "node tests/merge-coverage.js",
-    "format": "prettier --Lwrite .",
+    "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint:eslint": "eslint .",
     "lint:stylelint": "stylelint '**/*.css'",
