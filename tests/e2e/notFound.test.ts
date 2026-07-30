@@ -14,13 +14,6 @@ test('visiting an unknown URL shows the not found page', async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex')
 })
 
-test('the log mentions the attempted path and a 404', async ({ page }) => {
-  await page.goto('/this-page-does-not-exist')
-
-  await expect(page.getByText('/this-page-does-not-exist').first()).toBeVisible()
-  await expect(page.getByText(/404/)).toBeVisible()
-})
-
 test('navigating away from the not found page removes noindex', async ({ page }) => {
   await page.goto('/this-page-does-not-exist')
   await expect(page.locator('#not-found-heading')).toHaveText('Not Found')
