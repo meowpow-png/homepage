@@ -63,6 +63,9 @@ export default defineConfig({
     // vite-plugin-istanbul needs this for accurate coverage;
     // hidden keeps the map off production bundle's sourceMappingURL
     sourcemap: 'hidden',
+    // lets prerender script resolve dev-mode asset URLs
+    // to their hashed production paths in rendered HTML
+    manifest: true,
   },
   test: {
     include: ['tests/unit/**/*.test.{ts,tsx}'],
