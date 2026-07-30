@@ -29,7 +29,11 @@ See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for more information.
 
 ## Inspecting quality
 
-Before you push, run:
+Quality here means that code is formatted, linted, and type-checked,
+that there are no unused exports or dependencies, that the project
+builds, and that the test suite passes.
+
+Run all quality checks:
 
 ```sh
 npm run verify
