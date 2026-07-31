@@ -165,23 +165,26 @@ export function blockNonProductionIndexing(): Plugin {
   }
 }
 
-export function prioritizeStylesheet(): Plugin {
+export function inlineStylesheet(): Plugin {
   return {
-    name: 'prioritize-stylesheet',
+    name: 'inline-stylesheet',
     transformIndexHtml: {
-      // runs after Vite's build-html plugin has already injected
-      // script/modulepreload/stylesheet tags this reorders
+      // needs the finished bundle to read the built CSS file's contents
       order: 'post',
-      handler(html) {
-        const stylesheetLine = html.match(/[ \t]*<link rel="stylesheet"[^>]*>\n?/)?.[0]
-        if (!stylesheetLine) return html
+      handler(html, ctx) {
+        const stylesheetMatch = html.match(
+          /[ \t]*<link rel="stylesheet"[^>]*href="\/([^"]+)"[^>]*>\n?/,
+        )
+        if (!stylesheetMatch) return html
 
-        // Vite appends built CSS link after every JS modulepreload hint,
-        // so render-blocking stylesheet is discovered last instead of first
-        const stylesheetTag = stylesheetLine.trim()
-        return html
-          .replace(stylesheetLine, '')
-          .replace('<head>\n', `<head>\n    ${stylesheetTag}\n`)
+        // a <link rel="stylesheet"> always blocks first paint until fetched,
+        // regardless of where it sits in <head>; inlining removes that
+        // network round-trip entirely, which reordering alone can't do
+        const [stylesheetLine, fileName] = stylesheetMatch
+        const cssAsset = ctx.bundle?.[fileName!]
+        if (!cssAsset || cssAsset.type !== 'asset') return html
+
+        return html.replace(stylesheetLine, `    <style>${cssAsset.source}</style>\n`)
       },
     },
   }

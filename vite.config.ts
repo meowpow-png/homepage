@@ -12,10 +12,10 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor'
 import {
   blockNonProductionIndexing,
+  inlineStylesheet,
   injectBlogPostDates,
   injectBlogPostFileSize,
   mermaidCatppuccinTheme,
-  prioritizeStylesheet,
   validateProjectLanguages,
 } from './vite.plugins'
 
@@ -27,7 +27,7 @@ export default defineConfig({
     injectBlogPostDates(),
     validateProjectLanguages(),
     blockNonProductionIndexing(),
-    prioritizeStylesheet(),
+    inlineStylesheet(),
     mermaidCatppuccinTheme(),
     mdx({
       remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'metadata' }]],
