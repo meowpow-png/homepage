@@ -1,9 +1,10 @@
 import type { ComponentPropsWithoutRef, JSX } from 'react'
+import { useEffect } from 'react'
 
 import type { BlogPost } from '@/content/blog'
-import { getNextPost, getPreviousPost } from '@/content/blog'
+import { getNextPost, getPreviousPost, prefetchBlogPost } from '@/content/blog'
 import { ArrowIcon } from '@/shared/components'
-import { Link } from '@/shared/routing'
+import { Link, prefetchOnIdle } from '@/shared/routing'
 
 import styles from './BlogPost.module.css'
 
@@ -32,6 +33,13 @@ export function BlogPostPage({ post }: BlogPostPageProps): JSX.Element {
   const { Content, metadata } = post
   const nextPost = getNextPost(metadata.slug)
   const previousPost = getPreviousPost(metadata.slug)
+
+  useEffect(() => {
+    const neighborSlugs = [nextPost?.metadata.slug, previousPost?.metadata.slug].filter(
+      (slug): slug is string => slug !== undefined,
+    )
+    prefetchOnIdle(neighborSlugs.map((slug) => () => prefetchBlogPost(slug)))
+  }, [nextPost, previousPost])
 
   return (
     <article className={styles.post} aria-labelledby="post-heading">

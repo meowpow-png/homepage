@@ -10,20 +10,33 @@ test('reading a blog post, following Next to the last post, then Previous back t
     page.locator('footer').getByRole('link', { name: 'Blog', exact: true }),
   ).toBeVisible()
 
-  let nextLink = page.getByRole('link', { name: 'Next', exact: true })
+  async function goTo(name: 'Next' | 'Previous'): Promise<boolean> {
+    const heading = page.locator('#post-heading')
+    const before = await heading.textContent()
+    const clicked = await page.evaluate((linkName) => {
+      const link = [...document.querySelectorAll('a')].find(
+        (a) => a.textContent?.trim() === linkName,
+      )
+      link?.click()
+      return link !== undefined
+    }, name)
+
+    if (!clicked) {
+      return false
+    }
+    await expect(heading).not.toHaveText(before ?? '')
+    return true
+  }
+
   let steps = 0
-  while (await nextLink.isVisible()) {
-    await nextLink.click()
+  while (await goTo('Next')) {
     steps += 1
     expect(steps).toBeLessThan(20)
-    nextLink = page.getByRole('link', { name: 'Next', exact: true })
   }
   expect(steps).toBeGreaterThan(0)
 
-  let previousLink = page.getByRole('link', { name: 'Previous', exact: true })
-  while (await previousLink.isVisible()) {
-    await previousLink.click()
-    previousLink = page.getByRole('link', { name: 'Previous', exact: true })
+  while (await goTo('Previous')) {
+    // keep going until there's no Previous link left
   }
   await expect(
     page.locator('footer').getByRole('link', { name: 'Blog', exact: true }),

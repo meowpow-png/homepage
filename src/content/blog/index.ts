@@ -107,3 +107,13 @@ export function getNextPost(slug: string) {
 export function getPreviousPost(slug: string) {
   return findPreviousPost(blogPosts, slug)
 }
+
+// warms a post's MDX chunk ahead of navigation, so it renders without a Suspense wait
+export function prefetchBlogPost(slug: string): void {
+  const post = findPostBySlug(blogPosts, slug)
+
+  if (!post) {
+    return
+  }
+  contentLoaders[`./${post.metadata.filename}`]?.()
+}
