@@ -37,7 +37,7 @@ Ensure the site is discoverable and displays correctly when shared.
 - [x] Generate sitemap
 - [x] Configure robots.txt
 - [x] Configure favicon
-- [ ] Validate with Lighthouse SEO audit
+- [x] Validate with Lighthouse SEO audit
 
 ### Performance
 
