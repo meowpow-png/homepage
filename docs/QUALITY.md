@@ -65,6 +65,27 @@ No auto-fix here, if it flags something you either delete it or it's a false pos
 npm run knip
 ```
 
+## Lighthouse
+
+Lighthouse audits SEO, performance, accessibility,
+and best practices against a real production build.
+
+Here is how to run the audit:
+
+```sh
+npm run lighthouse
+```
+
+That builds the site, runs Lighthouse against every page in the sitemap,
+and writes reports to `.lighthouseci/`. Open `.lighthouseci/index.html`
+for a page listing every audited URL with its scores.
+
+No usable local Chrome? Run it in Docker instead:
+
+```sh
+just audit
+```
+
 ## CI
 
 CI runs the same checks on every push and PR, gated to when the relevant
