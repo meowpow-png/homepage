@@ -30,6 +30,11 @@ type Props = {
   children: string
 }
 
+// warms mermaid's lazily-imported renderer chunk ahead of the real render
+export function prewarmMermaidRenderer(): void {
+  void mermaid.render('mermaid-prewarm', 'flowchart TB\na-->b')
+}
+
 export function Mermaid({ children }: Props) {
   const id = useId()
   const ref = useRef<HTMLDivElement>(null)
