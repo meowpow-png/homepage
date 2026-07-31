@@ -9,7 +9,7 @@ html {
   background: var(--color-canvas);
 }
 
-/*noinspection CssOverwrittenProperties*/
+/* noinspection CssOverwrittenProperties */
 body {
   min-width: 320px;
   min-height: 100vh;
@@ -39,7 +39,7 @@ svg {
   max-width: 100%;
 }
 
-/*noinspection CssOverwrittenProperties*/
+/* noinspection CssOverwrittenProperties */
 #root {
   min-height: 100vh;
   min-height: 100dvh;

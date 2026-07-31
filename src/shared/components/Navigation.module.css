@@ -140,7 +140,7 @@
     background: rgb(0 0 0 / 50%);
   }
 
-  /*noinspection CssOverwrittenProperties*/
+  /* noinspection CssOverwrittenProperties */
   .links {
     display: none;
     position: absolute;

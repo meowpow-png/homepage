@@ -40,7 +40,7 @@
   content: '';
 }
 
-/*noinspection CssOverwrittenProperties*/
+/* noinspection CssOverwrittenProperties */
 .timeline {
   position: sticky;
   top: max(24px, calc(50vh - 220px));
@@ -383,7 +383,7 @@
     background: rgb(0 0 0 / 50%);
   }
 
-  /*noinspection CssOverwrittenProperties*/
+  /* noinspection CssOverwrittenProperties */
   .mobileDropdownList {
     display: none;
     position: absolute;
