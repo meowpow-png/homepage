@@ -87,9 +87,9 @@ Metadata is applied in two places:
   no matched route means the canonical tag gets removed
 
 Open Graph and Twitter tags piggyback on the same title and description,
-plus the resolved social image URL and `og:url`, which mirrors canonical 
+plus the resolved social image URL and `og:url`, which mirrors canonical
 — including getting dropped on the 404 page for the same reason.
-`og:type` and `twitter:card` never change, so they're only 
+`og:type` and `twitter:card` never change, so they're only
 ever set once, directly in `index.html`.
 
 ## Generating social preview image
@@ -98,7 +98,7 @@ ever set once, directly in `index.html`.
 link-preview bots don't render SVG reliably. The source lives under
 `design/og-image/` as a few small files instead of one flat image:
 
-- `dot.svg` — just the accent dot, transparent background, cropped tight
+- `favicon.svg` — just the accent dot, transparent background, cropped tight
 - `index.html` + `og-image.css` — a fixed 1200×630 card, centered on a
   full-viewport page so the card's edges are visible when you open the
   file directly in a browser to check alignment
@@ -120,17 +120,17 @@ This script is not part of the build. Run it by hand whenever
 the design changes. Output lands at `src/shared/assets/images/`,
 next to the site's other images.
 
-`src/shared/ogImageUrl.ts` imports that PNG so it's part of the 
+`src/shared/ogImageUrl.ts` imports that PNG so it's part of the
 real client build, which is what lets Vite hash it and put it in
-the build manifest. This is the same manifest the prerender step 
-already uses to turn other dev-mode asset paths into their real 
-hashed ones. Without that import, the image would never make it 
+the build manifest. This is the same manifest the prerender step
+already uses to turn other dev-mode asset paths into their real
+hashed ones. Without that import, the image would never make it
 into the manifest, no matter what path is written into `index.html`.
 
 ## robots.txt
 
-Everything on the site is meant to be public, 
-so `public/robots.txt` is a single static file 
+Everything on the site is meant to be public,
+so `public/robots.txt` is a single static file
 allowing all crawlers, plus a pointer at the sitemap:
 
 ```
@@ -142,24 +142,25 @@ Sitemap: https://meowpow.dev/sitemap.xml
 
 ## sitemap.xml
 
-The sitemap is generated at the very end of the prerender script: 
+The sitemap is generated at the very end of the prerender script:
 
 ```text
 dist/sitemap.xml
 ```
-right after the loop that writes every route's HTML page. It reuses 
+
+right after the loop that writes every route's HTML page. It reuses
 that same list of pages the loop just walked, rather than keeping
-a second, separate list of "what pages exist" that could 
+a second, separate list of "what pages exist" that could
 quietly fall out of sync with what was actually built.
 
-That's also why the homepage doesn't need any special handling 
-here the way it does earlier in the prerender step: it was 
-never part of that page list to begin with, since it renders 
-the About page's content under the About page's own 
+That's also why the homepage doesn't need any special handling
+here the way it does earlier in the prerender step: it was
+never part of that page list to begin with, since it renders
+the About page's content under the About page's own
 entry instead of a separate one of its own.
 
-Blog posts get a last-modified date, sourced from metadata a Vite plugin 
-already derives from each post's git history at build time. Static pages 
+Blog posts get a last-modified date, sourced from metadata a Vite plugin
+already derives from each post's git history at build time. Static pages
 don't get one, because there's no equivalent per-page git history
-to draw from — they're all defined together in one shared file, 
+to draw from — they're all defined together in one shared file,
 so a git date on that file wouldn't describe any single page.
