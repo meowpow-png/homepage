@@ -1,12 +1,7 @@
 import { createElement, lazy, Suspense } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import {
-  buildSitemap,
-  escapeHtml,
-  injectHead,
-  renderUntilSettled,
-} from '../../../scripts/prerender.js'
+import { buildSitemap, escapeHtml, injectHead, renderToHtml } from '../../../scripts/prerender.js'
 
 function resolveAfterTicks(value: unknown, ticks: number) {
   return new Promise((resolve) => {
@@ -160,15 +155,15 @@ describe('buildSitemap', () => {
   })
 })
 
-describe('renderUntilSettled', () => {
-  it('returns the real output once an already-resolved element settles on the first render', async () => {
-    const html = await renderUntilSettled(lazyElement(0))
+describe('renderToHtml', () => {
+  it('returns the real output for an already-resolved element', async () => {
+    const html = await renderToHtml(lazyElement(0))
 
     expect(html).toContain('resolved')
   })
 
-  it('retries until a lazy import resolves a few ticks later', async () => {
-    const html = await renderUntilSettled(lazyElement(5))
+  it('waits for a lazy import that resolves a few ticks later', async () => {
+    const html = await renderToHtml(lazyElement(5))
 
     expect(html).toContain('resolved')
   })
@@ -177,8 +172,8 @@ describe('renderUntilSettled', () => {
     const NeverResolves = lazy(() => new Promise<{ default: () => string }>(() => {}))
     const element = createElement(Suspense, { fallback: 'loading' }, createElement(NeverResolves))
 
-    await expect(renderUntilSettled(element)).rejects.toThrow(
-      'A Suspense boundary never resolved after 10 render attempts',
+    await expect(renderToHtml(element, 50)).rejects.toThrow(
+      'A Suspense boundary never resolved after 50ms',
     )
   })
 })

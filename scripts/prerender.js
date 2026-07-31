@@ -1,8 +1,9 @@
 import { createServer } from 'vite'
 import { createElement } from 'react'
-import { renderToString } from 'react-dom/server'
+import { prerenderToNodeStream } from 'react-dom/static'
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
+import { text } from 'node:stream/consumers'
 
 const DIST = 'dist'
 const MANIFEST_PATH = join(DIST, '.vite/manifest.json')
@@ -49,11 +50,21 @@ export function buildSitemap(entries, siteUrl) {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
 }
 
+async function loadManifest() {
+  return JSON.parse(await readFile(MANIFEST_PATH, 'utf8'))
+}
+
 // ssrLoadModule renders dev-mode asset paths (/src/...) that don't exist in
 // dist/, so map each one to its hashed prod path via the build manifest
-async function loadAssetMap() {
-  const manifest = JSON.parse(await readFile(MANIFEST_PATH, 'utf8'))
+function buildAssetMap(manifest) {
   return Object.entries(manifest).map(([source, entry]) => [`/${source}`, `/${entry.file}`])
+}
+
+// looks up the hashed chunk a given dev-mode module path (e.g. a
+// React.lazy() section entry) was built into, for preloading it below
+function resolveManifestFile(manifest, sourcePath) {
+  const entry = manifest[sourcePath.replace(/^\//, '')]
+  return entry && `/${entry.file}`
 }
 
 function resolveAssetUrls(html, assetMap) {
@@ -111,7 +122,7 @@ export function injectHead(html, { title, description, canonicalUrl, ogImageUrl 
   )
 }
 
-// module path each page's React.lazy() import resolves, for pre-warming
+// section module per page, pre-warmed below to avoid a cold transform mid-render
 const SECTION_MODULE_BY_PAGE = {
   about: '/src/sections/About/index.ts',
   projects: '/src/sections/Projects/index.ts',
@@ -119,40 +130,61 @@ const SECTION_MODULE_BY_PAGE = {
   questions: '/src/sections/Questions/index.ts',
 }
 
-// renderToString aborts instead of waiting on a suspended lazy import, so
-// re-render until it settles rather than guessing how many ticks that takes
-const SUSPENSE_ABORT_MARKER = 'data-msg="Switched to client rendering'
-const MAX_RENDER_ATTEMPTS = 10
-
-export async function renderUntilSettled(element) {
-  let html = renderToString(element)
-
-  for (let attempts = 1; html.includes(SUSPENSE_ABORT_MARKER); attempts++) {
-    if (attempts >= MAX_RENDER_ATTEMPTS) {
-      throw new Error(
-        `A Suspense boundary never resolved after ${MAX_RENDER_ATTEMPTS} render attempts`,
-      )
-    }
-    await new Promise((resolve) => setImmediate(resolve))
-    html = renderToString(element)
+// every page shares one template, so this is the only way its <head>
+// ends up mentioning the section chunk React.lazy() fetches on hydration
+function injectSectionPreload(html, href) {
+  if (!href) {
+    return html
   }
-  return html
+  return html.replace('</head>', `  <link rel="modulepreload" crossorigin href="${href}">\n</head>`)
 }
 
-async function renderPage(vite, template, assetMap, pathname, meta, canonicalPath = pathname) {
+// unlike renderToString, this waits for Suspense to resolve; timeout guards
+// against a boundary that never does
+const RENDER_TIMEOUT_MS = 10_000
+
+export async function renderToHtml(element, timeoutMs = RENDER_TIMEOUT_MS) {
+  let timeoutId
+
+  const timeout = new Promise((_resolve, reject) => {
+    timeoutId = setTimeout(
+      () => reject(new Error(`A Suspense boundary never resolved after ${timeoutMs}ms`)),
+      timeoutMs,
+    )
+  })
+
+  try {
+    const { prelude } = await Promise.race([prerenderToNodeStream(element), timeout])
+    return await text(prelude)
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
+
+async function renderPage(
+  vite,
+  template,
+  manifest,
+  assetMap,
+  pathname,
+  meta,
+  canonicalPath = pathname,
+) {
   const { SITE_URL } = await vite.ssrLoadModule('/src/shared/siteUrl.ts')
   const { OG_IMAGE_URL } = await vite.ssrLoadModule('/src/shared/ogImageUrl.ts')
   const { App } = await vite.ssrLoadModule('/src/App.tsx')
   const { resolveRoute } = await vite.ssrLoadModule('/src/shared/routing/resolveRoute.ts')
 
   const sectionModule = SECTION_MODULE_BY_PAGE[resolveRoute(pathname)?.currentPage]
+  let preloadedTemplate = template
   if (sectionModule) {
     await vite.ssrLoadModule(sectionModule)
+    preloadedTemplate = injectSectionPreload(template, resolveManifestFile(manifest, sectionModule))
   }
 
   const element = createElement(App, { initialPathname: pathname })
-  const appHtml = await renderUntilSettled(element)
-  const html = template.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
+  const appHtml = await renderToHtml(element)
+  const html = preloadedTemplate.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
   const canonicalUrl = canonicalPath && `${SITE_URL}${canonicalPath}`
   const ogImageUrl = `${SITE_URL}${OG_IMAGE_URL}`
 
@@ -169,11 +201,12 @@ async function main() {
 
   try {
     const template = await readFile(join(DIST, 'index.html'), 'utf8')
-    const assetMap = await loadAssetMap()
+    const manifest = await loadManifest()
+    const assetMap = buildAssetMap(manifest)
     const entries = await collectRouteEntries(vite)
 
     for (const entry of entries) {
-      const html = await renderPage(vite, template, assetMap, entry.pathname, entry)
+      const html = await renderPage(vite, template, manifest, assetMap, entry.pathname, entry)
       await writeFileEnsuringDir(join(DIST, entry.pathname, 'index.html'), html)
     }
 
@@ -182,14 +215,22 @@ async function main() {
     const aboutEntry = entries.find((entry) => entry.pathname === '/about')
     await writeFileEnsuringDir(
       join(DIST, 'index.html'),
-      await renderPage(vite, template, assetMap, '/', aboutEntry, '/about'),
+      await renderPage(vite, template, manifest, assetMap, '/', aboutEntry, '/about'),
     )
 
     // Vercel serves this automatically, with a real 404 status, for any path with
     // no matching file; canonicalPath is null since an error page canonicalizes to nothing
     await writeFileEnsuringDir(
       join(DIST, '404.html'),
-      await renderPage(vite, template, assetMap, NOT_FOUND_PATHNAME, NOT_FOUND_ENTRY, null),
+      await renderPage(
+        vite,
+        template,
+        manifest,
+        assetMap,
+        NOT_FOUND_PATHNAME,
+        NOT_FOUND_ENTRY,
+        null,
+      ),
     )
 
     // reuses the same entries the loop above just prerendered, so the sitemap
