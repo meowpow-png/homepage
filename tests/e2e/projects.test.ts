@@ -6,6 +6,8 @@ test('scrolling highlights the active project, and clicking a timeline entry scr
   await page.goto('/projects')
 
   const timelineLinks = page.locator('nav[aria-label="Project navigation"] a')
+  // lazy-loaded: wait for it, .count() doesn't auto-retry like expect() does
+  await expect(timelineLinks.first()).toBeVisible()
   const count = await timelineLinks.count()
   expect(count).toBeGreaterThan(1)
 

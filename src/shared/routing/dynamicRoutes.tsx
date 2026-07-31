@@ -1,7 +1,12 @@
+import { lazy } from 'react'
+
 import { getBlogPost } from '@/content/blog'
-import { BlogPostPage } from '@/sections/Blog'
 
 import type { Route } from './types'
+
+const BlogPostPage = lazy(() =>
+  import('@/sections/Blog').then((module) => ({ default: module.BlogPostPage })),
+)
 
 function matchBlogPost(pathname: string): Route | undefined {
   if (!pathname.startsWith('/blog/')) {

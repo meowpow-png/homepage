@@ -59,6 +59,9 @@ export default defineConfig({
     include: ['mermaid'],
   },
   build: {
+    // CSS is inlined as one <style> anyway,
+    // so per-chunk splitting just orphans unlinked files
+    cssCodeSplit: false,
     // mermaid's shared chunk covers diagram types we don't use and is
     // never fetched at runtime, so ignore the default 500kb warning
     chunkSizeWarningLimit: 700,

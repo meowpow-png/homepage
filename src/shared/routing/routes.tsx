@@ -1,9 +1,15 @@
+import { lazy } from 'react'
+
 import type { Route, RoutePath } from './types'
 
-import { About } from '@/sections/About'
-import { Blog } from '@/sections/Blog'
-import { Projects } from '@/sections/Projects'
-import { Questions } from '@/sections/Questions'
+const About = lazy(() => import('@/sections/About').then((module) => ({ default: module.About })))
+const Blog = lazy(() => import('@/sections/Blog').then((module) => ({ default: module.Blog })))
+const Projects = lazy(() =>
+  import('@/sections/Projects').then((module) => ({ default: module.Projects })),
+)
+const Questions = lazy(() =>
+  import('@/sections/Questions').then((module) => ({ default: module.Questions })),
+)
 
 export const routes = {
   '/about': {

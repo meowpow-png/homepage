@@ -1,5 +1,5 @@
 import type { JSX } from 'react'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 
 import { AppShell, Footer, Navigation } from '@/shared/components'
 import { OG_IMAGE_URL } from '@/shared/ogImageUrl'
@@ -68,7 +68,7 @@ export function App({ initialPathname }: AppProps = {}): JSX.Element {
   return (
     <RouterContext.Provider value={navigation}>
       <AppShell header={<Navigation currentPage={route?.currentPage} />} footer={<Footer />}>
-        {route ? route.render() : <NotFound />}
+        {route ? <Suspense fallback={null}>{route.render()}</Suspense> : <NotFound />}
       </AppShell>
     </RouterContext.Provider>
   )

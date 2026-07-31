@@ -111,11 +111,47 @@ export function injectHead(html, { title, description, canonicalUrl, ogImageUrl 
   )
 }
 
+// module path each page's React.lazy() import resolves, for pre-warming
+const SECTION_MODULE_BY_PAGE = {
+  about: '/src/sections/About/index.ts',
+  projects: '/src/sections/Projects/index.ts',
+  blog: '/src/sections/Blog/index.ts',
+  questions: '/src/sections/Questions/index.ts',
+}
+
+// renderToString aborts instead of waiting on a suspended lazy import, so
+// re-render until it settles rather than guessing how many ticks that takes
+const SUSPENSE_ABORT_MARKER = 'data-msg="Switched to client rendering'
+const MAX_RENDER_ATTEMPTS = 10
+
+export async function renderUntilSettled(element) {
+  let html = renderToString(element)
+
+  for (let attempts = 1; html.includes(SUSPENSE_ABORT_MARKER); attempts++) {
+    if (attempts >= MAX_RENDER_ATTEMPTS) {
+      throw new Error(
+        `A Suspense boundary never resolved after ${MAX_RENDER_ATTEMPTS} render attempts`,
+      )
+    }
+    await new Promise((resolve) => setImmediate(resolve))
+    html = renderToString(element)
+  }
+  return html
+}
+
 async function renderPage(vite, template, assetMap, pathname, meta, canonicalPath = pathname) {
   const { SITE_URL } = await vite.ssrLoadModule('/src/shared/siteUrl.ts')
   const { OG_IMAGE_URL } = await vite.ssrLoadModule('/src/shared/ogImageUrl.ts')
   const { App } = await vite.ssrLoadModule('/src/App.tsx')
-  const appHtml = renderToString(createElement(App, { initialPathname: pathname }))
+  const { resolveRoute } = await vite.ssrLoadModule('/src/shared/routing/resolveRoute.ts')
+
+  const sectionModule = SECTION_MODULE_BY_PAGE[resolveRoute(pathname)?.currentPage]
+  if (sectionModule) {
+    await vite.ssrLoadModule(sectionModule)
+  }
+
+  const element = createElement(App, { initialPathname: pathname })
+  const appHtml = await renderUntilSettled(element)
   const html = template.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
   const canonicalUrl = canonicalPath && `${SITE_URL}${canonicalPath}`
   const ogImageUrl = `${SITE_URL}${OG_IMAGE_URL}`

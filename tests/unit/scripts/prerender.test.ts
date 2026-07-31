@@ -1,6 +1,33 @@
+import { createElement, lazy, Suspense } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import { buildSitemap, escapeHtml, injectHead } from '../../../scripts/prerender.js'
+import {
+  buildSitemap,
+  escapeHtml,
+  injectHead,
+  renderUntilSettled,
+} from '../../../scripts/prerender.js'
+
+function resolveAfterTicks(value: unknown, ticks: number) {
+  return new Promise((resolve) => {
+    function tick(remaining: number) {
+      if (remaining <= 0) {
+        resolve(value)
+        return
+      }
+      setImmediate(() => tick(remaining - 1))
+    }
+    tick(ticks)
+  })
+}
+
+function lazyElement(ticks: number) {
+  const LazyComponent = lazy(
+    () =>
+      resolveAfterTicks({ default: () => 'resolved' }, ticks) as Promise<{ default: () => string }>,
+  )
+  return createElement(Suspense, { fallback: 'loading' }, createElement(LazyComponent))
+}
 
 describe('escapeHtml', () => {
   it('escapes HTML-significant characters', () => {
@@ -130,5 +157,28 @@ describe('buildSitemap', () => {
     expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>')
     expect(xml).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
     expect(xml).toContain('</urlset>')
+  })
+})
+
+describe('renderUntilSettled', () => {
+  it('returns the real output once an already-resolved element settles on the first render', async () => {
+    const html = await renderUntilSettled(lazyElement(0))
+
+    expect(html).toContain('resolved')
+  })
+
+  it('retries until a lazy import resolves a few ticks later', async () => {
+    const html = await renderUntilSettled(lazyElement(5))
+
+    expect(html).toContain('resolved')
+  })
+
+  it('throws if the Suspense boundary never resolves', async () => {
+    const NeverResolves = lazy(() => new Promise<{ default: () => string }>(() => {}))
+    const element = createElement(Suspense, { fallback: 'loading' }, createElement(NeverResolves))
+
+    await expect(renderUntilSettled(element)).rejects.toThrow(
+      'A Suspense boundary never resolved after 10 render attempts',
+    )
   })
 })
