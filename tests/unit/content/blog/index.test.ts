@@ -6,7 +6,6 @@ import {
   findNextPost,
   findPostBySlug,
   findPreviousPost,
-  toFilename,
 } from '@/content/blog'
 
 function makePost(overrides: Partial<BlogPost['metadata']> = {}): BlogPost {
@@ -24,16 +23,6 @@ function makePost(overrides: Partial<BlogPost['metadata']> = {}): BlogPost {
     },
   } as BlogPost
 }
-
-describe('toFilename', () => {
-  it('strips the leading ./', () => {
-    expect(toFilename('./post.mdx')).toBe('post.mdx')
-  })
-
-  it('leaves a path without a leading ./ unchanged', () => {
-    expect(toFilename('post.mdx')).toBe('post.mdx')
-  })
-})
 
 describe('byPublishedAtAscending', () => {
   it('orders earlier dates before later ones', () => {

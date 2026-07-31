@@ -1,7 +1,8 @@
 import { execFileSync } from 'node:child_process'
-import { statSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import { normalizePath, type Plugin } from 'vite'
+import { parse as parseYaml } from 'yaml'
 import { flavors } from '@catppuccin/palette'
 
 import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor'
@@ -59,54 +60,52 @@ export function getCreatedDate(filePath: string): string {
   return getFallbackDate(filePath)
 }
 
-export function injectBlogPostFileSize(): Plugin {
-  const blogDirectory = normalizePath(resolve('src/content/blog'))
+const FRONTMATTER_PATTERN = /^---\r?\n([\s\S]*?)\r?\n---/
 
-  return {
-    name: 'inject-blog-post-file-size',
-    enforce: 'pre',
-    transform(code, id) {
-      // split(..., 1) always returns exactly one element
-      const filePath = normalizePath(id.split('?', 1)[0]!)
-
-      if (!filePath.startsWith(`${blogDirectory}/`) || !filePath.endsWith('.mdx')) {
-        return null
-      }
-
-      const size = formatFileSize(Buffer.byteLength(code, 'utf8'))
+// reads frontmatter directly off disk rather than through the mdx compiler, so
+// listing post metadata never imports (and bundles) a post's rendered content
+export function readBlogMetadata(blogDirectory: string) {
+  return readdirSync(blogDirectory)
+    .filter((filename) => filename.endsWith('.mdx'))
+    .map((filename) => {
+      const filePath = join(blogDirectory, filename)
+      const source = readFileSync(filePath, 'utf8')
+      const frontmatter = source.match(FRONTMATTER_PATTERN)?.[1] ?? ''
 
       return {
-        code: code.replace(/^---\r?\n/, (opening) => `${opening}size: ${size}\n`),
-        map: null,
+        ...(parseYaml(frontmatter) as Record<string, unknown>),
+        filename,
+        size: formatFileSize(Buffer.byteLength(source, 'utf8')),
+        createdAt: getCreatedDate(filePath),
+        modifiedAt: getLastModifiedDate(filePath),
       }
-    },
-  }
+    })
 }
 
-export function injectBlogPostDates(): Plugin {
+export function blogMetadataModule(): Plugin {
+  const virtualModuleId = 'virtual:blog-metadata'
+  const resolvedVirtualModuleId = `\0${virtualModuleId}`
   const blogDirectory = normalizePath(resolve('src/content/blog'))
 
   return {
-    name: 'inject-blog-post-dates',
-    enforce: 'pre',
-    transform(code, id) {
-      // split(..., 1) always returns exactly one element
-      const filePath = normalizePath(id.split('?', 1)[0]!)
+    name: 'blog-metadata-module',
+    resolveId(id) {
+      if (id === virtualModuleId) {
+        return resolvedVirtualModuleId
+      }
+      return undefined
+    },
+    load(id) {
+      if (id !== resolvedVirtualModuleId) {
+        return
+      }
+      const metadata = readBlogMetadata(blogDirectory)
 
-      if (!filePath.startsWith(`${blogDirectory}/`) || !filePath.endsWith('.mdx')) {
-        return null
+      for (const post of metadata) {
+        this.addWatchFile(join(blogDirectory, post.filename as string))
       }
 
-      const modifiedAt = getLastModifiedDate(filePath)
-      const createdAt = getCreatedDate(filePath)
-
-      return {
-        code: code.replace(
-          /^---\r?\n/,
-          (opening) => `${opening}createdAt: ${createdAt}\nmodifiedAt: ${modifiedAt}\n`,
-        ),
-        map: null,
-      }
+      return `export const blogMetadata = ${JSON.stringify(metadata)}`
     },
   }
 }

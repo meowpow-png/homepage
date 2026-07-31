@@ -12,9 +12,8 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor'
 import {
   blockNonProductionIndexing,
+  blogMetadataModule,
   inlineStylesheet,
-  injectBlogPostDates,
-  injectBlogPostFileSize,
   mermaidCatppuccinTheme,
   validateProjectLanguages,
 } from './vite.plugins'
@@ -23,8 +22,7 @@ const CODE_THEME = `catppuccin-${CATPPUCCIN_FLAVOR}` as const
 
 export default defineConfig({
   plugins: [
-    injectBlogPostFileSize(),
-    injectBlogPostDates(),
+    blogMetadataModule(),
     validateProjectLanguages(),
     blockNonProductionIndexing(),
     inlineStylesheet(),

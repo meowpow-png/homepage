@@ -1,6 +1,6 @@
-import type { ComponentType } from 'react'
+import { lazy, type ComponentType } from 'react'
 
-import { getMetadata } from '@/content/getMetadata'
+import { blogMetadata } from 'virtual:blog-metadata'
 
 export type BlogPostMetadata = {
   createdAt: string
@@ -13,23 +13,15 @@ export type BlogPostMetadata = {
   title: string
 }
 
-interface BlogModule {
-  default: ComponentType<{ components?: Record<string, unknown> }>
-  metadata: Record<string, unknown>
+type BlogContentComponent = ComponentType<{ components?: Record<string, unknown> }>
+
+interface BlogContentModule {
+  default: BlogContentComponent
 }
 
-export function toFilename(path: string): string {
-  return path.replace('./', '')
-}
-
-function toBlogPost([path, module]: [string, BlogModule]) {
-  return {
-    Content: module.default,
-    metadata: {
-      ...getMetadata<Omit<BlogPostMetadata, 'filename'>>(module.metadata),
-      filename: toFilename(path),
-    },
-  }
+export interface BlogPost {
+  Content: BlogContentComponent
+  metadata: BlogPostMetadata
 }
 
 export function byPublishedAtAscending(
@@ -39,17 +31,24 @@ export function byPublishedAtAscending(
   return a.metadata.publishedAt.localeCompare(b.metadata.publishedAt)
 }
 
-const modules = import.meta.glob<BlogModule>('./*.mdx', { eager: true })
+// content loaded on demand, only once a specific post is actually rendered —
+// metadata comes from virtual:blog-metadata instead, so listing posts or
+// matching a route by slug never imports (and bundles) a post's content
+const contentLoaders = import.meta.glob<BlogContentModule>('./*.mdx')
 
-export const blogPosts = Object.entries(modules).map(toBlogPost).sort(byPublishedAtAscending)
+export const blogPosts = blogMetadata.map((metadata) => ({ metadata })).sort(byPublishedAtAscending)
 
-export type BlogPost = (typeof blogPosts)[number]
-
-export function findPostBySlug(posts: BlogPost[], slug: string): BlogPost | undefined {
+export function findPostBySlug<T extends { metadata: BlogPostMetadata }>(
+  posts: T[],
+  slug: string,
+): T | undefined {
   return posts.find((post) => post.metadata.slug === slug)
 }
 
-export function findNextPost(posts: BlogPost[], slug: string): BlogPost | undefined {
+export function findNextPost<T extends { metadata: BlogPostMetadata }>(
+  posts: T[],
+  slug: string,
+): T | undefined {
   const index = posts.findIndex((post) => post.metadata.slug === slug)
 
   if (index === -1) {
@@ -58,7 +57,10 @@ export function findNextPost(posts: BlogPost[], slug: string): BlogPost | undefi
   return posts[index + 1]
 }
 
-export function findPreviousPost(posts: BlogPost[], slug: string): BlogPost | undefined {
+export function findPreviousPost<T extends { metadata: BlogPostMetadata }>(
+  posts: T[],
+  slug: string,
+): T | undefined {
   const index = posts.findIndex((post) => post.metadata.slug === slug)
 
   if (index === -1) {
@@ -67,8 +69,23 @@ export function findPreviousPost(posts: BlogPost[], slug: string): BlogPost | un
   return posts[index - 1]
 }
 
-export function getBlogPost(slug: string) {
-  return findPostBySlug(blogPosts, slug)
+export function getBlogPost(slug: string): BlogPost | undefined {
+  const post = findPostBySlug(blogPosts, slug)
+
+  if (!post) {
+    return undefined
+  }
+
+  const loadContent = contentLoaders[`./${post.metadata.filename}`]
+
+  if (!loadContent) {
+    return undefined
+  }
+
+  return {
+    Content: lazy(loadContent),
+    metadata: post.metadata,
+  }
 }
 
 export function getNextPost(slug: string) {

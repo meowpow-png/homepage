@@ -24,3 +24,16 @@ declare module 'virtual:mermaid-theme' {
     string
   >
 }
+
+declare module 'virtual:blog-metadata' {
+  export const blogMetadata: Array<{
+    createdAt: string
+    description: string
+    filename: string
+    modifiedAt: string
+    publishedAt: string
+    size: string
+    slug: string
+    title: string
+  }>
+}

@@ -235,9 +235,7 @@ describe('injectSectionPreloads', () => {
   it('inserts a modulepreload link per href before </head>', () => {
     const html = injectSectionPreloads(template, ['/assets/Projects-abc.js', '/assets/runtime.js'])
 
-    expect(html).toContain(
-      '<link rel="modulepreload" crossorigin href="/assets/Projects-abc.js">',
-    )
+    expect(html).toContain('<link rel="modulepreload" crossorigin href="/assets/Projects-abc.js">')
     expect(html).toContain('<link rel="modulepreload" crossorigin href="/assets/runtime.js">')
     expect(html.indexOf('Projects-abc.js')).toBeLessThan(html.indexOf('</head>'))
   })
