@@ -29,3 +29,9 @@ preview *args:
 [arg("args", help="Command arguments")]
 test *args:
     docker compose run --rm test {{ args }}
+
+# Run lighthouse audit
+[arg("args", help="Command arguments")]
+audit *args:
+    @rm -rf .lighthouseci
+    docker compose run --rm lighthouse {{ args }}

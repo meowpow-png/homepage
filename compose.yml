@@ -28,6 +28,17 @@ services:
       - node-modules:/workspace/node_modules
     command: sh docker/test/run.sh
 
+  lighthouse:
+    build:
+      context: .
+      dockerfile: docker/lighthouse/Dockerfile
+    image: homepage-lighthouse:local
+    working_dir: /workspace
+    volumes:
+      - .:/workspace:z
+      - node-modules:/workspace/node_modules
+    command: sh docker/lighthouse/run.sh
+
 volumes:
   codex-home:
   claude-home:
