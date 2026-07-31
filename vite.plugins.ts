@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process'
-import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { normalizePath, type Plugin } from 'vite'
 import { parse as parseYaml } from 'yaml'
@@ -185,6 +185,30 @@ export function inlineStylesheet(): Plugin {
 
         return html.replace(stylesheetLine, `    <style>${cssAsset.source}</style>\n`)
       },
+    },
+  }
+}
+
+// vite's htmlFallback only resolves dist/<route>/index.html
+// for URLs ending in "/", otherwise it silently serves
+// the root page's HTML instead on a hard reload
+export function previewCleanUrls(): Plugin {
+  return {
+    name: 'preview-clean-urls',
+    configurePreviewServer(server) {
+      const outDir = resolve(server.config.root, server.config.build.outDir)
+
+      server.middlewares.use((req, _res, next) => {
+        const url = req.url?.split('?', 1)[0]
+
+        if (req.method !== 'GET' || !url || url === '/' || url.includes('.') || url.endsWith('/')) {
+          return next()
+        }
+        if (existsSync(join(outDir, url, 'index.html'))) {
+          req.url = `${url}/index.html`
+        }
+        next()
+      })
     },
   }
 }

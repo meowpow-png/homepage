@@ -18,5 +18,9 @@ const app = (
 if (import.meta.env.DEV) {
   createRoot(root).render(app)
 } else {
-  hydrateRoot(root, app)
+  hydrateRoot(root, app, {
+    onRecoverableError(error, errorInfo) {
+      console.error('Hydration error:', error, errorInfo.componentStack)
+    },
+  })
 }

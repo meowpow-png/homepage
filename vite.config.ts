@@ -15,6 +15,7 @@ import {
   blogMetadataModule,
   inlineStylesheet,
   mermaidCatppuccinTheme,
+  previewCleanUrls,
   validateProjectLanguages,
 } from './vite.plugins.ts'
 
@@ -27,6 +28,7 @@ export default defineConfig({
     blockNonProductionIndexing(),
     inlineStylesheet(),
     mermaidCatppuccinTheme(),
+    previewCleanUrls(),
     mdx({
       remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'metadata' }]],
       rehypePlugins: [
