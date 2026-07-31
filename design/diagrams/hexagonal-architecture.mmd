@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph Infrastructure["Infrastructure"]
+        direction TB
+        Inbound["Inbound Adapters<br/>(REST)"]
+        Outbound["Outbound Adapters<br/>(SOAP, Persistence)"]
+    end
+
+    subgraph Application["Application"]
+        direction TB
+        Ports["Inbound Ports"]
+        Services["Application Services"]
+        Domain["Domain Model"]
+        OutPorts["Outbound Ports"]
+    end
+
+    Inbound --> Ports --> Services
+    Services --> Domain
+    Services --> OutPorts
+    Outbound -.implements.-> OutPorts
