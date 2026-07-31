@@ -36,21 +36,22 @@ test('reading a blog post, following Next to the last post, then Previous back t
   expect(steps).toBeGreaterThan(0)
 
   while (await goTo('Previous')) {
-    // keep going until there's no Previous link left
+    /* empty */
   }
   await expect(
     page.locator('footer').getByRole('link', { name: 'Blog', exact: true }),
   ).toBeVisible()
 })
 
-test('reading a post with embedded diagrams renders them as SVG', async ({ page }) => {
+test('reading a post with embedded diagrams renders them as images', async ({ page }) => {
   await page.goto('/blog/telekom-assignment-architecture')
 
-  const diagrams = page.locator('.mermaid')
+  // dev mode appends a query string to asset URLs, so match ".svg" loosely
+  const diagrams = page.locator('.mdx-content img[src*=".svg"]')
   await expect(diagrams).toHaveCount(2)
 
   for (const diagram of await diagrams.all()) {
-    await expect(diagram.locator('svg')).toBeVisible()
+    await expect(diagram).toBeVisible()
   }
 })
 

@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "entry": ["src/content/{blog,projects,questions}/*.{ts,mdx}"],
+  "entry": ["src/content/{blog,projects,questions}/*.{ts,mdx}", "design/diagrams/render.ts"],
   "ignore": ["lighthouserc.cjs"],
   "ignoreDependencies": ["@fontsource/ibm-plex-mono"]
 }

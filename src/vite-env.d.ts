@@ -18,13 +18,6 @@ declare module '*.svg?react' {
   export default Component
 }
 
-declare module 'virtual:mermaid-theme' {
-  export const mermaidTheme: Record<
-    'base' | 'mantle' | 'surface0' | 'surface1' | 'surface2' | 'text' | 'subtext1' | 'blue',
-    string
-  >
-}
-
 declare module 'virtual:blog-metadata' {
   export const blogMetadata: Array<{
     createdAt: string

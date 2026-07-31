@@ -111,10 +111,3 @@ svg {
     hyphens: auto;
   }
 }
-
-.mermaid {
-  min-height: 376px;
-  padding: 1.5rem;
-  margin: 2rem 0;
-  overflow-x: auto;
-}

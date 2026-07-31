@@ -1,25 +1,13 @@
 import type { JSX } from 'react'
-import { useEffect } from 'react'
 
 import BlogSummary from '@/content/blog.mdx'
-import { blogPosts, prefetchBlogPost } from '@/content/blog'
+import { blogPosts } from '@/content/blog'
 import FileIcon from '@/shared/assets/icons/file.svg?react'
-import { prewarmMermaidRenderer } from '@/shared/components/Mermaid'
-import { Link, prefetchOnIdle } from '@/shared/routing'
+import { Link } from '@/shared/routing'
 
 import styles from './Blog.module.css'
 
-// slugs of posts worth warming from the listing before they're opened
-const PREWARMED_POSTS = ['telekom-assignment-architecture']
-
 export function Blog(): JSX.Element {
-  useEffect(() => {
-    prefetchOnIdle([
-      ...PREWARMED_POSTS.map((slug) => () => prefetchBlogPost(slug)),
-      prewarmMermaidRenderer,
-    ])
-  }, [])
-
   return (
     <section className={styles.blog} aria-labelledby="blog-heading">
       <header className={styles.introduction}>
