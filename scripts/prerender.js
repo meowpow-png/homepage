@@ -60,11 +60,22 @@ function buildAssetMap(manifest) {
   return Object.entries(manifest).map(([source, entry]) => [`/${source}`, `/${entry.file}`])
 }
 
-// looks up the hashed chunk a given dev-mode module path (e.g. a
-// React.lazy() section entry) was built into, for preloading it below
-function resolveManifestFile(manifest, sourcePath) {
-  const entry = manifest[sourcePath.replace(/^\//, '')]
-  return entry && `/${entry.file}`
+// walks a manifest entry's static imports to collect every chunk a
+// React.lazy() section needs, stopping at entry chunks (e.g. index.html)
+// since those are already loaded via the page's own <script> tag
+function collectSectionPreloads(manifest, sourcePath, seen = new Set()) {
+  const key = sourcePath.replace(/^\//, '')
+  const entry = manifest[key]
+
+  if (!entry || entry.isEntry || seen.has(key)) {
+    return []
+  }
+  seen.add(key)
+
+  return [
+    `/${entry.file}`,
+    ...(entry.imports ?? []).flatMap((importKey) => collectSectionPreloads(manifest, importKey, seen)),
+  ]
 }
 
 function resolveAssetUrls(html, assetMap) {
@@ -131,12 +142,15 @@ const SECTION_MODULE_BY_PAGE = {
 }
 
 // every page shares one template, so this is the only way its <head>
-// ends up mentioning the section chunk React.lazy() fetches on hydration
-function injectSectionPreload(html, href) {
-  if (!href) {
+// ends up mentioning the chunks React.lazy() fetches on hydration
+function injectSectionPreloads(html, hrefs) {
+  const newHrefs = hrefs.filter((href) => !html.includes(href))
+
+  if (newHrefs.length === 0) {
     return html
   }
-  return html.replace('</head>', `  <link rel="modulepreload" crossorigin href="${href}">\n</head>`)
+  const links = newHrefs.map((href) => `  <link rel="modulepreload" crossorigin href="${href}">`)
+  return html.replace('</head>', `${links.join('\n')}\n</head>`)
 }
 
 // unlike renderToString, this waits for Suspense to resolve; timeout guards
@@ -179,7 +193,7 @@ async function renderPage(
   let preloadedTemplate = template
   if (sectionModule) {
     await vite.ssrLoadModule(sectionModule)
-    preloadedTemplate = injectSectionPreload(template, resolveManifestFile(manifest, sectionModule))
+    preloadedTemplate = injectSectionPreloads(template, collectSectionPreloads(manifest, sectionModule))
   }
 
   const element = createElement(App, { initialPathname: pathname })
