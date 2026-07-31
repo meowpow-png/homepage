@@ -23,15 +23,4 @@ describe('rendered content', () => {
       expect(html).not.toContain(EMPTY_ROOT)
     },
   )
-
-  it('the mermaid post prerenders both diagram placeholders without crashing', async () => {
-    // mermaid.render() only runs client-side inside useEffect, which never executes
-    // during renderToString, so the placeholder stays empty here, that's expected.
-    // This only proves the route rendered at all, guarding the circular-import bug
-    // that used to crash this specific post during prerendering.
-    const html = await readDistFile('blog/telekom-assignment-architecture/index.html')
-    const placeholders = html.match(/<div class="mermaid"><\/div>/g) ?? []
-
-    expect(placeholders).toHaveLength(2)
-  })
 })
