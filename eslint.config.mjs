@@ -44,4 +44,10 @@ export default defineConfig([
     language: 'markdown/gfm',
     extends: ['markdown/recommended'],
   },
+  {
+    // .cjs exists specifically to force CommonJS regardless of "type":
+    // "module", so require() here is correct, not legacy code to flag
+    files: ['**/*.cjs'],
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
 ])
