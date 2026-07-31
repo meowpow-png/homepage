@@ -3,7 +3,7 @@ import { createServer } from 'vite'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 
-const DIAGRAMS_DIR = 'design/diagrams'
+const DIAGRAMS_DIR = 'design/diagrams/source'
 const OUTPUT_DIR = 'src/shared/assets/images'
 
 async function main() {
