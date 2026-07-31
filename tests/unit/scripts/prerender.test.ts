@@ -197,9 +197,9 @@ describe('collectSectionPreloads', () => {
       'index.html': {
         file: 'assets/index-abc.js',
         isEntry: true,
-        imports: ['mermaid.js'],
+        imports: ['other.js'],
       },
-      'mermaid.js': { file: 'assets/mermaid-abc.js' },
+      'other.js': { file: 'assets/other-abc.js' },
     }
 
     expect(collectSectionPreloads(manifest, 'src/sections/Projects/index.ts')).toEqual([
