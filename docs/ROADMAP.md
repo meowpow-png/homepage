@@ -38,8 +38,6 @@ Ensure the site is discoverable and displays correctly when shared.
 - [ ] Configure robots.txt
 - [ ] Configure favicon and app icons
 - [ ] Validate with Lighthouse SEO audit
-- [ ] Validate Google indexing (Search Console)
-- [ ] Verify social card previews
 
 ### Performance
 
@@ -78,6 +76,9 @@ Perform final validation before making the site public.
 - [ ] Verify 404 handling
 - [ ] Verify redirects
 - [ ] Publish first release
+- [ ] Verify production deployment
+- [ ] Validate Google indexing (Search Console)
+- [ ] Verify social card previews
 
 ## Milestone 2 — Monitoring
 
