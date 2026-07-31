@@ -36,7 +36,7 @@ Ensure the site is discoverable and displays correctly when shared.
 - [x] Configure Open Graph and Twitter/X metadata
 - [x] Generate sitemap
 - [x] Configure robots.txt
-- [ ] Configure favicon and app icons
+- [ ] Configure favicon
 - [ ] Validate with Lighthouse SEO audit
 
 ### Performance
