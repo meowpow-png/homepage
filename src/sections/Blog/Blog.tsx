@@ -33,7 +33,7 @@ export function Blog(): JSX.Element {
 
           {blogPosts.map(({ metadata: post }) => {
             return (
-              <article key={post.filename} className={styles.post} role="row">
+              <div key={post.filename} className={styles.post} role="row">
                 <time
                   className={styles.metadata}
                   role="cell"
@@ -61,7 +61,7 @@ export function Blog(): JSX.Element {
                     {post.filename}
                   </Link>
                 </div>
-              </article>
+              </div>
             )
           })}
         </div>
