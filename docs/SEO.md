@@ -98,7 +98,7 @@ ever set once, directly in `index.html`.
 link-preview bots don't render SVG reliably. The source lives under
 `design/og-image/` as a few small files instead of one flat image:
 
-- `favicon.svg` — just the accent dot, transparent background, cropped tight
+- `dot.svg` — just the accent dot, transparent background, cropped tight
 - `index.html` + `og-image.css` — a fixed 1200×630 card, centered on a
   full-viewport page so the card's edges are visible when you open the
   file directly in a browser to check alignment
