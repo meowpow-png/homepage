@@ -54,15 +54,12 @@ async function loadManifest() {
   return JSON.parse(await readFile(MANIFEST_PATH, 'utf8'))
 }
 
-// ssrLoadModule renders dev-mode asset paths (/src/...) that don't exist in
-// dist/, so map each one to its hashed prod path via the build manifest
+// maps dev-mode /src/... paths to their hashed dist/ files
 function buildAssetMap(manifest) {
   return Object.entries(manifest).map(([source, entry]) => [`/${source}`, `/${entry.file}`])
 }
 
-// walks a manifest entry's static imports to collect every chunk a
-// React.lazy() section needs, stopping at entry chunks (e.g. index.html)
-// since those are already loaded via the page's own <script> tag
+// a lazy section's chunk + static deps, stopping at entry chunks (already on the page)
 export function collectSectionPreloads(manifest, sourcePath, seen = new Set()) {
   const key = sourcePath.replace(/^\//, '')
   const entry = manifest[key]
@@ -74,7 +71,9 @@ export function collectSectionPreloads(manifest, sourcePath, seen = new Set()) {
 
   return [
     `/${entry.file}`,
-    ...(entry.imports ?? []).flatMap((importKey) => collectSectionPreloads(manifest, importKey, seen)),
+    ...(entry.imports ?? []).flatMap((importKey) =>
+      collectSectionPreloads(manifest, importKey, seen),
+    ),
   ]
 }
 
@@ -92,8 +91,7 @@ function replaceMetaContent(html, attr, property, content) {
   )
 }
 
-// keep in sync with App.tsx's metadata effect: same title/description/canonical/
-// image rules must apply server-side (this function) and client-side
+// keep in sync with App.tsx's client-side metadata effect
 export function injectHead(html, { title, description, canonicalUrl, ogImageUrl }) {
   const socialFields = [
     ['property', 'og:title', title],
@@ -114,8 +112,7 @@ export function injectHead(html, { title, description, canonicalUrl, ogImageUrl 
       `<meta name="description" content="${escapeHtml(description)}" />`,
     )
 
-  // an error page isn't "the" canonical version of anything, so drop canonical
-  // and og:url instead of pointing them at the internal not-found sentinel path
+  // error pages have no canonical version, so drop canonical/og:url instead
   if (!canonicalUrl) {
     return withMeta
       .replace(/\s*<link rel="canonical" href="[^"]*" \/>\n?/, '\n')
@@ -133,7 +130,7 @@ export function injectHead(html, { title, description, canonicalUrl, ogImageUrl 
   )
 }
 
-// section module per page, pre-warmed below to avoid a cold transform mid-render
+// pre-warmed below to avoid a cold transform mid-render
 const SECTION_MODULE_BY_PAGE = {
   about: '/src/sections/About/index.ts',
   projects: '/src/sections/Projects/index.ts',
@@ -141,8 +138,7 @@ const SECTION_MODULE_BY_PAGE = {
   questions: '/src/sections/Questions/index.ts',
 }
 
-// every page shares one template, so this is the only way its <head>
-// ends up mentioning the chunks React.lazy() fetches on hydration
+// only way a shared template's <head> gets the lazy chunks it needs
 export function injectSectionPreloads(html, hrefs) {
   const newHrefs = hrefs.filter((href) => !html.includes(href))
 
@@ -153,8 +149,7 @@ export function injectSectionPreloads(html, hrefs) {
   return html.replace('</head>', `${links.join('\n')}\n</head>`)
 }
 
-// unlike renderToString, this waits for Suspense to resolve; timeout guards
-// against a boundary that never does
+// waits for Suspense unlike renderToString; timeout guards a stuck boundary
 const RENDER_TIMEOUT_MS = 10_000
 
 export async function renderToHtml(element, timeoutMs = RENDER_TIMEOUT_MS) {
@@ -193,7 +188,10 @@ async function renderPage(
   let preloadedTemplate = template
   if (sectionModule) {
     await vite.ssrLoadModule(sectionModule)
-    preloadedTemplate = injectSectionPreloads(template, collectSectionPreloads(manifest, sectionModule))
+    preloadedTemplate = injectSectionPreloads(
+      template,
+      collectSectionPreloads(manifest, sectionModule),
+    )
   }
 
   const element = createElement(App, { initialPathname: pathname })
@@ -223,17 +221,13 @@ async function main() {
       const html = await renderPage(vite, template, manifest, assetMap, entry.pathname, entry)
       await writeFileEnsuringDir(join(DIST, entry.pathname, 'index.html'), html)
     }
-
-    // '/' normalizes to '/about' client-side and is byte-identical content, so it
-    // canonicalizes to '/about' too rather than splitting the two into duplicates
+    // '/' is byte-identical to '/about' client-side, so it canonicalizes there too
     const aboutEntry = entries.find((entry) => entry.pathname === '/about')
     await writeFileEnsuringDir(
       join(DIST, 'index.html'),
       await renderPage(vite, template, manifest, assetMap, '/', aboutEntry, '/about'),
     )
-
-    // Vercel serves this automatically, with a real 404 status, for any path with
-    // no matching file; canonicalPath is null since an error page canonicalizes to nothing
+    // Vercel serves this for any unmatched path with a real 404 status
     await writeFileEnsuringDir(
       join(DIST, '404.html'),
       await renderPage(
@@ -246,9 +240,7 @@ async function main() {
         null,
       ),
     )
-
-    // reuses the same entries the loop above just prerendered, so the sitemap
-    // can't list a page that doesn't exist or omit one that does
+    // reuses the loop's entries so the sitemap can't drift from what's built
     const { SITE_URL } = await vite.ssrLoadModule('/src/shared/siteUrl.ts')
     await writeFileEnsuringDir(join(DIST, 'sitemap.xml'), buildSitemap(entries, SITE_URL))
   } finally {
@@ -259,8 +251,7 @@ async function main() {
   await rm(MANIFEST_PATH)
 }
 
-// only run when executed directly via `node scripts/prerender.js`,
-// not when imported elsewhere (e.g. tests importing escapeHtml/injectHead)
+// only run via `node scripts/prerender.js`, not when tests import this file
 if (import.meta.url === `file://${process.argv[1]}`) {
   await main()
 }
