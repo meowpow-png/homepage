@@ -1,5 +1,5 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { hydrateRoot } from 'react-dom/client'
 
 import '@/shared/styles/tokens.css'
 import '@/shared/styles/global.css'
@@ -7,7 +7,8 @@ import '@/shared/styles/typography.css'
 
 import { App } from './App'
 
-createRoot(document.getElementById('root')!).render(
+hydrateRoot(
+  document.getElementById('root')!,
   <StrictMode>
     <App />
   </StrictMode>,
