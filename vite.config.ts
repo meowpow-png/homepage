@@ -9,14 +9,14 @@ import rehypePrettyCode from 'rehype-pretty-code'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 
-import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor'
+import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor.ts'
 import {
   blockNonProductionIndexing,
   blogMetadataModule,
   inlineStylesheet,
   mermaidCatppuccinTheme,
   validateProjectLanguages,
-} from './vite.plugins'
+} from './vite.plugins.ts'
 
 const CODE_THEME = `catppuccin-${CATPPUCCIN_FLAVOR}` as const
 

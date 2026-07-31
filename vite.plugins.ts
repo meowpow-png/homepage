@@ -5,8 +5,8 @@ import { normalizePath, type Plugin } from 'vite'
 import { parse as parseYaml } from 'yaml'
 import { flavors } from '@catppuccin/palette'
 
-import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor'
-import { LANGUAGE_COLORS } from './src/sections/Projects/languages'
+import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor.ts'
+import { LANGUAGE_COLORS } from './src/sections/Projects/languages.ts'
 
 export function formatFileSize(bytes: number) {
   if (bytes < 1000) {
