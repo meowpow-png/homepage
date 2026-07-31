@@ -165,6 +165,28 @@ export function blockNonProductionIndexing(): Plugin {
   }
 }
 
+export function prioritizeStylesheet(): Plugin {
+  return {
+    name: 'prioritize-stylesheet',
+    transformIndexHtml: {
+      // runs after Vite's build-html plugin has already injected
+      // script/modulepreload/stylesheet tags this reorders
+      order: 'post',
+      handler(html) {
+        const stylesheetLine = html.match(/[ \t]*<link rel="stylesheet"[^>]*>\n?/)?.[0]
+        if (!stylesheetLine) return html
+
+        // Vite appends built CSS link after every JS modulepreload hint,
+        // so render-blocking stylesheet is discovered last instead of first
+        const stylesheetTag = stylesheetLine.trim()
+        return html
+          .replace(stylesheetLine, '')
+          .replace('<head>\n', `<head>\n    ${stylesheetTag}\n`)
+      },
+    },
+  }
+}
+
 export function mermaidCatppuccinTheme(): Plugin {
   const virtualModuleId = 'virtual:mermaid-theme'
   const resolvedVirtualModuleId = `\0${virtualModuleId}`

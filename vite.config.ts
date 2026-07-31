@@ -15,6 +15,7 @@ import {
   injectBlogPostDates,
   injectBlogPostFileSize,
   mermaidCatppuccinTheme,
+  prioritizeStylesheet,
   validateProjectLanguages,
 } from './vite.plugins'
 
@@ -26,6 +27,7 @@ export default defineConfig({
     injectBlogPostDates(),
     validateProjectLanguages(),
     blockNonProductionIndexing(),
+    prioritizeStylesheet(),
     mermaidCatppuccinTheme(),
     mdx({
       remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'metadata' }]],
