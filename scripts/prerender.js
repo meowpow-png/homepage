@@ -32,9 +32,21 @@ async function collectRouteEntries(vite) {
     pathname: `/blog/${post.metadata.slug}`,
     title: post.metadata.title,
     description: post.metadata.description,
+    lastmod: post.metadata.modifiedAt,
   }))
 
   return [...staticEntries, ...blogEntries]
+}
+
+export function buildSitemap(entries, siteUrl) {
+  const urls = entries
+    .map((entry) => {
+      const lastmod = entry.lastmod ? `\n    <lastmod>${entry.lastmod}</lastmod>` : ''
+      return `  <url>\n    <loc>${siteUrl}${entry.pathname}</loc>${lastmod}\n  </url>`
+    })
+    .join('\n')
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
 }
 
 // ssrLoadModule renders dev-mode asset paths (/src/...) that don't exist in
@@ -143,6 +155,11 @@ async function main() {
       join(DIST, '404.html'),
       await renderPage(vite, template, assetMap, NOT_FOUND_PATHNAME, NOT_FOUND_ENTRY, null),
     )
+
+    // reuses the same entries the loop above just prerendered, so the sitemap
+    // can't list a page that doesn't exist or omit one that does
+    const { SITE_URL } = await vite.ssrLoadModule('/src/shared/siteUrl.ts')
+    await writeFileEnsuringDir(join(DIST, 'sitemap.xml'), buildSitemap(entries, SITE_URL))
   } finally {
     await vite.close()
   }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { escapeHtml, injectHead } from '../../../scripts/prerender.js'
+import { buildSitemap, escapeHtml, injectHead } from '../../../scripts/prerender.js'
 
 describe('escapeHtml', () => {
   it('escapes HTML-significant characters', () => {
@@ -95,5 +95,40 @@ describe('injectHead', () => {
 
     expect(html).not.toContain('rel="canonical"')
     expect(html).not.toContain('property="og:url"')
+  })
+})
+
+describe('buildSitemap', () => {
+  it('lists a <url> entry per pathname, in order', () => {
+    const xml = buildSitemap(
+      [{ pathname: '/about' }, { pathname: '/projects' }],
+      'https://meowpow.dev',
+    )
+
+    const aboutIndex = xml.indexOf('https://meowpow.dev/about')
+    const projectsIndex = xml.indexOf('https://meowpow.dev/projects')
+
+    expect(aboutIndex).toBeGreaterThan(-1)
+    expect(projectsIndex).toBeGreaterThan(aboutIndex)
+  })
+
+  it('includes lastmod only for entries that have one', () => {
+    const xml = buildSitemap(
+      [{ pathname: '/about' }, { pathname: '/blog/post', lastmod: '2026-01-15' }],
+      'https://meowpow.dev',
+    )
+
+    expect(xml).not.toMatch(/<loc>https:\/\/meowpow\.dev\/about<\/loc>\s*<lastmod>/)
+    expect(xml).toContain(
+      '<loc>https://meowpow.dev/blog/post</loc>\n    <lastmod>2026-01-15</lastmod>',
+    )
+  })
+
+  it('produces well-formed XML with the sitemap namespace', () => {
+    const xml = buildSitemap([{ pathname: '/about' }], 'https://meowpow.dev')
+
+    expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>')
+    expect(xml).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+    expect(xml).toContain('</urlset>')
   })
 })

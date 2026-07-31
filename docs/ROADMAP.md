@@ -34,7 +34,7 @@ Ensure the site is discoverable and displays correctly when shared.
 - [x] Prerender per-route HTML
 - [x] Configure page metadata (title, description, canonical)
 - [x] Configure Open Graph and Twitter/X metadata
-- [ ] Generate sitemap
+- [x] Generate sitemap
 - [x] Configure robots.txt
 - [ ] Configure favicon and app icons
 - [ ] Validate with Lighthouse SEO audit
