@@ -28,6 +28,17 @@ services:
       - node-modules:/workspace/node_modules
     command: sh docker/test/run.sh
 
+  diagrams:
+    build:
+      context: .
+      dockerfile: docker/playwright/Dockerfile
+    image: homepage-playwright:local
+    working_dir: /workspace
+    volumes:
+      - .:/workspace:z
+      - node-modules:/workspace/node_modules
+    command: sh docker/diagrams/run.sh
+
   lighthouse:
     build:
       context: .

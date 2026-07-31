@@ -35,3 +35,8 @@ test *args:
 audit *args:
     @rm -rf .lighthouseci
     docker compose run --rm lighthouse {{ args }}
+
+# Generate diagram SVGs from source
+[arg("args", help="Command arguments")]
+diagrams *args:
+    docker compose run --rm diagrams {{ args }}
