@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { startTransition, useEffect, useState } from 'react'
 
 import type { Navigation } from './types'
 
@@ -18,7 +18,11 @@ export function useNavigation(initialPathname?: string): Navigation {
     if (window.location.pathname === '/') {
       window.history.replaceState(null, '', nextPathname)
     }
-    setPathname(nextPathname)
+    // a transition keeps the current section on screen until the next one's
+    // lazy import resolves, instead of unmounting it for a blank Suspense fallback
+    startTransition(() => {
+      setPathname(nextPathname)
+    })
   }
 
   useEffect(() => {
