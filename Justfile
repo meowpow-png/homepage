@@ -22,6 +22,7 @@ dev *args:
 # Preview production build
 [arg("args", help="Command arguments")]
 preview *args:
+    npm run build
     npm run preview -- {{ args }}
 
 # Run tests with coverage
