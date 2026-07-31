@@ -102,6 +102,10 @@ svg {
   margin: 24px 0;
 }
 
+.mdx-content img {
+  margin: 50px 0;
+}
+
 @media (width <= 640px) {
   .mdx-content pre {
     font-size: 0.8125rem;
