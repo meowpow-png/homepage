@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest'
 
 import {
   type BlogPost,
+  blogPosts,
   byPublishedAtAscending,
   findNextPost,
   findPostBySlug,
   findPreviousPost,
+  getBlogPost,
 } from '@/content/blog'
 
 function makePost(overrides: Partial<BlogPost['metadata']> = {}): BlogPost {
@@ -65,6 +67,24 @@ describe('findNextPost', () => {
 
   it('returns undefined when the slug is not found', () => {
     expect(findNextPost(posts, 'missing')).toBeUndefined()
+  })
+})
+
+describe('getBlogPost', () => {
+  it('returns undefined for a slug that does not match any post', () => {
+    expect(getBlogPost('does-not-exist')).toBeUndefined()
+  })
+
+  it('returns the same Content component across repeated calls for the same post', () => {
+    // a fresh lazy() every call never resolves, since React sees a
+    // different, always-unresolved component on each render
+    const { slug } = blogPosts[0]!.metadata
+
+    const first = getBlogPost(slug)
+    const second = getBlogPost(slug)
+
+    expect(first?.Content).toBeDefined()
+    expect(first?.Content).toBe(second?.Content)
   })
 })
 
