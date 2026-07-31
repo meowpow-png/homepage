@@ -25,10 +25,10 @@ services:
     working_dir: /workspace
     volumes:
       - .:/workspace:z
-      - test-node-modules:/workspace/node_modules
+      - node-modules:/workspace/node_modules
     command: sh docker/test/run.sh
 
 volumes:
   codex-home:
   claude-home:
-  test-node-modules:
+  node-modules:
