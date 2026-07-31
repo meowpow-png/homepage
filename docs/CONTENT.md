@@ -80,6 +80,37 @@ based on the file itself, so just leave them out.
 
 That's it here too. No code changes needed, just add the file.
 
+## Adding a diagram
+
+Add a mermaid source file to `design/diagrams/source/`, then generate the SVG:
+
+```text
+npm run generate:diagram-svgs
+```
+
+Note that it needs Chromium, so if you don't have it installed locally,
+just run it through Docker Compose rather than installing on your host:
+
+```bash
+docker compose run --rm diagrams
+```
+
+That renders every file in source directory and writes
+the result to `src/shared/assets/images/`.
+
+Commit the SVG, then reference it like any other image:
+
+```mdx
+import myDiagram from '@/shared/assets/images/my-diagram.svg'
+
+<img src={myDiagram} alt="What the diagram shows" />
+```
+
+> [!NOTE]
+> There's no mermaid running in the browser. The SVG is intended
+> to be generated once locally, and committed. Re-run the script
+> and commit the new file whenever the source changes.
+
 ## Adding a question
 
 Questions work a little differently. There's no field to sort by here,
