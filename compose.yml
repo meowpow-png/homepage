@@ -22,6 +22,7 @@ services:
       context: .
       dockerfile: docker/playwright/Dockerfile
     image: homepage-playwright:local
+    pull_policy: never
     working_dir: /workspace
     volumes:
       - .:/workspace:z
@@ -33,6 +34,7 @@ services:
       context: .
       dockerfile: docker/playwright/Dockerfile
     image: homepage-playwright:local
+    pull_policy: never
     working_dir: /workspace
     volumes:
       - .:/workspace:z
@@ -44,6 +46,7 @@ services:
       context: .
       dockerfile: docker/lighthouse/Dockerfile
     image: homepage-lighthouse:local
+    pull_policy: never
     working_dir: /workspace
     volumes:
       - .:/workspace:z
