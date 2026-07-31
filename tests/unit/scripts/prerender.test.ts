@@ -1,7 +1,14 @@
 import { createElement, lazy, Suspense } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import { buildSitemap, escapeHtml, injectHead, renderToHtml } from '../../../scripts/prerender.js'
+import {
+  buildSitemap,
+  collectSectionPreloads,
+  escapeHtml,
+  injectHead,
+  injectSectionPreloads,
+  renderToHtml,
+} from '../../../scripts/prerender.js'
 
 function resolveAfterTicks(value: unknown, ticks: number) {
   return new Promise((resolve) => {
@@ -152,6 +159,98 @@ describe('buildSitemap', () => {
     expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>')
     expect(xml).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
     expect(xml).toContain('</urlset>')
+  })
+})
+
+describe('collectSectionPreloads', () => {
+  it('returns the file for an entry with no imports', () => {
+    const manifest = {
+      'src/sections/Questions/index.ts': { file: 'assets/Questions-abc.js' },
+    }
+
+    expect(collectSectionPreloads(manifest, 'src/sections/Questions/index.ts')).toEqual([
+      '/assets/Questions-abc.js',
+    ])
+  })
+
+  it('follows a chain of static imports', () => {
+    const manifest = {
+      'src/sections/Projects/index.ts': {
+        file: 'assets/Projects-abc.js',
+        imports: ['runtime.js'],
+      },
+      'runtime.js': { file: 'assets/runtime-abc.js' },
+    }
+
+    expect(collectSectionPreloads(manifest, 'src/sections/Projects/index.ts')).toEqual([
+      '/assets/Projects-abc.js',
+      '/assets/runtime-abc.js',
+    ])
+  })
+
+  it('stops at an entry chunk instead of recursing into it', () => {
+    const manifest = {
+      'src/sections/Projects/index.ts': {
+        file: 'assets/Projects-abc.js',
+        imports: ['index.html'],
+      },
+      'index.html': {
+        file: 'assets/index-abc.js',
+        isEntry: true,
+        imports: ['mermaid.js'],
+      },
+      'mermaid.js': { file: 'assets/mermaid-abc.js' },
+    }
+
+    expect(collectSectionPreloads(manifest, 'src/sections/Projects/index.ts')).toEqual([
+      '/assets/Projects-abc.js',
+    ])
+  })
+
+  it('does not revisit a chunk reached through more than one import path', () => {
+    const manifest = {
+      'src/sections/Projects/index.ts': {
+        file: 'assets/Projects-abc.js',
+        imports: ['a.js', 'b.js'],
+      },
+      'a.js': { file: 'assets/a.js', imports: ['shared.js'] },
+      'b.js': { file: 'assets/b.js', imports: ['shared.js'] },
+      'shared.js': { file: 'assets/shared.js' },
+    }
+
+    expect(collectSectionPreloads(manifest, 'src/sections/Projects/index.ts')).toEqual([
+      '/assets/Projects-abc.js',
+      '/assets/a.js',
+      '/assets/shared.js',
+      '/assets/b.js',
+    ])
+  })
+
+  it('returns an empty list for a path missing from the manifest', () => {
+    expect(collectSectionPreloads({}, 'src/sections/Projects/index.ts')).toEqual([])
+  })
+})
+
+describe('injectSectionPreloads', () => {
+  it('inserts a modulepreload link per href before </head>', () => {
+    const html = injectSectionPreloads(template, ['/assets/Projects-abc.js', '/assets/runtime.js'])
+
+    expect(html).toContain(
+      '<link rel="modulepreload" crossorigin href="/assets/Projects-abc.js">',
+    )
+    expect(html).toContain('<link rel="modulepreload" crossorigin href="/assets/runtime.js">')
+    expect(html.indexOf('Projects-abc.js')).toBeLessThan(html.indexOf('</head>'))
+  })
+
+  it('skips hrefs already present in the template', () => {
+    const withOne = injectSectionPreloads(template, ['/assets/Projects-abc.js'])
+    const withDuplicate = injectSectionPreloads(withOne, ['/assets/Projects-abc.js'])
+
+    expect(withDuplicate).toBe(withOne)
+  })
+
+  it('returns the template unchanged for an empty href list', () => {
+    expect(injectSectionPreloads(template, [])).toBe(template)
   })
 })
 

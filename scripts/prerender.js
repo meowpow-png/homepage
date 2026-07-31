@@ -63,7 +63,7 @@ function buildAssetMap(manifest) {
 // walks a manifest entry's static imports to collect every chunk a
 // React.lazy() section needs, stopping at entry chunks (e.g. index.html)
 // since those are already loaded via the page's own <script> tag
-function collectSectionPreloads(manifest, sourcePath, seen = new Set()) {
+export function collectSectionPreloads(manifest, sourcePath, seen = new Set()) {
   const key = sourcePath.replace(/^\//, '')
   const entry = manifest[key]
 
@@ -143,7 +143,7 @@ const SECTION_MODULE_BY_PAGE = {
 
 // every page shares one template, so this is the only way its <head>
 // ends up mentioning the chunks React.lazy() fetches on hydration
-function injectSectionPreloads(html, hrefs) {
+export function injectSectionPreloads(html, hrefs) {
   const newHrefs = hrefs.filter((href) => !html.includes(href))
 
   if (newHrefs.length === 0) {
