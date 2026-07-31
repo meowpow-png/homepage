@@ -1,6 +1,8 @@
+/*noinspection CssOverwrittenProperties*/
 .shell {
   display: grid;
   min-height: 100vh;
+  min-height: 100dvh;
   grid-template-rows: auto 1fr auto;
   grid-template-columns: minmax(0, 1fr);
   padding-inline: var(--space-page-inline);

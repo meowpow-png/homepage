@@ -40,10 +40,13 @@
   content: '';
 }
 
+/*noinspection CssOverwrittenProperties*/
 .timeline {
   position: sticky;
   top: max(24px, calc(50vh - 220px));
+  top: max(24px, calc(50dvh - 220px));
   height: min(440px, calc(100vh - 48px));
+  height: min(440px, calc(100dvh - 48px));
   align-self: start;
   transform: scale(0.85);
   transform-origin: top left;
@@ -380,6 +383,7 @@
     background: rgb(0 0 0 / 50%);
   }
 
+  /*noinspection CssOverwrittenProperties*/
   .mobileDropdownList {
     display: none;
     position: absolute;
@@ -395,6 +399,7 @@
     background: var(--color-surface);
     box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
     max-height: calc(100vh - 100px);
+    max-height: calc(100dvh - 100px);
     overflow-y: auto;
   }
 

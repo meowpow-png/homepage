@@ -9,9 +9,11 @@ html {
   background: var(--color-canvas);
 }
 
+/*noinspection CssOverwrittenProperties*/
 body {
   min-width: 320px;
   min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   background: var(--color-canvas);
   color: var(--color-text-primary);
@@ -37,8 +39,10 @@ svg {
   max-width: 100%;
 }
 
+/*noinspection CssOverwrittenProperties*/
 #root {
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .mdx-content blockquote {
