@@ -2,14 +2,19 @@ import { lazy } from 'react'
 
 import type { Route, RoutePath } from './types'
 
-const About = lazy(() => import('@/sections/About').then((module) => ({ default: module.About })))
-const Blog = lazy(() => import('@/sections/Blog').then((module) => ({ default: module.Blog })))
-const Projects = lazy(() =>
-  import('@/sections/Projects').then((module) => ({ default: module.Projects })),
-)
-const Questions = lazy(() =>
-  import('@/sections/Questions').then((module) => ({ default: module.Questions })),
-)
+// shared with prefetchSections, so warming the cache for the other three
+// sections can't drift from what these routes actually lazy-load
+export const sectionLoaders = {
+  about: () => import('@/sections/About').then((module) => ({ default: module.About })),
+  blog: () => import('@/sections/Blog').then((module) => ({ default: module.Blog })),
+  projects: () => import('@/sections/Projects').then((module) => ({ default: module.Projects })),
+  questions: () => import('@/sections/Questions').then((module) => ({ default: module.Questions })),
+}
+
+const About = lazy(sectionLoaders.about)
+const Blog = lazy(sectionLoaders.blog)
+const Projects = lazy(sectionLoaders.projects)
+const Questions = lazy(sectionLoaders.questions)
 
 export const routes = {
   '/about': {

@@ -1,5 +1,6 @@
 export { Link, shouldInterceptNavigation } from './Link'
 export { RouterContext } from './RouterContext'
+export { defaultIdleSchedule, prefetchOnIdle, prefetchSections } from './prefetchSections'
 export { resolveRoute } from './resolveRoute'
 export { routes } from './routes'
 export { useRouter } from './useRouter'
