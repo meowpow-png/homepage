@@ -17,6 +17,7 @@
     "test:build": "vitest run --config vitest.build.config.ts --reporter=default",
     "test:e2e": "playwright test",
     "generate:og-image": "node scripts/generate-og-image.js",
+    "lighthouse": "rm -rf .lighthouseci && npm run build && lhci autorun",
     "test:coverage:merge": "node tests/merge-coverage.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
