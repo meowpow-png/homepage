@@ -43,6 +43,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.5",
     "@eslint/markdown": "^8.0.3",
+    "@lhci/cli": "^0.15.1",
     "@mdx-js/rollup": "^3.1.1",
     "@playwright/test": "^1.62.0",
     "@types/node": "^26.1.1",
