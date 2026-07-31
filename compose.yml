@@ -20,8 +20,8 @@ services:
   test:
     build:
       context: .
-      dockerfile: docker/test/Dockerfile
-    image: homepage-test:local
+      dockerfile: docker/playwright/Dockerfile
+    image: homepage-playwright:local
     working_dir: /workspace
     volumes:
       - .:/workspace:z

@@ -106,7 +106,7 @@ jobs:
 
       - name: Get installed Playwright version
         id: playwright-version
-        run: echo "version=$(sh docker/test/get-playwright-version.sh)" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(sh docker/playwright/get-playwright-version.sh)" >> "$GITHUB_OUTPUT"
 
       - name: Cache Playwright browsers
         id: playwright-cache
