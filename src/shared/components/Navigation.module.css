@@ -66,6 +66,7 @@
   height: 12px;
   border-radius: 50%;
   background: var(--color-accent);
+  transform: translateY(2px);
 }
 
 .backdrop {
