@@ -285,6 +285,7 @@ jobs:
           name: lighthouse-report
           path: .lighthouseci/
           if-no-files-found: ignore
+          include-hidden-files: true
 
       - name: Write job summary
         if: always()
