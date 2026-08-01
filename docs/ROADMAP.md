@@ -43,7 +43,7 @@ Ensure the site is discoverable and displays correctly when shared.
 
 Validate that the site loads quickly and efficiently.
 
-- [ ] Run Lighthouse audit
+- [x] Run Lighthouse audit
 - [ ] Optimize images
 - [ ] Review bundle size
 - [ ] Verify caching headers
