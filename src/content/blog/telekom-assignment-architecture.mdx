@@ -19,6 +19,8 @@ kept the business logic isolated from SOAP.
 <img
   src={hexagonalArchitecture}
   alt="Flowchart of hexagonal architecture: inbound REST and outbound SOAP/persistence adapters sit in an infrastructure layer around an application layer containing inbound ports, application services, the domain model, and outbound ports. Inbound adapters call inbound ports, which call services; services call the domain model directly and outbound ports indirectly; outbound adapters implement outbound ports."
+  width={593}
+  height={630}
 />
 
 Dependencies only point inward. Infrastructure depends
@@ -37,6 +39,8 @@ That way I could test retry and backoff logic against a platform that didn't alw
 <img
   src={resilienceTestingRig}
   alt="Flowchart of the resilience testing rig: Gatling sends HTTP requests to Spring Boot, which sends SOAP requests through an Nginx reverse proxy; Nginx routes normal scenarios to the Mockoon SOAP platform and resilience scenarios to the WireMock fault simulator."
+  width={586}
+  height={478}
 />
 
 There was implementation documentation describing this rig end to end.
