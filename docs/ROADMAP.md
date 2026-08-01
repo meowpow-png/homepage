@@ -44,8 +44,8 @@ Ensure the site is discoverable and displays correctly when shared.
 Validate that the site loads quickly and efficiently.
 
 - [x] Run Lighthouse audit
-- [ ] Optimize images
-- [ ] Review bundle size
+- [x] Optimize images
+- [x] Review bundle size
 - [ ] Verify caching headers
 - [ ] Verify compression
 - [ ] Verify Core Web Vitals
