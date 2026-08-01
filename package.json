@@ -32,6 +32,7 @@
     "typecheck": "tsc -b",
     "knip": "knip",
     "check:image-prefetch": "node scripts/check-image-prefetch.js",
+    "size-limit": "size-limit",
     "qualitycheck": "run-s --continue-on-error format:check lint typecheck build test:build knip check:image-prefetch",
     "verify": "run-s --continue-on-error format:check lint typecheck build test:build test:coverage knip check:image-prefetch"
   },
@@ -49,6 +50,7 @@
     "@lhci/cli": "^0.15.1",
     "@mdx-js/rollup": "^3.1.1",
     "@playwright/test": "^1.62.0",
+    "@size-limit/file": "^13.0.3",
     "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
@@ -67,6 +69,7 @@
     "prettier": "^3.9.6",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
+    "size-limit": "^13.0.3",
     "stylelint": "^17.14.1",
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^6.0.3",
