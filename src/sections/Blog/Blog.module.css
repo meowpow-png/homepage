@@ -39,7 +39,7 @@
 
 .table {
   display: grid;
-  grid-template-columns: max-content max-content max-content minmax(0, 1fr);
+  grid-template-columns: 10ch 10ch 9ch minmax(0, 1fr);
   column-gap: 52px;
   margin-top: 16px;
 }
