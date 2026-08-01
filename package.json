@@ -34,7 +34,7 @@
     "check:image-prefetch": "node scripts/check-image-prefetch.js",
     "size-limit": "size-limit",
     "qualitycheck": "run-s --continue-on-error format:check lint typecheck build test:build knip check:image-prefetch",
-    "verify": "run-s --continue-on-error format:check lint typecheck build test:build test:coverage knip check:image-prefetch"
+    "verify": "run-s --continue-on-error format:check lint typecheck build test:build test:coverage knip check:image-prefetch size-limit"
   },
   "dependencies": {
     "@catppuccin/palette": "^1.8.0",
