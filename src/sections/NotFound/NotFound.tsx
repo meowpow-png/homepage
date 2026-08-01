@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import art404 from '@/shared/assets/images/404.png'
+import art404 from '@/shared/assets/images/404.webp'
 
 import styles from './NotFound.module.css'
 
