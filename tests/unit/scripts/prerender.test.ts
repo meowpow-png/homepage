@@ -5,6 +5,7 @@ import {
   buildSitemap,
   collectSectionPreloads,
   escapeHtml,
+  injectFontPreload,
   injectHead,
   injectSectionPreloads,
   renderPage,
@@ -250,6 +251,27 @@ describe('injectSectionPreloads', () => {
 
   it('returns the template unchanged for an empty href list', () => {
     expect(injectSectionPreloads(template, [])).toBe(template)
+  })
+})
+
+describe('injectFontPreload', () => {
+  const manifest = {
+    'node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2': {
+      file: 'assets/ibm-plex-mono-latin-400-normal-abc.woff2',
+    },
+  }
+
+  it('inserts a font preload link before </head>', () => {
+    const html = injectFontPreload(template, manifest)
+
+    expect(html).toContain(
+      '<link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/ibm-plex-mono-latin-400-normal-abc.woff2">',
+    )
+    expect(html.indexOf('ibm-plex-mono')).toBeLessThan(html.indexOf('</head>'))
+  })
+
+  it('returns the template unchanged when the font is missing from the manifest', () => {
+    expect(injectFontPreload(template, {})).toBe(template)
   })
 })
 
