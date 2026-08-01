@@ -10,6 +10,7 @@ on:
     paths: &all-paths
       - 'src/**'
       - 'tests/**'
+      - 'scripts/**'
       - 'docs/**'
       - '**/*.md'
       - 'package.json'
@@ -51,6 +52,7 @@ jobs:
             test:
               - 'src/**'
               - 'tests/**'
+              - 'scripts/prerender.js'
               - 'package.json'
               - 'package-lock.json'
               - '.npmrc'
