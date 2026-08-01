@@ -46,7 +46,7 @@ Validate that the site loads quickly and efficiently.
 - [x] Run Lighthouse audit
 - [x] Optimize images
 - [x] Review bundle size
-- [ ] Verify caching headers
+- [x] Verify caching headers
 - [ ] Verify compression
 - [ ] Verify Core Web Vitals
 

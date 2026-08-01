@@ -15,11 +15,34 @@ stable domain, topic branches just get a throwaway preview URL each.
 ## Conditions
 
 Vercel deploys every push by default, even ones that don't touch the
-built site. This means that any edit to documentation such as a README
-typo, update to `CHANGELOG.md` triggers deployment. Configuration in
-`vercel.json` skips those, only deploying when a push actually
-changes something that affects the built site
+built site. Configuration in `vercel.json` skips those, only deploying
+when a push actually changes something that affects the built site
 
 See `vercel.json` for the exact list of paths that count.
-It's deliberately different from the path filters in `ci.yml`, which
-decide what to test. This decides what to deploy, so don't merge the two.
+
+## Caching
+
+| Path           | Cache-Control                         |
+| -------------- | ------------------------------------- |
+| `/assets/*`    | `public, max-age=31536000, immutable` |
+| `/`            | revalidates every request             |
+| `/sitemap.xml` | revalidates every request             |
+| `/robots.txt`  | revalidates every request             |
+
+`/assets/*` is set explicitly. Those filenames are content-hashed,
+so caching them for a year is safe. A new build produces a
+new filename, it never overwrites an old one.
+
+Everything else is left at Vercel's default on purpose. HTML references
+the _current_ asset hashes, so caching it long-term risks serving a page
+that points at assets from a deployment that's since been replaced.
+
+Verify it against live staging deployment:
+
+```sh
+npm run check:caching-headers
+```
+
+There's no local or build-time equivalent. These headers only
+exist once Vercel actually serves the response, so the script
+checks staging URL directly rather than anything in `dist/`.
