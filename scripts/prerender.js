@@ -164,7 +164,12 @@ export async function renderToHtml(element, timeoutMs = RENDER_TIMEOUT_MS) {
 
   try {
     const { prelude } = await Promise.race([prerenderToNodeStream(element), timeout])
-    return await text(prelude)
+    const html = await text(prelude)
+
+    if (html.includes('<template id="')) {
+      throw new Error('A Suspense boundary was left unresolved in the prerendered output')
+    }
+    return html
   } finally {
     clearTimeout(timeoutId)
   }
@@ -195,7 +200,9 @@ async function renderPage(
   }
 
   const element = createElement(App, { initialPathname: pathname })
-  const appHtml = await renderToHtml(element)
+  const appHtml = await renderToHtml(element).catch((error) => {
+    throw new Error(`Failed to prerender ${pathname}: ${error.message}`, { cause: error })
+  })
   const html = preloadedTemplate.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
   const canonicalUrl = canonicalPath && `${SITE_URL}${canonicalPath}`
   const ogImageUrl = `${SITE_URL}${OG_IMAGE_URL}`

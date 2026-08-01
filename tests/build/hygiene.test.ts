@@ -18,4 +18,14 @@ describe('build hygiene', () => {
       expect((html.match(/<link rel="canonical"/g) ?? []).length, file).toBeLessThanOrEqual(1)
     }
   })
+
+  it('never ships a page with an unresolved Suspense boundary', async () => {
+    const htmlFiles = await listDistHtmlFiles()
+
+    for (const file of htmlFiles) {
+      const html = await readDistFile(file)
+
+      expect(html, file).not.toContain('<template id="')
+    }
+  })
 })
