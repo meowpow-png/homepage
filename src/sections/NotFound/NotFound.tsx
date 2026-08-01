@@ -36,7 +36,14 @@ export function NotFound() {
         <p className={styles.prompt}>$ cat ./404.txt</p>
 
         <div className={styles.artWrapper}>
-          <img src={art404} alt="" aria-hidden="true" className={styles.art} />
+          <img
+            src={art404}
+            alt=""
+            aria-hidden="true"
+            className={styles.art}
+            width={1330}
+            height={880}
+          />
         </div>
       </div>
     </section>
