@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config'
 
-import viteConfig from './vite.config'
+import viteConfig from './vite.config.ts'
 
 // separate from vite.config.ts's own `test` block: these tests read the
 // already-built dist/ output, so they must run after `npm run build`,
