@@ -1,5 +1,5 @@
 import { createElement, lazy, Suspense } from 'react'
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
   buildSitemap,
@@ -7,6 +7,7 @@ import {
   escapeHtml,
   injectHead,
   injectSectionPreloads,
+  renderPage,
   renderToHtml,
 } from '../../../scripts/prerender.js'
 
@@ -272,5 +273,45 @@ describe('renderToHtml', () => {
     await expect(renderToHtml(element, 50)).rejects.toThrow(
       'A Suspense boundary never resolved after 50ms',
     )
+  })
+})
+
+describe('renderPage', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('attaches the pathname to the error when a page never resolves', async () => {
+    function NeverResolvingApp() {
+      const NeverResolves = lazy(() => new Promise<{ default: () => string }>(() => {}))
+      return createElement(Suspense, { fallback: 'loading' }, createElement(NeverResolves))
+    }
+
+    const vite = {
+      ssrLoadModule: async (path: string) => {
+        switch (path) {
+          case '/src/shared/siteUrl.ts':
+            return { SITE_URL: 'https://example.test' }
+          case '/src/shared/ogImageUrl.ts':
+            return { OG_IMAGE_URL: '/og.png' }
+          case '/src/App.tsx':
+            return { App: NeverResolvingApp }
+          case '/src/shared/routing/resolveRoute.ts':
+            return { resolveRoute: () => undefined }
+          default:
+            throw new Error(`unexpected ssrLoadModule call: ${path}`)
+        }
+      },
+    }
+
+    const pending = renderPage(vite, '<div id="root"></div>', {}, [], '/broken-page', {})
+    const assertion = expect(pending).rejects.toThrow('Failed to prerender /broken-page:')
+
+    await vi.runAllTimersAsync()
+    await assertion
   })
 })

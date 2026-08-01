@@ -178,7 +178,7 @@ export async function renderToHtml(element, timeoutMs = RENDER_TIMEOUT_MS) {
   return html
 }
 
-async function renderPage(
+export async function renderPage(
   vite,
   template,
   manifest,
