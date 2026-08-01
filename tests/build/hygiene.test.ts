@@ -25,7 +25,7 @@ describe('build hygiene', () => {
     for (const file of htmlFiles) {
       const html = await readDistFile(file)
 
-      expect(html, file).not.toContain('<template id="')
+      expect(html, file).not.toContain('<!--$!-->')
     }
   })
 })

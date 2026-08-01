@@ -1,9 +1,8 @@
 import { createServer } from 'vite'
 import { createElement } from 'react'
-import { prerenderToNodeStream } from 'react-dom/static'
+import { renderToString } from 'react-dom/server'
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
-import { text } from 'node:stream/consumers'
 
 const DIST = 'dist'
 const MANIFEST_PATH = join(DIST, '.vite/manifest.json')
@@ -149,30 +148,33 @@ export function injectSectionPreloads(html, hrefs) {
   return html.replace('</head>', `${links.join('\n')}\n</head>`)
 }
 
-// waits for Suspense unlike renderToString; timeout guards a stuck boundary
+// renderToString always bails on the first pass; retry until the lazy import settles (see docs/notes)
 const RENDER_TIMEOUT_MS = 10_000
+const RETRY_DELAYS_MS = [10, 25, 50, 100, 200, 400, 800, 1600, 3200]
+
+function isUnresolved(html) {
+  return html.includes('<!--$!-->')
+}
 
 export async function renderToHtml(element, timeoutMs = RENDER_TIMEOUT_MS) {
-  let timeoutId
+  const deadline = Date.now() + timeoutMs
+  let html = renderToString(element)
 
-  const timeout = new Promise((_resolve, reject) => {
-    timeoutId = setTimeout(
-      () => reject(new Error(`A Suspense boundary never resolved after ${timeoutMs}ms`)),
-      timeoutMs,
-    )
-  })
-
-  try {
-    const { prelude } = await Promise.race([prerenderToNodeStream(element), timeout])
-    const html = await text(prelude)
-
-    if (html.includes('<template id="')) {
-      throw new Error('A Suspense boundary was left unresolved in the prerendered output')
+  for (const delay of RETRY_DELAYS_MS) {
+    if (!isUnresolved(html)) {
+      return html
     }
-    return html
-  } finally {
-    clearTimeout(timeoutId)
+    if (Date.now() + delay > deadline) {
+      break
+    }
+    await new Promise((resolve) => setTimeout(resolve, delay))
+    html = renderToString(element)
   }
+
+  if (isUnresolved(html)) {
+    throw new Error(`A Suspense boundary never resolved after ${timeoutMs}ms`)
+  }
+  return html
 }
 
 async function renderPage(
