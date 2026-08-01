@@ -32,6 +32,7 @@
     "typecheck": "tsc -b",
     "knip": "knip",
     "check:image-prefetch": "node scripts/check-image-prefetch.js",
+    "check:caching-headers": "node scripts/check-caching-headers.js",
     "size-limit": "size-limit",
     "qualitycheck": "run-s --continue-on-error format:check lint typecheck build test:build knip check:image-prefetch",
     "verify": "run-s --continue-on-error format:check lint typecheck build test:build test:coverage knip check:image-prefetch size-limit"
