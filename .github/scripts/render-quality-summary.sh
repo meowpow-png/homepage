@@ -9,10 +9,20 @@ result() {
   fi
 }
 
+image_prefetch_result() {
+  file=image-prefetch-report.txt
+  if [ -s "$file" ]; then
+    printf '⚠️ %s not registered\n' "$(grep -c '^  - ' "$file")"
+  else
+    echo "✅ All registered"
+  fi
+}
+
 FORMAT_RESULT=$(result "$FORMAT_OUTCOME")
 LINT_RESULT=$(result "$LINT_OUTCOME")
 TYPECHECK_RESULT=$(result "$TYPECHECK_OUTCOME")
 KNIP_RESULT=$(result "$KNIP_OUTCOME")
+IMAGE_PREFETCH_RESULT=$(image_prefetch_result)
 
 FOOTER=""
 for outcome in "$FORMAT_OUTCOME" "$LINT_OUTCOME" "$TYPECHECK_OUTCOME" "$KNIP_OUTCOME"; do
@@ -27,5 +37,6 @@ sed \
   -e "s|\${LINT_RESULT}|$LINT_RESULT|g" \
   -e "s|\${TYPECHECK_RESULT}|$TYPECHECK_RESULT|g" \
   -e "s|\${KNIP_RESULT}|$KNIP_RESULT|g" \
+  -e "s|\${IMAGE_PREFETCH_RESULT}|$IMAGE_PREFETCH_RESULT|g" \
   -e "s|\${FOOTER}|$FOOTER|g" \
   .github/templates/quality-summary.md

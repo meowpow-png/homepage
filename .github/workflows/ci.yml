@@ -225,6 +225,11 @@ jobs:
         continue-on-error: true
         run: npm run knip
 
+      - name: Check image prefetch registration
+        id: image-prefetch
+        continue-on-error: true
+        run: node scripts/check-image-prefetch.js 2>&1 | tee image-prefetch-report.txt
+
       - name: Write job summary
         if: always()
         env:

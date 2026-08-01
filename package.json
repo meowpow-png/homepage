@@ -31,8 +31,9 @@
     "lint:fix": "run-s --continue-on-error lint:fix:eslint lint:fix:stylelint",
     "typecheck": "tsc -b",
     "knip": "knip",
-    "qualitycheck": "run-s --continue-on-error format:check lint typecheck build test:build knip",
-    "verify": "run-s --continue-on-error format:check lint typecheck build test:build test:coverage knip"
+    "check:image-prefetch": "node scripts/check-image-prefetch.js",
+    "qualitycheck": "run-s --continue-on-error format:check lint typecheck build test:build knip check:image-prefetch",
+    "verify": "run-s --continue-on-error format:check lint typecheck build test:build test:coverage knip check:image-prefetch"
   },
   "dependencies": {
     "@catppuccin/palette": "^1.8.0",

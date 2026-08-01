@@ -65,6 +65,20 @@ No auto-fix here, if it flags something you either delete it or it's a false pos
 npm run knip
 ```
 
+## Image prefetch
+
+Checks that every image imported in `src/content/` or `src/sections/`
+is also registered in [prefetchImages.ts](../src/shared/routing/prefetchImages.ts):
+
+```sh
+npm run check:image-prefetch
+```
+
+This one's advisory, not a gate. A missing registration doesn't
+break anything, it just means that image won't be warmed ahead of time.
+
+See [Adding an image](CONTENT.md#adding-an-image) for how to register one.
+
 ## Lighthouse
 
 Lighthouse audits SEO, performance, accessibility,
