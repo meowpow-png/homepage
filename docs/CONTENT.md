@@ -80,6 +80,33 @@ based on the file itself, so just leave them out.
 
 That's it here too. No code changes needed, just add the file.
 
+## Adding an image
+
+Images live in `src/shared/assets/images/`. Prefer using `.webp` format
+for photos and screenshots, `.svg` for vector art and diagrams.
+
+Import it and reference it like any other asset.
+
+Set width and height to the image's real pixel dimensions,
+so the browser reserves the right amount of space before the
+image loads instead of shifting the layout once it does
+
+Then register the image in [prefetchImages.ts](../src/shared/routing/prefetchImages.ts):
+
+```ts
+import myImage from '@/shared/assets/images/my-image.webp'
+
+const imageUrls = [otherImage, myImage]
+```
+
+This warms the image in the background on whatever page the visitor
+lands on first, so it's already decoded and cached by the time
+they reach the page that actually uses it.
+
+> [!NOTE]
+> Skipping this step isn't a bug, the image still loads fine.
+> It just means visitors see it pop in instead of it being ready ahead of time.
+
 ## Adding a diagram
 
 Add a mermaid source file to `design/diagrams/source/`, then generate the SVG:
@@ -98,7 +125,8 @@ docker compose run --rm diagrams
 That renders every file in source directory and writes
 the result to `src/shared/assets/images/`.
 
-Commit the SVG, then reference it like any other image:
+Commit the SVG, then reference it like any other image, including registering
+it in `prefetchImages.ts` (see [Adding an image](#adding-an-image)):
 
 ```mdx
 import myDiagram from '@/shared/assets/images/my-diagram.svg'

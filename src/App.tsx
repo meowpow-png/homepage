@@ -3,7 +3,13 @@ import { Suspense, useEffect } from 'react'
 
 import { AppShell, Footer, Navigation } from '@/shared/components'
 import { OG_IMAGE_URL } from '@/shared/ogImageUrl'
-import { prefetchSections, resolveRoute, RouterContext, useNavigation } from '@/shared/routing'
+import {
+  prefetchImages,
+  prefetchSections,
+  resolveRoute,
+  RouterContext,
+  useNavigation,
+} from '@/shared/routing'
 import { SITE_URL } from '@/shared/siteUrl'
 
 import { NotFound } from '@/sections/NotFound'
@@ -20,10 +26,11 @@ export function App({ initialPathname }: AppProps = {}): JSX.Element {
   const navigation = useNavigation(initialPathname)
   const route = resolveRoute(navigation.pathname)
 
-  // warms the cache for every section once, so navigating to one later
-  // resolves instantly instead of fetching its chunk on click
+  // warms cache for every section and image once, so navigating
+  // to one later resolves instantly instead of fetching it on click
   useEffect(() => {
     prefetchSections()
+    prefetchImages()
   }, [])
 
   // keep in sync with prerender.js's injectHead: same title/description/canonical/
