@@ -1,23 +1,11 @@
-const STAGING_URL = 'https://staging.meowpow.dev'
+import { createReporter, STAGING_URL } from './staging-check.js'
 
 const IMMUTABLE_CACHE = /public,\s*max-age=31536000,\s*immutable/
 const IMMUTABLE_CACHE_DESCRIPTION = 'public, max-age=31536000, immutable'
 const REVALIDATED_CACHE = /must-revalidate|no-cache|no-store/
 const REVALIDATED_CACHE_DESCRIPTION = 'must-revalidate, no-cache, or no-store'
 
-let passes = 0
-let failures = 0
-
-function report(name, passed, expected, actual) {
-  if (passed) {
-    passes += 1
-    return
-  }
-  console.log(`❌ ${name}`)
-  console.log(`  - Expected: ${expected}`)
-  console.log(`  - Actual: ${actual}`)
-  failures += 1
-}
+const { report, summarize } = createReporter()
 
 async function headersFor(path) {
   const response = await fetch(`${STAGING_URL}${path}`, { method: 'HEAD' })
@@ -87,11 +75,4 @@ await checkHtmlDocuments()
 await checkCrawlerFiles()
 await checkEdgeCache(assetPaths)
 
-if (passes > 0) {
-  console.log(`✅ ${passes} check(s) passed`)
-}
-
-if (failures > 0) {
-  console.error(`❌ ${failures} check(s) failed`)
-  process.exit(1)
-}
+summarize()

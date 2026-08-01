@@ -1,21 +1,6 @@
-const STAGING_URL = 'https://staging.meowpow.dev'
+import { createReporter, STAGING_URL } from './staging-check.js'
 
-// React's marker for a Suspense boundary that never resolved server-side
-const UNRESOLVED_BOUNDARY_MARKER = '<!--$!-->'
-
-let passes = 0
-let failures = 0
-
-function report(name, passed, expected, actual) {
-  if (passed) {
-    passes += 1
-    return
-  }
-  console.log(`❌ ${name}`)
-  console.log(`  - Expected: ${expected}`)
-  console.log(`  - Actual: ${actual}`)
-  failures += 1
-}
+const { report, summarize } = createReporter()
 
 // discovered from live sitemap rather than hardcoded,
 // so this can't drift from what's actually deployed
@@ -31,7 +16,8 @@ async function checkPrerenderedContent(paths) {
     const html = await response.text()
     const mainContent = html.match(/id="main-content">([\s\S]*?)<\/main>/)?.[1] ?? ''
 
-    const actual = mainContent.includes(UNRESOLVED_BOUNDARY_MARKER)
+    // real page content never includes <template> tag
+    const actual = mainContent.includes('<template')
       ? 'unresolved Suspense boundary'
       : mainContent.trim().length > 0
         ? 'ok'
@@ -50,11 +36,4 @@ const paths = await findSitemapPaths()
 
 await checkPrerenderedContent(paths)
 
-if (passes > 0) {
-  console.log(`✅ ${passes} check(s) passed`)
-}
-
-if (failures > 0) {
-  console.error(`❌ ${failures} check(s) failed`)
-  process.exit(1)
-}
+summarize()
