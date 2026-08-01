@@ -118,6 +118,11 @@ jobs:
           npm run build
           npm run test:build -- --reporter=json --outputFile="$TEST_REPORTS_DIR"/build.json
 
+      - name: Check bundle size
+        id: bundle-size
+        continue-on-error: true
+        run: npx size-limit --json > bundle-size-report.json
+
       - name: Get installed Playwright version
         id: playwright-version
         run: echo "version=$(sh docker/playwright/get-playwright-version.sh)" >> "$GITHUB_OUTPUT"

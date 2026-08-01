@@ -64,8 +64,47 @@ playwright_tests() {
   fi
 }
 
+bundle_size_field() {
+  file=bundle-size-report.json
+  name="$1"
+  field="$2"
+  if [ -f "$file" ]; then
+    jq -r --arg name "$name" --arg field "$field" '.[] | select(.name == $name) | .[$field]' "$file"
+  else
+    echo ""
+  fi
+}
+
+bundle_size_kb() {
+  bytes=$(bundle_size_field "$1" "$2")
+  if [ -z "$bytes" ]; then
+    echo "—"
+  else
+    awk -v b="$bytes" 'BEGIN { printf "%.1f KB", b / 1000 }'
+  fi
+}
+
+bundle_size_result() {
+  passed=$(bundle_size_field "$1" passed)
+  if [ -z "$passed" ]; then
+    echo "—"
+  elif [ "$passed" = "true" ]; then
+    echo "✅ Passed"
+  else
+    echo "⚠️ Over limit"
+  fi
+}
+
 BUILD_RESULT=$(result "$BUILD_OUTCOME")
 TEST_RESULT=$(result "$TEST_OUTCOME")
+
+MAIN_BUNDLE_SIZE=$(bundle_size_kb "Main bundle" size)
+MAIN_BUNDLE_LIMIT=$(bundle_size_kb "Main bundle" sizeLimit)
+MAIN_BUNDLE_RESULT=$(bundle_size_result "Main bundle")
+
+STYLESHEET_SIZE=$(bundle_size_kb "Stylesheet" size)
+STYLESHEET_LIMIT=$(bundle_size_kb "Stylesheet" sizeLimit)
+STYLESHEET_RESULT=$(bundle_size_result "Stylesheet")
 
 BUILD_FILES=$(vitest_files tests/output/reports/build.json)
 BUILD_TESTS=$(vitest_tests tests/output/reports/build.json)
@@ -100,5 +139,11 @@ sed \
   -e "s|\${UNIT_COVERAGE}|$UNIT_COVERAGE|g" \
   -e "s|\${E2E_COVERAGE}|$E2E_COVERAGE|g" \
   -e "s|\${COMBINED_COVERAGE}|$COMBINED_COVERAGE|g" \
+  -e "s|\${MAIN_BUNDLE_SIZE}|$MAIN_BUNDLE_SIZE|g" \
+  -e "s|\${MAIN_BUNDLE_LIMIT}|$MAIN_BUNDLE_LIMIT|g" \
+  -e "s|\${MAIN_BUNDLE_RESULT}|$MAIN_BUNDLE_RESULT|g" \
+  -e "s|\${STYLESHEET_SIZE}|$STYLESHEET_SIZE|g" \
+  -e "s|\${STYLESHEET_LIMIT}|$STYLESHEET_LIMIT|g" \
+  -e "s|\${STYLESHEET_RESULT}|$STYLESHEET_RESULT|g" \
   -e "s|\${FOOTER}|$FOOTER|g" \
   .github/templates/build-test-summary.md

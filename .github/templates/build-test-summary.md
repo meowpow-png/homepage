@@ -10,4 +10,11 @@
 | E2E      | ${E2E_FILES}   | ${E2E_TESTS}   | ${E2E_COVERAGE}      |
 | Combined | —              | —              | ${COMBINED_COVERAGE} |
 
+## Bundle size
+
+| Check      | Size                | Limit                | Result                |
+| ---------- | ------------------- | -------------------- | --------------------- |
+| Main       | ${MAIN_BUNDLE_SIZE} | ${MAIN_BUNDLE_LIMIT} | ${MAIN_BUNDLE_RESULT} |
+| Stylesheet | ${STYLESHEET_SIZE}  | ${STYLESHEET_LIMIT}  | ${STYLESHEET_RESULT}  |
+
 ${FOOTER}
