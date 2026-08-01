@@ -55,6 +55,47 @@ test('reading a post with embedded diagrams renders them as images', async ({ pa
   }
 })
 
+test('images used off the current route are prefetched, so visiting that route serves them from cache', async ({
+  page,
+}) => {
+  await page.goto('/about')
+
+  // resource timing entries are keyed by the fully-qualified URL, not a path.
+  // dev mode serves this unhashed at its source path, same as the diagram test above
+  const imageUrl = new URL('/src/shared/assets/images/dashboard.webp', page.url()).href
+
+  // wait for the idle-time prefetch to actually finish, not just start
+  await page.waitForFunction(
+    (url) =>
+      performance
+        .getEntriesByName(url)
+        .some((entry) => (entry as PerformanceResourceTiming).responseEnd > 0),
+    imageUrl,
+  )
+
+  const primaryNav = page.getByLabel('Primary navigation')
+  await primaryNav.getByRole('link', { name: 'Blog', exact: true }).click()
+  await page.locator('a[href="/blog/telekom-assignment-ui-design"]').click()
+
+  await expect(page.locator('img[src$="dashboard.webp"]')).toBeVisible()
+
+  const transferSizes = await page.evaluate(
+    (url) =>
+      performance
+        .getEntriesByName(url)
+        .map((entry) => (entry as PerformanceResourceTiming).transferSize),
+    imageUrl,
+  )
+
+  // first entry is idle-time prefetch itself; anything after
+  // that must be a cache hit, proving the blog page's own
+  // <img> didn't re-download what was already warmed
+  expect(transferSizes.length).toBeGreaterThan(0)
+  for (const transferSize of transferSizes.slice(1)) {
+    expect(transferSize).toBe(0)
+  }
+})
+
 test('deep-linking directly to a post URL renders it with Blog highlighted, and stays navigable', async ({
   page,
 }) => {

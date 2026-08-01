@@ -15,7 +15,7 @@ const keepAlive: HTMLImageElement[] = []
 
 // decode images used off current route, so landing on them
 // later reuses the decoded bitmap instead of paying decode cost on mount
-function prefetchImage(url: string): Promise<void> {
+export function prefetchImage(url: string): Promise<void> {
   const image = new Image()
   keepAlive.push(image)
   image.src = url
