@@ -24,6 +24,8 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Check package.json version matches tag
+        id: version
+        continue-on-error: true
         run: |
           pkg_version=$(node -p "require('./package.json').version")
           if [ "$pkg_version" != "${{ steps.tag.outputs.version }}" ]; then
@@ -32,4 +34,25 @@ jobs:
           fi
 
       - name: Check changelog has dated entry
+        id: changelog
+        continue-on-error: true
         run: sh .github/scripts/check-changelog-version.sh "${{ steps.tag.outputs.version }}"
+
+      - name: Write job summary
+        if: always()
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+          VERSION_OUTCOME: ${{ steps.version.outcome }}
+          CHANGELOG_OUTCOME: ${{ steps.changelog.outcome }}
+        run: sh .github/scripts/render-rc-summary.sh >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Report check results
+        if: always()
+        run: |
+          outcomes=(
+            "${{ steps.version.outcome }}"
+            "${{ steps.changelog.outcome }}"
+          )
+          for outcome in "${outcomes[@]}"; do
+            [ "$outcome" = "success" ] || exit 1
+          done
