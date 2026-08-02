@@ -61,7 +61,8 @@ Finalize the repository for long-term maintenance.
 Set up version tracking ahead of the first release.
 
 - [x] Create CHANGELOG.md
-- [ ] Bump version in package.json
+- [x] Set first version in package.json
+- [ ] Start displaying version in Footer
 
 ### Release
 
