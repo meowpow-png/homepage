@@ -1,4 +1,4 @@
-import type { JSX } from 'react'
+import type { FocusEvent, JSX } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import type { NavigationPage, RoutePath } from '@/shared/routing'
@@ -57,8 +57,19 @@ export function Navigation({ currentPage }: NavigationProps): JSX.Element {
     }
   }, [isMenuOpen])
 
+  function handleBlur(event: FocusEvent<HTMLElement>): void {
+    if (isMenuOpen && !navRef.current?.contains(event.relatedTarget)) {
+      setIsMenuOpen(false)
+    }
+  }
+
   return (
-    <nav ref={navRef} className={styles.navigation} aria-label="Primary navigation">
+    <nav
+      ref={navRef}
+      className={styles.navigation}
+      aria-label="Primary navigation"
+      onBlur={handleBlur}
+    >
       <div className={styles.topRow}>
         <Link className={styles.brand} href="/about">
           <span className={styles.brandDot} aria-hidden="true" />

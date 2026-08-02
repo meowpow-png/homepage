@@ -1,4 +1,4 @@
-import type { JSX, MouseEvent } from 'react'
+import type { FocusEvent, JSX, MouseEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import { ChevronIcon } from '@/shared/components'
@@ -46,6 +46,12 @@ export function ProjectTimeline({ activeProjectId, projects }: ProjectTimelinePr
       document.removeEventListener('click', handleClickOutside)
     }
   }, [isJumpListOpen])
+
+  function handleMobileNavBlur(event: FocusEvent<HTMLElement>): void {
+    if (isJumpListOpen && !mobileNavRef.current?.contains(event.relatedTarget)) {
+      setIsJumpListOpen(false)
+    }
+  }
 
   function handleProjectNavigation(event: MouseEvent<HTMLAnchorElement>): void {
     setIsJumpListOpen(false)
@@ -112,6 +118,7 @@ export function ProjectTimeline({ activeProjectId, projects }: ProjectTimelinePr
         ref={mobileNavRef}
         className={styles.mobileBarWrapper}
         aria-label="Project navigation, mobile"
+        onBlur={handleMobileNavBlur}
       >
         <button
           ref={mobileBarToggleRef}
