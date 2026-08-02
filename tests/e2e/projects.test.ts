@@ -55,3 +55,30 @@ test('mobile jump list opens and closes via toggle, Escape, and click-outside', 
   await expect(toggle).toHaveAttribute('aria-expanded', 'false')
   await expect(dropdown).toHaveAttribute('data-open', 'false')
 })
+
+test('mobile jump list returns focus to the toggle on Escape, and closes when tabbing past the last link', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 800 })
+  await page.goto('/projects')
+
+  const toggle = page.getByRole('button', { name: /project list/i })
+  const dropdown = page.locator('#mobile-project-navigation-list')
+
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+  const dropdownLinks = dropdown.locator('a')
+  await dropdownLinks.first().focus()
+  await page.keyboard.press('Escape')
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(toggle).toBeFocused()
+
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+  await dropdownLinks.last().focus()
+  await page.keyboard.press('Tab')
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(dropdown).toHaveAttribute('data-open', 'false')
+})

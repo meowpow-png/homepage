@@ -121,3 +121,29 @@ test('mobile menu opens and closes via toggle, Escape, click-outside, and link c
   await expect(page).toHaveURL(/\/projects$/)
   await expect(toggle).toHaveAttribute('aria-expanded', 'false')
 })
+
+test('mobile menu returns focus to the toggle on Escape, and closes when tabbing past the last link', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 800 })
+  await page.goto('/')
+
+  const toggle = page.getByRole('button', { name: /menu/i })
+  const links = page.locator('#primary-navigation-links')
+
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+  await page.getByRole('link', { name: 'About', exact: true }).focus()
+  await page.keyboard.press('Escape')
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(toggle).toBeFocused()
+
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+  await page.getByRole('link', { name: 'Questions', exact: true }).focus()
+  await page.keyboard.press('Tab')
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(links).toHaveAttribute('data-open', 'false')
+})
