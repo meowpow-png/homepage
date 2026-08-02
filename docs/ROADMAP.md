@@ -75,9 +75,9 @@ Perform final validation before making the site public.
 - [x] Verify browser compatibility
 - [x] Verify 404 handling
 - [x] Verify redirects
-- [ ] Publish first release
-- [ ] Verify production deployment
-- [ ] Verify social card previews
+- [x] Publish first release
+- [x] Verify production deployment
+- [x] Verify social card previews
 
 ## Milestone 2 — Monitoring
 
