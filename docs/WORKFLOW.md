@@ -55,20 +55,58 @@ version was last released, until it's time to prepare the next one.
 ## Releasing
 
 1. Make sure `dev` is stable
-2. Update `CHANGELOG.md`
-3. Bump the version in `package.json` and commit
-4. Promote `dev` to `main`
-5. Tag the release and push
-6. CI creates GitHub Release; Vercel deploys production
-7. Bring `dev` back in sync with `main`
+2. Update changelog with dated entry for the target version
+3. Bump `package.json` to that version and commit, then push
+4. Wait for CI to pass on that commit
+5. Tag the commit `-rc.N` and push the tag
+6. If RC fails, fix it, commit, wait for CI, and re-tag with the next `-rc.N`
+7. Once an RC passes, merge `dev` into `main`, referencing the release
+8. Wait for CI to pass on `main`
+9. Tag that commit (no `-rc`) and push the tag
+10. Wait for Release workflow to succeed
+11. Inspect resulting GitHub Release
+12. Bring `dev` back in sync with `main`
+
+> [!NOTE]
+> RC and Release both check CI status for the tagged commit, so tagging
+> before CI finishes fails immediately. That's why steps 4 and 8 come first.
+
+To help visualize things:
+
+```text
+dev   ──●────●────●(rc.1)───────────────────────●──▶
+                  │                             ▲
+                  │ merge --no-ff               │ ff-only
+                  ▼                             │
+main  ─────────────────────────●(v2026.08.0)────●──▶
+```
+
+Here is how this looks in practice:
 
 ```sh
-git switch main
+git switch dev
+git add package.json CHANGELOG.md
+git commit -m "Prepare release v2026.08.0"
+git push origin dev
 
+# wait for CI to pass on dev
+
+git tag v2026.08.0-rc.1
+git push origin v2026.08.0-rc.1
+
+# wait for RC workflow to pass
+
+git switch main
 git merge --no-ff dev -m "Release v2026.08.0"
+git push origin main
+
+# wait for CI to pass on main
 
 git tag v2026.08.0
-git push origin main --tags
+git push origin v2026.08.0
+
+# wait for release workflow to succeed
+# then inspect GitHub Release
 
 git switch dev
 git merge --ff-only main
