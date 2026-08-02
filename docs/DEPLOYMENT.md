@@ -51,10 +51,17 @@ npm run check:caching-headers
 ```
 
 To verify that every URL in the sitemap renders
-real content, not an unresolved suspended boundary run:
+real content, not an unresolved suspended boundary:
 
 ```sh
 npm run check:prerendered-content
+```
+
+To report the `Content-Encoding` used for
+JS assets, HTML documents, and crawler files:
+
+```sh
+npm run check:compression
 ```
 
 To run all staging checks:
