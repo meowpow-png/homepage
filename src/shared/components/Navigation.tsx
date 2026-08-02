@@ -28,6 +28,7 @@ interface NavigationProps {
 export function Navigation({ currentPage }: NavigationProps): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
+  const menuToggleRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (!isMenuOpen) {
@@ -37,6 +38,7 @@ export function Navigation({ currentPage }: NavigationProps): JSX.Element {
     function handleKeyDown(event: KeyboardEvent): void {
       if (event.key === 'Escape') {
         setIsMenuOpen(false)
+        menuToggleRef.current?.focus()
       }
     }
 
@@ -64,6 +66,7 @@ export function Navigation({ currentPage }: NavigationProps): JSX.Element {
         </Link>
 
         <button
+          ref={menuToggleRef}
           type="button"
           className={styles.menuToggle}
           aria-expanded={isMenuOpen}

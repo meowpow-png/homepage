@@ -18,6 +18,7 @@ function shouldReduceMotion(): boolean {
 export function ProjectTimeline({ activeProjectId, projects }: ProjectTimelineProps): JSX.Element {
   const [isJumpListOpen, setIsJumpListOpen] = useState(false)
   const mobileNavRef = useRef<HTMLElement>(null)
+  const mobileBarToggleRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (!isJumpListOpen) {
@@ -27,6 +28,7 @@ export function ProjectTimeline({ activeProjectId, projects }: ProjectTimelinePr
     function handleKeyDown(event: KeyboardEvent): void {
       if (event.key === 'Escape') {
         setIsJumpListOpen(false)
+        mobileBarToggleRef.current?.focus()
       }
     }
 
@@ -112,6 +114,7 @@ export function ProjectTimeline({ activeProjectId, projects }: ProjectTimelinePr
         aria-label="Project navigation, mobile"
       >
         <button
+          ref={mobileBarToggleRef}
           type="button"
           className={styles.mobileBarToggle}
           aria-expanded={isJumpListOpen}
