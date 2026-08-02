@@ -48,7 +48,6 @@ Validate that the site loads quickly and efficiently.
 - [x] Review bundle size
 - [x] Verify caching headers
 - [x] Verify compression
-- [ ] Verify Core Web Vitals
 
 ### Repository
 
