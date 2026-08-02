@@ -1,4 +1,7 @@
 .post {
+  width: 100%;
+  max-width: 688px;
+  margin-inline: auto;
   padding-top: var(--space-page-top);
 }
 

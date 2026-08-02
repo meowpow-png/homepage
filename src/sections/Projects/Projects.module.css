@@ -1,4 +1,7 @@
 .projects {
+  width: 100%;
+  max-width: 1018px;
+  margin-inline: auto;
   padding-top: var(--space-page-top);
 }
 
@@ -26,8 +29,6 @@
   grid-template-columns: 270px minmax(0, 1fr);
   gap: 60px;
   position: relative;
-  width: calc(100% + 270px);
-  margin-left: -270px;
   margin-top: 76px;
 }
 
@@ -288,8 +289,6 @@
   .projectLayout {
     grid-template-columns: 1fr;
     gap: 40px;
-    width: auto;
-    margin-left: 0;
     margin-top: 24px;
   }
 
