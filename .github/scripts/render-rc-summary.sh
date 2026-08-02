@@ -9,11 +9,13 @@ result() {
   fi
 }
 
+CI_RESULT=$(result "$CI_OUTCOME")
 VERSION_RESULT=$(result "$VERSION_OUTCOME")
 CHANGELOG_RESULT=$(result "$CHANGELOG_OUTCOME")
 
 sed \
   -e "s|\${TAG}|$TAG|g" \
+  -e "s|\${CI_RESULT}|$CI_RESULT|g" \
   -e "s|\${VERSION_RESULT}|$VERSION_RESULT|g" \
   -e "s|\${CHANGELOG_RESULT}|$CHANGELOG_RESULT|g" \
   .github/templates/rc-summary.md

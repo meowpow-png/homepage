@@ -2,9 +2,12 @@ name: RC
 
 permissions:
   contents: read
+  checks: read
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*.*.*-rc.*'
 
 jobs:
   verify:
@@ -20,8 +23,17 @@ jobs:
           tag="${GITHUB_REF#refs/tags/}"
           version="${tag%%-rc.*}"
           version="${version#v}"
+          sha="$(git rev-parse HEAD)"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
           echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Check CI has passed for this commit
+        id: ci
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: sh .github/scripts/check-ci-status.sh "${{ steps.tag.outputs.sha }}"
 
       - name: Check package.json version matches tag
         id: version
@@ -42,6 +54,7 @@ jobs:
         if: always()
         env:
           TAG: ${{ steps.tag.outputs.tag }}
+          CI_OUTCOME: ${{ steps.ci.outcome }}
           VERSION_OUTCOME: ${{ steps.version.outcome }}
           CHANGELOG_OUTCOME: ${{ steps.changelog.outcome }}
         run: sh .github/scripts/render-rc-summary.sh >> "$GITHUB_STEP_SUMMARY"
@@ -50,6 +63,7 @@ jobs:
         if: always()
         run: |
           outcomes=(
+            "${{ steps.ci.outcome }}"
             "${{ steps.version.outcome }}"
             "${{ steps.changelog.outcome }}"
           )
