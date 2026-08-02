@@ -2,6 +2,7 @@ import type { FocusEvent, JSX, MouseEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import { ChevronIcon } from '@/shared/components'
+import { shouldCloseOnBlur } from '@/shared/utils'
 
 import type { ProjectMetadata } from '@/content/projects'
 import styles from './Projects.module.css'
@@ -48,7 +49,7 @@ export function ProjectTimeline({ activeProjectId, projects }: ProjectTimelinePr
   }, [isJumpListOpen])
 
   function handleMobileNavBlur(event: FocusEvent<HTMLElement>): void {
-    if (isJumpListOpen && !mobileNavRef.current?.contains(event.relatedTarget)) {
+    if (isJumpListOpen && shouldCloseOnBlur(mobileNavRef.current, event.relatedTarget)) {
       setIsJumpListOpen(false)
     }
   }

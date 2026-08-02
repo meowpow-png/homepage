@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import type { NavigationPage, RoutePath } from '@/shared/routing'
 import { Link } from '@/shared/routing'
+import { shouldCloseOnBlur } from '@/shared/utils'
 
 import MenuSvg from '@/shared/assets/icons/menu.svg?react'
 
@@ -58,7 +59,7 @@ export function Navigation({ currentPage }: NavigationProps): JSX.Element {
   }, [isMenuOpen])
 
   function handleBlur(event: FocusEvent<HTMLElement>): void {
-    if (isMenuOpen && !navRef.current?.contains(event.relatedTarget)) {
+    if (isMenuOpen && shouldCloseOnBlur(navRef.current, event.relatedTarget)) {
       setIsMenuOpen(false)
     }
   }
