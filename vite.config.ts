@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitest/config'
 
@@ -20,8 +21,12 @@ import {
 } from './vite.plugins.ts'
 
 const CODE_THEME = `catppuccin-${CATPPUCCIN_FLAVOR}` as const
+const { version: APP_VERSION } = JSON.parse(readFileSync('./package.json', 'utf8'))
 
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(APP_VERSION),
+  },
   plugins: [
     blogMetadataModule(),
     validateProjectLanguages(),

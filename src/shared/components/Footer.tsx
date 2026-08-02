@@ -50,6 +50,7 @@ export function Footer(): JSX.Element {
           &gt;
         </span>
         <FooterContent />
+        <span className={styles.version}>v{__APP_VERSION__}</span>
       </div>
     </footer>
   )

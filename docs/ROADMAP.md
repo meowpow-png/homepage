@@ -62,7 +62,7 @@ Set up version tracking ahead of the first release.
 
 - [x] Create CHANGELOG.md
 - [x] Set first version in package.json
-- [ ] Start displaying version in Footer
+- [x] Start displaying version in Footer
 
 ### Release
 
