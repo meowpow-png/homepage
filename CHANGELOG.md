@@ -7,6 +7,8 @@ and this project adheres to [CalVer](docs/WORKFLOW.md#versioning).
 
 ## [Unreleased]
 
+## [2026.08.0] - 2026-08-02
+
 ### Added
 
 - About page introducing myself, with links to GitHub, LinkedIn, and email
