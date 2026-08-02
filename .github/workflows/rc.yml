@@ -1,0 +1,35 @@
+name: RC
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Verify Release Candidate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Resolve tag and version
+        id: tag
+        run: |
+          tag="${GITHUB_REF#refs/tags/}"
+          version="${tag%%-rc.*}"
+          version="${version#v}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Check package.json version matches tag
+        run: |
+          pkg_version=$(node -p "require('./package.json').version")
+          if [ "$pkg_version" != "${{ steps.tag.outputs.version }}" ]; then
+            echo "package.json version ($pkg_version) does not match tag version (${{ steps.tag.outputs.version }})"
+            exit 1
+          fi
+
+      - name: Check changelog has dated entry
+        run: sh .github/scripts/check-changelog-version.sh "${{ steps.tag.outputs.version }}"
