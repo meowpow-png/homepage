@@ -162,7 +162,7 @@ jobs:
         run: sh .github/scripts/extract-coverage.sh >> "$GITHUB_OUTPUT"
 
       - name: Update code coverage badge
-        if: github.ref == 'refs/heads/dev' && steps.coverage.outputs.coverage != ''
+        if: github.ref == 'refs/heads/main' && steps.coverage.outputs.coverage != ''
         uses: schneegans/dynamic-badges-action@v1.9.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
