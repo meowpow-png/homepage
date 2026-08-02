@@ -149,20 +149,6 @@ export function injectSectionPreloads(html, hrefs) {
   return html.replace('</head>', `${links.join('\n')}\n</head>`)
 }
 
-// starts the fetch earlier than CSS discovery would, to beat font-display: optional's grace period
-const CRITICAL_FONT_SOURCE =
-  'node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2'
-
-export function injectFontPreload(html, manifest) {
-  const entry = manifest[CRITICAL_FONT_SOURCE]
-
-  if (!entry) {
-    return html
-  }
-  const link = `  <link rel="preload" as="font" type="font/woff2" crossorigin href="/${entry.file}">`
-  return html.replace('</head>', `${link}\n</head>`)
-}
-
 // renderToString always bails on the first pass; retry until the lazy import settles (see docs/notes)
 const RENDER_TIMEOUT_MS = 10_000
 const RETRY_DELAYS_MS = [10, 25, 50, 100, 200, 400, 800, 1600, 3200]
@@ -236,9 +222,8 @@ async function main() {
   const vite = await createServer({ server: { middlewareMode: true }, appType: 'custom' })
 
   try {
-    const rawTemplate = await readFile(join(DIST, 'index.html'), 'utf8')
+    const template = await readFile(join(DIST, 'index.html'), 'utf8')
     const manifest = await loadManifest()
-    const template = injectFontPreload(rawTemplate, manifest)
     const assetMap = buildAssetMap(manifest)
     const entries = await collectRouteEntries(vite)
 
