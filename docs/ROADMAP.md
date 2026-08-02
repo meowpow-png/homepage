@@ -77,7 +77,6 @@ Perform final validation before making the site public.
 - [x] Verify redirects
 - [ ] Publish first release
 - [ ] Verify production deployment
-- [ ] Validate Google indexing (Search Console)
 - [ ] Verify social card previews
 
 ## Milestone 2 — Monitoring
@@ -87,3 +86,4 @@ Add visibility into production behavior and reliability.
 - [ ] Configure analytics
 - [ ] Configure error reporting
 - [ ] Configure uptime monitoring
+- [ ] Validate Google indexing
