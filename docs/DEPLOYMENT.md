@@ -37,12 +37,28 @@ Everything else is left at Vercel's default on purpose. HTML references
 the _current_ asset hashes, so caching it long-term risks serving a page
 that points at assets from a deployment that's since been replaced.
 
-Verify it against live staging deployment:
+## Staging checks
+
+These hit `https://staging.meowpow.dev` directly rather than anything
+in `dist/`. Some things, such as response headers, what's actually
+live ect. only exist once Vercel serves the response,
+so there's no local or build-time equivalent.
+
+To check `Cache-Control` and edge cache status per path:
 
 ```sh
 npm run check:caching-headers
 ```
 
-There's no local or build-time equivalent. These headers only
-exist once Vercel actually serves the response, so the script
-checks staging URL directly rather than anything in `dist/`.
+To verify that every URL in the sitemap renders
+real content, not an unresolved suspended boundary run:
+
+```sh
+npm run check:prerendered-content
+```
+
+To run all staging checks:
+
+```sh
+npm run check:staging
+```
