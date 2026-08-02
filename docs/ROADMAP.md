@@ -68,13 +68,13 @@ Set up version tracking ahead of the first release.
 
 Perform final validation before making the site public.
 
-- [ ] Configure release automation
-- [ ] Verify navigation
-- [ ] Verify responsive layouts
-- [ ] Verify accessibility
-- [ ] Verify browser compatibility
-- [ ] Verify 404 handling
-- [ ] Verify redirects
+- [x] Configure release automation
+- [x] Verify navigation
+- [x] Verify responsive layouts
+- [x] Verify accessibility
+- [x] Verify browser compatibility
+- [x] Verify 404 handling
+- [x] Verify redirects
 - [ ] Publish first release
 - [ ] Verify production deployment
 - [ ] Validate Google indexing (Search Console)
