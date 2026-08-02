@@ -11,6 +11,8 @@ services:
 
   claude:
     image: ghcr.io/meowpow-png/mipe-runtime-claude-web:latest
+    environment:
+      - GITHUB_PERSONAL_ACCESS_TOKEN
     volumes:
       - claude-home:/home/dev/web
       - .:/workspace:z
