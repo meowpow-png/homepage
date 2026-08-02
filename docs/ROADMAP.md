@@ -53,14 +53,14 @@ Validate that the site loads quickly and efficiently.
 
 Finalize the repository for long-term maintenance.
 
-- [ ] Review README and LICENSE
+- [x] Review README and LICENSE
 - [x] Block force-push and deletion on `main`
 
 ### Versioning
 
 Set up version tracking ahead of the first release.
 
-- [ ] Create CHANGELOG.md
+- [x] Create CHANGELOG.md
 - [ ] Bump version in package.json
 
 ### Release
