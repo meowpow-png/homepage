@@ -7,6 +7,10 @@
 
 This is the repository behind my homepage.
 
+Live at [meowpow.dev](https://meowpow.dev).
+Check [staging.meowpow.dev](https://staging.meowpow.dev),
+if you want to see what's in progress.
+
 ## What you'll find
 
 Mostly source code.
