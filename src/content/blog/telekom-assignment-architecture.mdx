@@ -1,0 +1,50 @@
+---
+title: Choosing Hexagonal Architecture
+slug: telekom-assignment-architecture
+publishedAt: 2026-07-25T18:00
+description: Why I threw out a working solution after one commit and rebuilt it around hexagonal architecture.
+---
+
+import hexagonalArchitecture from '@/shared/assets/images/hexagonal-architecture.svg'
+import resilienceTestingRig from '@/shared/assets/images/resilience-testing-rig.svg'
+
+I had a working solution after the first commit. Two endpoints,
+REST in, SOAP out. The next day I started over.
+
+The assignment was mostly solved by then, but I kept going because I liked where
+the project was heading. The next step was choosing the right architecture.
+Hexagonal architecture was an easy choice. It made testing easier and
+kept the business logic isolated from SOAP.
+
+<img
+  src={hexagonalArchitecture}
+  alt="Flowchart of hexagonal architecture: inbound REST and outbound SOAP/persistence adapters sit in an infrastructure layer around an application layer containing inbound ports, application services, the domain model, and outbound ports. Inbound adapters call inbound ports, which call services; services call the domain model directly and outbound ports indirectly; outbound adapters implement outbound ports."
+  width={593}
+  height={630}
+/>
+
+Dependencies only point inward. Infrastructure depends
+on the application and domain, never the other way around.
+
+Once that was in place, I added architecture tests to enforce those rules.
+I also started writing ADRs for the bigger decisions, so I'd remember why I made them later.
+
+The next item was resilience testing. The plan was to add a fourth layer of tests
+alongside unit, integration, and architecture tests. Gatling would run against the
+fully containerized stack, while a nginx reverse proxy switched traffic between normal
+Mockoon server and a WireMock instance configured to inject timeouts and server errors.
+
+That way I could test retry and backoff logic against a platform that didn't always behave.
+
+<img
+  src={resilienceTestingRig}
+  alt="Flowchart of the resilience testing rig: Gatling sends HTTP requests to Spring Boot, which sends SOAP requests through an Nginx reverse proxy; Nginx routes normal scenarios to the Mockoon SOAP platform and resilience scenarios to the WireMock fault simulator."
+  width={586}
+  height={478}
+/>
+
+There was implementation documentation describing this rig end to end.
+There was even a plan to instrument the synchronization scheduler with
+Micrometer before I eventually scaled it back to plain Actuator.
+
+Eventually I committed a change titled **"Reduce project scope."**

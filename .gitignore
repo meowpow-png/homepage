@@ -1,11 +1,23 @@
 node_modules/
 dist/
+tests/output/
+.lighthouseci/
 
-# Local editor state
-.idea/
+# IntelliJ IDEA
+.idea/*
+!.idea/codeStyles/
+
+# Obsidian value
 .obsidian/
 
 # Local environment files
 .env
 .env.*
 !.env.example
+
+# MCP
+.playwright-mcp/
+
+# AI
+.codex/
+.claude/

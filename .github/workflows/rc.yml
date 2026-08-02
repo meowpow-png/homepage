@@ -1,0 +1,72 @@
+name: RC
+
+permissions:
+  contents: read
+  checks: read
+
+on:
+  push:
+    tags:
+      - 'v*.*.*-rc.*'
+
+jobs:
+  verify:
+    name: Verify Release Candidate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Resolve tag and version
+        id: tag
+        run: |
+          tag="${GITHUB_REF#refs/tags/}"
+          version="${tag%%-rc.*}"
+          version="${version#v}"
+          sha="$(git rev-parse HEAD)"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Check CI has passed for this commit
+        id: ci
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: sh .github/scripts/check-ci-status.sh "${{ steps.tag.outputs.sha }}"
+
+      - name: Check package.json version matches tag
+        id: version
+        continue-on-error: true
+        run: |
+          pkg_version=$(node -p "require('./package.json').version")
+          if [ "$pkg_version" != "${{ steps.tag.outputs.version }}" ]; then
+            echo "package.json version ($pkg_version) does not match tag version (${{ steps.tag.outputs.version }})"
+            exit 1
+          fi
+
+      - name: Check changelog has dated entry
+        id: changelog
+        continue-on-error: true
+        run: sh .github/scripts/check-changelog-version.sh "${{ steps.tag.outputs.version }}"
+
+      - name: Write job summary
+        if: always()
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+          CI_OUTCOME: ${{ steps.ci.outcome }}
+          VERSION_OUTCOME: ${{ steps.version.outcome }}
+          CHANGELOG_OUTCOME: ${{ steps.changelog.outcome }}
+        run: sh .github/scripts/render-rc-summary.sh >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Report check results
+        if: always()
+        run: |
+          outcomes=(
+            "${{ steps.ci.outcome }}"
+            "${{ steps.version.outcome }}"
+            "${{ steps.changelog.outcome }}"
+          )
+          for outcome in "${outcomes[@]}"; do
+            [ "$outcome" = "success" ] || exit 1
+          done

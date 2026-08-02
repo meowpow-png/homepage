@@ -1,0 +1,11 @@
+.icon {
+  display: block;
+}
+
+.left {
+  transform: none;
+}
+
+.right {
+  transform: scaleX(-1);
+}

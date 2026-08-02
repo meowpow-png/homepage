@@ -1,0 +1,41 @@
+html,
+body {
+  margin: 0;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #2a2a2e;
+}
+
+.card {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1200px;
+  height: 630px;
+  background: var(--color-canvas);
+}
+
+.mark {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.dot {
+  width: 24px;
+  height: 24px;
+  transform: translateY(7px);
+}
+
+.wordmark {
+  font-family: var(--font-family-mono), serif;
+  font-size: 64px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}

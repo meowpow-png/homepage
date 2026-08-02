@@ -1,0 +1,80 @@
+import { readFileSync } from 'node:fs'
+import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vitest/config'
+
+import react from '@vitejs/plugin-react'
+import svgr from 'vite-plugin-svgr'
+import istanbul from 'vite-plugin-istanbul'
+import mdx from '@mdx-js/rollup'
+import rehypePrettyCode from 'rehype-pretty-code'
+import remarkFrontmatter from 'remark-frontmatter'
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
+
+import { CATPPUCCIN_FLAVOR } from './src/shared/styles/catppuccinFlavor.ts'
+import {
+  blockNonProductionIndexing,
+  blogMetadataModule,
+  inlineStylesheet,
+  mermaidCatppuccinTheme,
+  previewCleanUrls,
+  validateProjectLanguages,
+} from './vite.plugins.ts'
+
+const CODE_THEME = `catppuccin-${CATPPUCCIN_FLAVOR}` as const
+const { version: APP_VERSION } = JSON.parse(readFileSync('./package.json', 'utf8'))
+
+export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(APP_VERSION),
+  },
+  plugins: [
+    blogMetadataModule(),
+    validateProjectLanguages(),
+    blockNonProductionIndexing(),
+    inlineStylesheet(),
+    mermaidCatppuccinTheme(),
+    previewCleanUrls(),
+    mdx({
+      remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'metadata' }]],
+      rehypePlugins: [
+        [
+          rehypePrettyCode,
+          {
+            theme: CODE_THEME,
+          },
+        ],
+      ],
+    }),
+    react(),
+    svgr(),
+    istanbul({
+      include: 'src/*',
+      exclude: ['node_modules', 'tests/'],
+      requireEnv: true,
+    }),
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+  build: {
+    // CSS is inlined as one <style> anyway,
+    // so per-chunk splitting just orphans unlinked files
+    cssCodeSplit: false,
+    // vite-plugin-istanbul needs this for accurate coverage;
+    // hidden keeps the map off production bundle's sourceMappingURL
+    sourcemap: 'hidden',
+    // lets prerender script resolve dev-mode asset URLs
+    // to their hashed production paths in rendered HTML
+    manifest: true,
+  },
+  test: {
+    include: ['tests/unit/**/*.test.{ts,tsx}'],
+    coverage: {
+      provider: 'istanbul',
+      reportsDirectory: 'tests/output/coverage/unit',
+      reporter: ['text', 'html', 'clover', 'json', 'json-summary'],
+    },
+  },
+})

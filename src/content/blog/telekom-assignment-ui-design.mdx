@@ -1,0 +1,69 @@
+---
+title: My Wife Designed the UI
+slug: telekom-assignment-ui-design
+publishedAt: 2026-07-25T22:00
+description: Out of my depth on UI/UX, so I asked my wife to design the screens instead.
+---
+
+import loginPage from '@/shared/assets/images/login-page.webp'
+import dashboard from '@/shared/assets/images/dashboard.webp'
+
+By the time the React frontend rolled around, I was out of time and to be honest,
+completely out of my depth on UI/UX design. So I did the sensible thing and
+asked my wife, who actually enjoys this kind of work, to design the screens.
+
+She delivered a full Figma file. The aesthetic was dark and monospaced,
+in the actual Deutsche Telekom brand magenta. Everything was pixel-specced,
+down to toggle buttons and input heights. Badges were color-coded per Wi-Fi
+band and encryption type. She delivered full desktop and mobile compositions
+for the login screen, the dashboard, and a CPE detail panel.
+
+Here's the login screen that came out of it:
+
+<img
+  src={loginPage}
+  alt="Wi-Fi CPE Configuration login screen, dark admin-console aesthetic in Deutsche Telekom magenta"
+  style={{ padding: '1.5rem 0' }}
+  width={1600}
+  height={900}
+/>
+
+And the dashboard, table and all:
+
+<img
+  src={dashboard}
+  alt="Wi-Fi CPE Configuration dashboard, showing the CPE table and an edit-configuration panel"
+  style={{ padding: '1.5rem 0' }}
+  width={1600}
+  height={900}
+/>
+
+Neither of those came from my sense of design. They came from hers.
+
+The frontend even pulls in Deutsche Telekom's real open-source component library,
+`@telekom/scale-components`, so the thing would look like it actually belonged next to their
+other products instead of a generic admin template.
+
+The frontend agent was already implementing screens directly from Figma screenshots, but that
+wasn't precise enough against her spec. So I built it a Codex task, `load-ui-specifications.md`,
+that connects to Figma over MCP, screenshots every named node in her file, and transcribes it
+into a `docs/DESIGN.md`.
+
+```md
+- Sign-in button: 336 x 38.5 px, magenta (`#f61488`), square corners, white centered `Sign in`
+- Password visibility button: 23 x 23 px at right 10.5 px, top 8.75 px; icon 16 x 16 px
+- Row backgrounds alternate between `#101011` and `#151516`
+- Password toggle icon: 18 x 18 px at x 310, y 13
+- Reveal-password icon button: 32 x 32 px, right aligned, dark fill, magenta lock icon
+- `Reboot Device` button: 350 x 45 px, dark fill, 1 px gray border, white centered text
+- Rows: `MAC Address` -> `00:1A:2B:3C:4D:5E`, `IP Address` -> `192.168.1.254`, `Firmware` -> `v2.4.12-stable`
+- Time: `9:41`, x 24, y 14.5
+```
+
+Exact hex colors, exact pixel offsets, the literal placeholder copy in each field,
+which corners are square, per screen, per breakpoint. Only after that document
+existed did a second Codex agent get a task file telling it to implement
+each screen strictly from the spec.
+
+She did me a real favor because I was drowning. I would have easily spent
+days second-guessing pixel values instead of finishing anything.

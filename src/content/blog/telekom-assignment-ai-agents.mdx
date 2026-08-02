@@ -1,0 +1,54 @@
+---
+title: Using AI Agents to Write Code
+slug: telekom-assignment-ai-agents
+publishedAt: 2026-07-25T21:00
+description: Handing an AI agent the keys, no supervision, to write tests and rebuild the UI from Figma screenshots.
+---
+
+Writing all these tests myself seemed like a waste of a perfectly good AI agent, so I
+containerized OpenAI Codex and pointed it at the backend to write the unit test suite. This went
+well enough that I gave it a second job: reading Figma screenshots and implementing the React
+screens from them, pixel-chasing a login page and a dashboard it had never seen rendered.
+
+The very first thing I did was hand it the keys with no supervision.
+
+```toml
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+```
+
+Yes, that's the literal config value. Full autonomy, no review of a single command,
+before I'd worked out a single file permission.
+
+That cost me the next several days. The container runs as a mapped host user via
+`LOCAL_UID`/`LOCAL_GID` and `gosu`, and getting that right took a proper tour of
+permission fixes. First "allow running codex shell as root," because the unprivileged
+user couldn't do something. Then "resolve codex permission issues," which actually fixed
+things by quietly _removing_ several bind mounts (`.gradle`, `build`, `just/`, the `Justfile`)
+instead of solving the underlying problem. Then "allow backend codex access to more files,"
+which added most of those same paths straight back in, plus a few more.
+
+The container's default command was `codex`, meaning
+every container start launched a live session.
+
+```
+CMD ["codex"] →  CMD ["sleep", "infinity"]
+```
+
+The fix let the container idle until I `exec`'d into it,
+instead of spontaneously spawning a duplicate every time I started it.
+
+The frontend copy of the agent, meanwhile, spent a while confidently reasoning about a
+`node_modules` folder that didn't exist, because nothing in its startup script ever ran `npm ci`.
+And its own briefing document telling it how its environment worked — flatly stated "network access
+is unavailable," which was simply untrue and had to be quietly deleted in a later commit.
+
+`prevent_repo_scan.py` is a real hook that intercepts every shell command the frontend
+agent tries to run. It blocked `find .`, bare `rg --files`, bare `fd`, `tree`, and `ls -R`
+at the repository root, replying with a polite little message telling it to scope the
+search to a subtree instead. It exists because the agent kept trying to scan
+the entire repository before starting work on any task.
+
+By the end of the week there were effectively three agents working on the project:
+one for backend tests, one for frontend screens, and a root-level one doing
+discovery, documentation, and final-review passes across the whole repository.

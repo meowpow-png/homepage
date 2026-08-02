@@ -1,0 +1,294 @@
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, dev]
+    paths: &all-paths
+      - 'src/**'
+      - 'tests/**'
+      - 'scripts/**'
+      - 'docs/**'
+      - '**/*.md'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.npmrc'
+      - 'tsconfig*.json'
+      - 'vite.config.ts'
+      - 'vite.plugins.ts'
+      - 'eslint.config.mjs'
+      - '.stylelintrc.json'
+      - '.prettierrc.json'
+      - 'knip.json'
+      - 'playwright.config.ts'
+      - 'index.html'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches: [main, dev]
+    paths: *all-paths
+
+jobs:
+  changes:
+    name: Detect Paths
+    runs-on: ubuntu-latest
+    outputs:
+      test: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.test == 'true' }}
+      quality: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.quality == 'true' }}
+      lighthouse: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.lighthouse == 'true' }}
+    steps:
+      - name: Checkout repository
+        if: github.event_name != 'workflow_dispatch'
+        uses: actions/checkout@v7
+
+      - name: Filter changed paths
+        id: filter
+        if: github.event_name != 'workflow_dispatch'
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            test:
+              - 'src/**'
+              - 'tests/**'
+              - 'scripts/prerender.js'
+              - 'package.json'
+              - 'package-lock.json'
+              - '.npmrc'
+              - 'tsconfig*.json'
+              - 'vite.config.ts'
+              - 'vite.plugins.ts'
+              - 'index.html'
+              - '.github/workflows/ci.yml'
+            quality:
+              - 'src/**'
+              - 'tests/**'
+              - 'docs/**'
+              - '**/*.md'
+              - 'package.json'
+              - 'package-lock.json'
+              - '.npmrc'
+              - 'tsconfig*.json'
+              - 'vite.config.ts'
+              - 'vite.plugins.ts'
+              - 'eslint.config.mjs'
+              - '.stylelintrc.json'
+              - '.prettierrc.json'
+              - 'knip.json'
+              - 'playwright.config.ts'
+              - 'index.html'
+              - '.github/workflows/ci.yml'
+            lighthouse:
+              - 'src/**'
+              - 'scripts/prerender.js'
+              - 'scripts/generate-lh-index.js'
+              - 'design/lighthouse/**'
+              - 'lighthouserc.cjs'
+              - 'package.json'
+              - 'package-lock.json'
+              - '.npmrc'
+              - 'vite.config.ts'
+              - 'vite.plugins.ts'
+              - 'index.html'
+              - '.github/workflows/ci.yml'
+
+  test:
+    name: Build & Test
+    needs: changes
+    if: needs.changes.outputs.test == 'true'
+    runs-on: ubuntu-latest
+    env:
+      TEST_REPORTS_DIR: tests/output/reports
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: package.json
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        id: build
+        continue-on-error: true
+        run: |
+          npm run build
+          npm run test:build -- --reporter=json --outputFile="$TEST_REPORTS_DIR"/build.json
+
+      - name: Check bundle size
+        id: bundle-size
+        continue-on-error: true
+        run: npx size-limit --json > bundle-size-report.json
+
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "version=$(sh docker/playwright/get-playwright-version.sh)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ steps.playwright-version.outputs.version }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      - name: Run tests with coverage
+        id: test
+        continue-on-error: true
+        run: |
+          npm run test:coverage -- --reporter=json --outputFile="$TEST_REPORTS_DIR"/unit.json
+          npm run test:e2e 
+          npm run test:coverage:merge
+
+      - name: Upload code coverage
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: tests/output/coverage/combined/
+          if-no-files-found: ignore
+
+      - name: Extract code coverage
+        id: coverage
+        if: always()
+        run: sh .github/scripts/extract-coverage.sh >> "$GITHUB_OUTPUT"
+
+      - name: Update code coverage badge
+        if: github.ref == 'refs/heads/dev' && steps.coverage.outputs.coverage != ''
+        uses: schneegans/dynamic-badges-action@v1.9.0
+        with:
+          auth: ${{ secrets.GIST_TOKEN }}
+          gistID: 9d82a498aa63b2b7b872629c4cd6759c
+          filename: homepage-coverage.json
+          label: coverage
+          message: ${{ steps.coverage.outputs.coverage }}
+          color: ${{ steps.coverage.outputs.color }}
+
+      - name: Write job summary
+        if: always()
+        env:
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          TEST_OUTCOME: ${{ steps.test.outcome }}
+        run: sh .github/scripts/render-build-test-summary.sh >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Report check results
+        if: always()
+        run: |
+          outcomes=(
+            "${{ steps.build.outcome }}"
+            "${{ steps.test.outcome }}"
+          )
+          for outcome in "${outcomes[@]}"; do
+            [ "$outcome" = "success" ] || exit 1
+          done
+
+  quality:
+    name: Quality Checks
+    needs: changes
+    if: needs.changes.outputs.quality == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: package.json
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        id: format
+        continue-on-error: true
+        run: npm run format:check
+
+      - name: Run linting
+        id: lint
+        continue-on-error: true
+        run: npm run lint
+
+      - name: Run type checking
+        id: typecheck
+        continue-on-error: true
+        run: npm run typecheck
+
+      - name: Check for unused files and dependencies
+        id: knip
+        continue-on-error: true
+        run: npm run knip
+
+      - name: Check image prefetch registration
+        id: image-prefetch
+        continue-on-error: true
+        run: node scripts/check-image-prefetch.js 2>&1 | tee image-prefetch-report.txt
+
+      - name: Write job summary
+        if: always()
+        env:
+          FORMAT_OUTCOME: ${{ steps.format.outcome }}
+          LINT_OUTCOME: ${{ steps.lint.outcome }}
+          TYPECHECK_OUTCOME: ${{ steps.typecheck.outcome }}
+          KNIP_OUTCOME: ${{ steps.knip.outcome }}
+        run: sh .github/scripts/render-quality-summary.sh >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Report check results
+        if: always()
+        run: |
+          outcomes=(
+            "${{ steps.format.outcome }}"
+            "${{ steps.lint.outcome }}"
+            "${{ steps.typecheck.outcome }}"
+            "${{ steps.knip.outcome }}"
+          )
+          for outcome in "${outcomes[@]}"; do
+            [ "$outcome" = "success" ] || exit 1
+          done
+
+  lighthouse:
+    name: Lighthouse
+    needs: changes
+    if: needs.changes.outputs.lighthouse == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: package.json
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Lighthouse audit
+        run: npm run lighthouse
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          if-no-files-found: ignore
+          include-hidden-files: true
+
+      - name: Write job summary
+        if: always()
+        run: sh .github/scripts/render-lighthouse-summary.sh >> "$GITHUB_STEP_SUMMARY"

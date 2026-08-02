@@ -2,7 +2,8 @@
 
 ## Overview
 
-The frontend follows a section-oriented architecture that groups related UI and application logic into self-contained modules.
+The frontend follows a section-oriented architecture that groups
+related UI and application logic into self-contained modules.
 
 The architecture emphasizes clear boundaries, explicit data flow, and minimal complexity.
 
@@ -18,16 +19,21 @@ The architecture emphasizes clear boundaries, explicit data flow, and minimal co
 
 ```text
 src/
+    content/
     sections/
     shared/
+        assets/
+            icons/
     App.tsx
     main.tsx
 ```
 
-| Module      | Responsibility                    |
-|-------------|-----------------------------------|
-| `sections/` | Self-contained website sections   |
-| `shared/`   | Reusable components and utilities |
+| Module                 | Responsibility                    |
+| ---------------------- | --------------------------------- |
+| `content/`             | Authored MDX content              |
+| `sections/`            | Self-contained website sections   |
+| `shared/`              | Reusable components and utilities |
+| `shared/assets/icons/` | Reusable SVG icon assets          |
 
 ## Sections
 
@@ -42,15 +48,27 @@ A typical section contains:
 
 - Sections are self-contained
 - Sections must not depend on other sections
-- External consumers import through the section's public API
+- External consumers import through the section's `index.ts`
+- Deep imports into a section's internal files are not allowed
 
 ## Shared Modules
 
 Shared modules contain reusable code used across multiple sections.
 
+Reusable SVG icons are stored in `src/shared/assets/icons/`.
+
 **Rules**
 
 - Shared modules must not depend on section modules
+- A shared submodule exposes `index.ts` once it has more than one exported member
+- A single-file module is imported directly
+
+## Content
+
+Authored MDX content lives in `src/content/`. Sections render content;
+MDX may use shared modules but must not depend on section modules.
+
+Each content submodule exposes its data through `index.ts`.
 
 ## Styling
 
@@ -61,6 +79,16 @@ Shared styles belong in `shared/`.
 ## Routing
 
 Routing is configured centrally and composes sections into navigable pages.
+Internal navigation is client-side and must not reload the document.
+
+| Route          | Page                 |
+| -------------- | -------------------- |
+| `/`            | Redirect to `/about` |
+| `/about`       | About                |
+| `/projects`    | Projects             |
+| `/blog`        | Blog                 |
+| `/questions`   | Questions            |
+| Unmatched path | Not Found            |
 
 ## Imports
 
@@ -70,16 +98,22 @@ Imports are grouped by purpose:
 2. Type-only imports
 3. Static assets
 
+A module is imported through `index.ts`, never through an internal file path.
+
 ## Dependency Rules
 
 ```text
 sections
     ↓
+shared, content
+
+content
+    ↓
 shared
 
 App
     ↓
-sections
+sections, shared
 
 main
     ↓
@@ -90,4 +124,5 @@ App
 
 - Sections must not depend on other sections
 - Shared modules must not depend on section modules
-- `App` composes sections but contains no application logic
+- Content must not depend on section modules
+- `App` composes sections and shared infrastructure but contains no application logic

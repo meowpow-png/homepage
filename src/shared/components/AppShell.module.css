@@ -1,0 +1,58 @@
+/* noinspection CssOverwrittenProperties */
+.shell {
+  display: grid;
+  min-height: 100vh;
+  min-height: 100dvh;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr);
+  padding-inline: var(--space-page-inline);
+}
+
+.skipLink {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  padding: 8px 12px;
+  background: var(--color-accent);
+  color: var(--color-canvas);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skipLink:focus-visible {
+  transform: translateY(0);
+}
+
+.header {
+  width: 100%;
+  max-width: 724px;
+  margin-inline: auto;
+  padding-top: var(--space-header-top);
+}
+
+.main {
+  width: 100%;
+}
+
+.footer {
+  width: 100%;
+  max-width: 688px;
+  margin-inline: auto;
+}
+
+@media (width <= 640px) {
+  .shell {
+    padding-inline: var(--space-page-inline-mobile);
+  }
+
+  .header {
+    padding-top: var(--space-header-top-mobile);
+  }
+}
+
+@media (width <= 400px) {
+  .shell {
+    padding-inline: var(--space-page-inline-compact);
+  }
+}

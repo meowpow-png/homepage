@@ -1,0 +1,59 @@
+name: homepage
+
+services:
+  codex:
+    image: ghcr.io/meowpow-png/mipe-runtime-codex-web:latest
+    volumes:
+      - codex-home:/home/dev/web/.codex
+      - .:/workspace:z
+    stdin_open: true
+    tty: true
+
+  claude:
+    image: ghcr.io/meowpow-png/mipe-runtime-claude-web:latest
+    volumes:
+      - claude-home:/home/dev/web
+      - .:/workspace:z
+    stdin_open: true
+    tty: true
+
+  test:
+    build:
+      context: .
+      dockerfile: docker/playwright/Dockerfile
+    image: homepage-playwright:local
+    pull_policy: never
+    working_dir: /workspace
+    volumes:
+      - .:/workspace:z
+      - node-modules:/workspace/node_modules
+    command: sh docker/test/run.sh
+
+  diagrams:
+    build:
+      context: .
+      dockerfile: docker/playwright/Dockerfile
+    image: homepage-playwright:local
+    pull_policy: never
+    working_dir: /workspace
+    volumes:
+      - .:/workspace:z
+      - node-modules:/workspace/node_modules
+    command: sh docker/diagrams/run.sh
+
+  lighthouse:
+    build:
+      context: .
+      dockerfile: docker/lighthouse/Dockerfile
+    image: homepage-lighthouse:local
+    pull_policy: never
+    working_dir: /workspace
+    volumes:
+      - .:/workspace:z
+      - node-modules:/workspace/node_modules
+    command: sh docker/lighthouse/run.sh
+
+volumes:
+  codex-home:
+  claude-home:
+  node-modules:

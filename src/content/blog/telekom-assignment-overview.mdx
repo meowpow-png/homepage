@@ -1,0 +1,27 @@
+---
+title: Wi-Fi Configuration Assignment
+slug: telekom-assignment-overview
+publishedAt: 2026-07-25T02:06
+description: A take-home assignment to wrap a SOAP platform in REST, and how it actually went.
+---
+
+When Hrvatski Telekom posted a take-home assignment, the task looked pretty straightforward.
+
+> Build a REST wrapper around an existing SOAP platform.
+
+Two endpoints:
+
+- `GET` Wi-Fi configuration
+- `PUT` Wi-Fi configuration
+
+Receive REST, call SOAP, return REST.
+
+They provided the WSDL, an OpenAPI specification, and a Mockoon server, so I didn't have to
+worry about the SOAP implementation itself. There were also a few optional bonus tasks:
+
+- local caching
+- synchronization
+- production readiness
+- React frontend
+
+By the end, it was no longer just a take-home assignment.
