@@ -37,7 +37,8 @@
     "check:prerendered-content": "node scripts/check-prerendered-content.js",
     "check:compression": "node scripts/check-compression.js",
     "check:404": "node scripts/check-404.js",
-    "check:staging": "run-s --continue-on-error check:caching-headers check:prerendered-content check:compression check:404",
+    "check:redirects": "node scripts/check-redirects.js",
+    "check:staging": "run-s --continue-on-error check:caching-headers check:prerendered-content check:compression check:404 check:redirects",
     "size-limit": "size-limit",
     "qualitycheck": "run-s --continue-on-error format:check lint typecheck build test:build knip check:image-prefetch",
     "verify": "run-s --continue-on-error format:check lint typecheck build test:build test:coverage knip check:image-prefetch size-limit"
