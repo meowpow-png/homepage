@@ -8,6 +8,9 @@ import WhySoMuchInfrastructureContent, {
 import WhyDocumentEverythingContent, {
   metadata as whyDocumentEverythingMetadata,
 } from './do-you-write-docs.mdx'
+import DoYouWriteTestsContent, {
+  metadata as doYouWriteTestsMetadata,
+} from './do-you-write-tests.mdx'
 
 export type QuestionMetadata = {
   prompt: string
@@ -29,5 +32,9 @@ export const questions = [
   {
     Content: WhyDocumentEverythingContent,
     metadata: getMetadata<QuestionMetadata>(whyDocumentEverythingMetadata),
+  },
+  {
+    Content: DoYouWriteTestsContent,
+    metadata: getMetadata<QuestionMetadata>(doYouWriteTestsMetadata),
   },
 ] as const
