@@ -11,6 +11,7 @@ import WhyDocumentEverythingContent, {
 import DoYouWriteTestsContent, {
   metadata as doYouWriteTestsMetadata,
 } from './do-you-write-tests.mdx'
+import RebaseOrMergeContent, { metadata as rebaseOrMergeMetadata } from './rebase-or-merge.mdx'
 
 export type QuestionMetadata = {
   prompt: string
@@ -36,5 +37,9 @@ export const questions = [
   {
     Content: DoYouWriteTestsContent,
     metadata: getMetadata<QuestionMetadata>(doYouWriteTestsMetadata),
+  },
+  {
+    Content: RebaseOrMergeContent,
+    metadata: getMetadata<QuestionMetadata>(rebaseOrMergeMetadata),
   },
 ] as const
