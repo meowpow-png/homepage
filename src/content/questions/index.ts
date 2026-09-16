@@ -7,7 +7,7 @@ import WhySoMuchInfrastructureContent, {
 } from './why-so-much-infrastructure.mdx'
 import WhyDocumentEverythingContent, {
   metadata as whyDocumentEverythingMetadata,
-} from './why-document-everything.mdx'
+} from './do-you-write-docs.mdx'
 
 export type QuestionMetadata = {
   prompt: string
