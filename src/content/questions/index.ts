@@ -8,9 +8,6 @@ import WhySoMuchInfrastructureContent, {
 import WhyDocumentEverythingContent, {
   metadata as whyDocumentEverythingMetadata,
 } from './why-document-everything.mdx'
-import WhySoManyAbandonedRepositoriesContent, {
-  metadata as whySoManyAbandonedRepositoriesMetadata,
-} from './why-so-many-abandoned-repositories.mdx'
 
 export type QuestionMetadata = {
   prompt: string
@@ -32,9 +29,5 @@ export const questions = [
   {
     Content: WhyDocumentEverythingContent,
     metadata: getMetadata<QuestionMetadata>(whyDocumentEverythingMetadata),
-  },
-  {
-    Content: WhySoManyAbandonedRepositoriesContent,
-    metadata: getMetadata<QuestionMetadata>(whySoManyAbandonedRepositoriesMetadata),
   },
 ] as const
