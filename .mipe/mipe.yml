@@ -1,0 +1,3 @@
+skills:
+  - ghcr.io/meowpow-png/mipe-skills/core:latest
+  - ghcr.io/meowpow-png/mipe-skills/docs:latest

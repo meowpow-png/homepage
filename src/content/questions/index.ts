@@ -7,10 +7,11 @@ import WhySoMuchInfrastructureContent, {
 } from './why-so-much-infrastructure.mdx'
 import WhyDocumentEverythingContent, {
   metadata as whyDocumentEverythingMetadata,
-} from './why-document-everything.mdx'
-import WhySoManyAbandonedRepositoriesContent, {
-  metadata as whySoManyAbandonedRepositoriesMetadata,
-} from './why-so-many-abandoned-repositories.mdx'
+} from './do-you-write-docs.mdx'
+import DoYouWriteTestsContent, {
+  metadata as doYouWriteTestsMetadata,
+} from './do-you-write-tests.mdx'
+import RebaseOrMergeContent, { metadata as rebaseOrMergeMetadata } from './rebase-or-merge.mdx'
 
 export type QuestionMetadata = {
   prompt: string
@@ -34,7 +35,11 @@ export const questions = [
     metadata: getMetadata<QuestionMetadata>(whyDocumentEverythingMetadata),
   },
   {
-    Content: WhySoManyAbandonedRepositoriesContent,
-    metadata: getMetadata<QuestionMetadata>(whySoManyAbandonedRepositoriesMetadata),
+    Content: DoYouWriteTestsContent,
+    metadata: getMetadata<QuestionMetadata>(doYouWriteTestsMetadata),
+  },
+  {
+    Content: RebaseOrMergeContent,
+    metadata: getMetadata<QuestionMetadata>(rebaseOrMergeMetadata),
   },
 ] as const

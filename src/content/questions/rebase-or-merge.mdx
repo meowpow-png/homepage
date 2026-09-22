@@ -1,0 +1,11 @@
+---
+prompt: Rebase or merge?
+---
+
+Both, depending on which branch is asking.
+
+Topic branches merge into dev fast-forward only, so they get rebased first
+whether I call it that or not. Dev merges into main with an explicit merge
+commit, so a release always leaves a mark.
+
+Rebase to keep it clean, merge to keep it honest.

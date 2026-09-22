@@ -1,5 +1,10 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
+
+# Generated reports
 tests/output/
 .lighthouseci/
 
@@ -7,10 +12,10 @@ tests/output/
 .idea/*
 !.idea/codeStyles/
 
-# Obsidian value
+# Obsidian
 .obsidian/
 
-# Local environment files
+# Environment
 .env
 .env.*
 !.env.example
